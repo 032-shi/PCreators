@@ -1,0 +1,8 @@
+<%= attachment_image_tag @post, :post_image, fallback: "no_image.jpg", size: "200x200" %>
+<p>タイトル：<%= @post.post_title %></p>
+<p>説明：<%= @post.post_body %></p>
+<p>ユーザーネーム：<%= @post.user.name %></p>
+<p>投稿日時：<%= @post.created_at.to_s(:datetime_jp) %></p>
+<% if @post.user == current_user %>
+  <%= link_to "投稿を削除する", post_path(@post), method: :delete, "data-confirm" => "本当に削除しますか？" %>
+<% end %>
