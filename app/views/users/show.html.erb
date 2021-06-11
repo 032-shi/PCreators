@@ -1,4 +1,8 @@
-<h2>投稿</h2>
+<h2>マイページ</h2>
+<%= @user.name %>
+<%= attachment_image_tag @user, :profile_image, fallback: "no_image.jpg", size: "150x150" %>
+
+<h2>投稿一覧</h2>
 <% @posts.each do |post| %>
 <div>
   <%= link_to post_path(post.id) do %>
