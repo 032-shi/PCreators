@@ -1,0 +1,18 @@
+<h2>プロフィール編集</h2>
+<%= form_with model:@user, local:true do |f| %>
+  <p>
+    ユーザー名<br>
+    <%= f.text_field :name, autofocus: true, placeholder:"ユーザー名"%>
+  </p>
+  <p>
+    プロフィール画像<br>
+    <%= attachment_image_tag @user, :profile_image, fallback: "no_image.jpg", size: "150x150"%><br>
+    <%= f.attachment_field :profile_image, placeholder: "プロフィール画像" %>
+  </p>
+  <p>
+    自己紹介<br>
+    <%= f.text_area :introduction, autofocus: true, placeholder:"自己紹介文を書きましょう"%>
+  </p>
+  <%= f.submit "変更を保存" %>
+
+<% end %>

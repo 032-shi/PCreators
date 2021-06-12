@@ -1,4 +1,12 @@
-<h2>投稿</h2>
+<h2>マイページ</h2>
+<p><%= @user.name %></p>
+<div><%= attachment_image_tag @user, :profile_image, fallback: "no_image.jpg", size: "150x150" %></div>
+<p><%= @user.introduction %></p>
+<% if @user.id == current_user.id %>
+  <p><%= link_to "プロフィール編集", edit_user_path(@user) %></p>
+<% end %>
+
+<h2>投稿一覧</h2>
 <% @posts.each do |post| %>
 <div>
   <%= link_to post_path(post.id) do %>
