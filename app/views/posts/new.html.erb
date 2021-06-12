@@ -6,5 +6,8 @@
   <%= f.attachment_field :post_image %>
   <h4>説明</h4>
   <%= f.text_area :post_body %>
+  <h4>タグ付け</h4>
+  <p>タグの間にスペースを入力することで複数のタグを付けることができます。</p>
+  <%= f.text_field :post_tag_name %>
   <%= f.submit '投稿する' %>
 <% end %>

@@ -2,6 +2,20 @@
 <%= attachment_image_tag @post, :post_image, fallback: "no_image.jpg", size: "200x200" %>
 <p>タイトル：<%= @post.post_title %></p>
 <p>説明：<%= @post.post_body %></p>
+<% if @post_tags.present? %> <!--タグ付けの有無を判定して表示を切り替える-->
+  <p>タグ</p>
+  <% @post_tags.each do |post_tag| %>
+    <ul>
+      <li>
+        <%= link_to post_tag_posts_path(post_tag_id: post_tag.id) do %>
+          <%= post_tag.post_tag_name %><%= post_tag.posts.count %>
+        <% end %>
+      </li>
+    </ul>
+  <% end %>
+<% else %>
+  <p>タグ付けされていません</p>
+<% end %>
 <p>ユーザーネーム：<%= @post.user.name %></p>
 <p>投稿日時：<%= @post.created_at.to_s(:datetime_jp) %></p>
 <% if @post.user == current_user %>
