@@ -1,0 +1,13 @@
+<h3>パーツデータ一覧</h3>
+<table>
+  <% @parts.each do |part| %>
+  <tr>
+    <td><%= part.part_name%> </td>
+    <td><%= part.part_genre %></td>
+    <td><%= part.part_spec %></td>
+    <td><%= part.manufacturer %></td>
+    <td><%= part.price %></td>
+    <td><%= image_tag part.part_image, size: "100x100", :alt => "パーツ画像" %></td>
+  </tr>
+  <% end %>
+</table>
