@@ -2,12 +2,12 @@
 <table>
   <% @parts.each do |part| %>
   <tr>
-    <td><%= part.part_name%> </td>
-    <td><%= part.part_genre %></td>
-    <td><%= part.part_spec %></td>
+    <td><%= part.name%> </td>
+    <td><%= part.genre %></td>
+    <td><%= part.spec %></td>
     <td><%= part.manufacturer %></td>
     <td><%= part.price %></td>
-    <td><%= image_tag part.part_image, size: "100x100", :alt => "パーツ画像" %></td>
+    <td><%= image_tag part.image, size: "100x100", :alt => "パーツ画像" %></td>
   </tr>
   <% end %>
 </table>

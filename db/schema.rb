@@ -13,12 +13,12 @@
 ActiveRecord::Schema.define(version: 2021_06_13_081536) do
 
   create_table "parts", force: :cascade do |t|
-    t.string "part_name"
-    t.string "part_genre"
-    t.string "part_spec"
+    t.string "name"
+    t.string "genre"
+    t.string "spec"
     t.string "manufacturer"
     t.integer "price"
-    t.string "part_image"
+    t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -33,16 +33,16 @@ ActiveRecord::Schema.define(version: 2021_06_13_081536) do
   end
 
   create_table "post_tags", force: :cascade do |t|
-    t.string "post_tag_name"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "posts", force: :cascade do |t|
     t.integer "user_id"
-    t.string "post_title"
-    t.string "post_image_id"
-    t.string "post_body"
+    t.string "title"
+    t.string "image_id"
+    t.string "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

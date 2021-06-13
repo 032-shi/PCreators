@@ -6,9 +6,9 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.new(post_params)
-    post_tag_list = params[:post][:post_tag_name].split(/[[:blank:]]+/).select(&:present?) #splitで全角及び半角スペースで配列化し、selectで値がある場合のみデータを取得する
+    tag_lists = params[:post][:names].split(/[[:blank:]]+/).select(&:present?) #splitで全角及び半角スペースで配列化し、selectで値がある場合のみデータを取得する
     if  @post.save
-      @post.save_post_tag(post_tag_list)
+      @post.save_tag(tag_lists)
       redirect_to posts_path
     else
       redirect_to posts_path
@@ -36,7 +36,7 @@ class PostsController < ApplicationController
     post_tag_lists = @post.post_tags
     post_tag_names = [] #以下、タグの初期値の取り出し処理
     post_tag_lists.each do |post_tag_list|
-      post_tag = post_tag_list.post_tag_name
+      post_tag = post_tag_list.name
       post_tag_names.push(post_tag)
     end
     @post_tags = post_tag_names.join(" ")
@@ -44,9 +44,9 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    post_tag_list = params[:post][:post_tag_name].split(/[[:blank:]]+/).select(&:present?) #新規投稿時と同様の処理
+    tag_lists = params[:post][:names].split(/[[:blank:]]+/).select(&:present?) #新規投稿時と同様の処理
     if  @post.update(post_params)
-      @post.save_post_tag(post_tag_list)
+      @post.save_tag(tag_lists)
       redirect_to post_path(@post.id)
     else
       redirect_to post_path(@post.id)
@@ -62,10 +62,10 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:post_title, :post_image, :post_body)
+    params.require(:post).permit(:title, :image, :body)
   end
 
   def post_tag_params  #タグ用ストロングパラメータを設定する
-    params.require(:post).permit(:post_tag_names)
+    params.require(:post).permit(:names)
   end
 end
