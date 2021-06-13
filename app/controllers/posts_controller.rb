@@ -31,6 +31,28 @@ class PostsController < ApplicationController
     @posts = @post_tag.posts.all
   end
 
+  def edit
+    @post = Post.find(params[:id])
+    post_tag_lists = @post.post_tags
+    post_tag_names = [] #以下、タグの初期値の取り出し処理
+    post_tag_lists.each do |post_tag_list|
+      post_tag = post_tag_list.post_tag_name
+      post_tag_names.push(post_tag)
+    end
+    @post_tags = post_tag_names.join(" ")
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    post_tag_list = params[:post][:post_tag_name].split(/[[:blank:]]+/).select(&:present?) #新規投稿時と同様の処理
+    if  @post.update(post_params)
+      @post.save_post_tag(post_tag_list)
+      redirect_to post_path(@post.id)
+    else
+      redirect_to post_path(@post.id)
+    end
+  end
+
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
