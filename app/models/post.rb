@@ -5,9 +5,9 @@ class Post < ApplicationRecord
   attachment :image
 
   def save_tag(tag_lists)
-    current_tags = self.post_tags.pluck(:names) unless self.post_tags.nil?
-    old_tags = current_tags - tag_lists #既存のタグから登録するタグを除く
-    new_tags = tag_lists - current_tags #登録するタグから既存のタグを除く
+    current_tags = self.post_tags.pluck(:name) unless self.post_tags.nil?
+    old_tags = current_tags - tag_lists #既存のタグから登録するタグを除き、残ったタグを抽出
+    new_tags = tag_lists - current_tags #登録するタグから既存のタグを除き、残ったタグを抽出
 
     old_tags.each do |old_tag| #既存のタグを削除する
       self.post_tags.delete PostTag.find_by(name: old_tag)

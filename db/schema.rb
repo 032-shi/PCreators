@@ -10,13 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_13_081536) do
+ActiveRecord::Schema.define(version: 2021_06_15_013000) do
+
+  create_table "part_tag_maps", force: :cascade do |t|
+    t.integer "part_id"
+    t.integer "part_tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["part_id"], name: "index_part_tag_maps_on_part_id"
+    t.index ["part_tag_id"], name: "index_part_tag_maps_on_part_tag_id"
+  end
+
+  create_table "part_tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "parts", force: :cascade do |t|
     t.string "name"
-    t.string "genre"
-    t.string "spec"
-    t.string "manufacturer"
     t.integer "price"
     t.string "image"
     t.datetime "created_at", null: false
