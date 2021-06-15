@@ -120,6 +120,96 @@ class Part < ApplicationRecord
     end
   end
 
+  def self.mb_scrape
+    agent = Mechanize.new
+    page = agent.get("https://kakaku.com/pc/motherboard/itemlist.aspx")
+    name_elements = page.search('a.ckitanker')
+    price_elements = page.search('li.pryen a')
+    image_elements = page.search('a.withIcnLimited img')
+    manufacturer_elements = page.search('a.ckitanker span')
+    spec_elements = page.search('//tr[@class="tr-border"]/td[position() = 11]')
+
+    name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
+      if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
+        part = Part.find_by(name: name_element.inner_text)
+        price_ele = price_element.inner_text
+        part_price = price_ele.delete("^0-9").to_i
+        genre_tag = "マザーボード"
+        spec = spec_element.inner_text
+        if spec.include?("INTEL")
+          spec_tag = spec.gsub(/INTEL/,"")
+        elsif spec.include?("AMD")
+          spec_tag = spec.gsub(/AMD/,"")
+        else
+          spec_tag = "その他"
+        end
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        tag_lists = genre_tag, spec_tag, manufacturer_tag
+        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      else
+        part = Part.new
+        part.name = name_element.inner_text
+        price = price_element.inner_text
+        part.price = price.delete("^0-9").to_i
+        part.image = image_element.get_attribute(:src)
+        genre_tag = "マザーボード"
+        spec = spec_element.inner_text
+        if spec.include?("INTEL")
+          spec_tag = spec.gsub(/INTEL/,"")
+        elsif spec.include?("AMD")
+          spec_tag = spec.gsub(/AMD/,"")
+        else
+          spec_tag = "その他"
+        end
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        tag_lists = genre_tag, spec_tag, manufacturer_tag
+        part.save
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      end
+    end
+  end
+
+  def self.case_scrape
+    agent = Mechanize.new
+    page = agent.get("https://kakaku.com/pc/pc-case/itemlist.aspx")
+    name_elements = page.search('a.ckitanker')
+    price_elements = page.search('li.pryen a')
+    image_elements = page.search('a.withIcnLimited img')
+    manufacturer_elements = page.search('a.ckitanker span')
+    spec_elements = page.search('//tr[@class="tr-border"]/td[position() = 9]')
+
+    name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
+      if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
+        part = Part.find_by(name: name_element.inner_text)
+        price_ele = price_element.inner_text
+        part_price = price_ele.delete("^0-9").to_i
+        genre_tag = "PCケース"
+        spec = spec_element.inner_text.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}
+        spec_tag = spec.gsub(/Et|TX|EB|d A/, "Et"=>"Ext","TX"=>"TX　", "EB"=>"EB　","d A"=>"dA").split(/[[:blank:]]+/).select(&:present?)
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        case_tag_lists = genre_tag, spec_tag, manufacturer_tag
+        tag_lists = case_tag_lists.flatten
+        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      else
+        part = Part.new
+        part.name = name_element.inner_text
+        price = price_element.inner_text
+        part.price = price.delete("^0-9").to_i
+        part.image = image_element.get_attribute(:src)
+        genre_tag = "PCケース"
+        spec = spec_element.inner_text.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}
+        spec_tag = spec.gsub(/Et|TX|EB|d A/, "Et"=>"Ext","TX"=>"TX　", "EB"=>"EB　","d A"=>"dA").split(/[[:blank:]]+/).select(&:present?)
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        case_tag_lists = genre_tag, spec_tag, manufacturer_tag
+        tag_lists = case_tag_lists.flatten
+        part.save
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      end
+    end
+  end
+
   def save_part_tag(tag_lists)
     current_tags = self.part_tags.pluck(:name) unless self.part_tags.nil?
     old_tags = current_tags - tag_lists #既存のタグから登録するタグを除き、残ったタグを抽出

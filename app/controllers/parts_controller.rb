@@ -1,7 +1,6 @@
 class PartsController < ApplicationController
   def index
-    part_tag = PartTag.find_by(name: "CPU")
-    @parts = part_tag.parts
+    @parts = Part.all
   end
 
   def narrowing
