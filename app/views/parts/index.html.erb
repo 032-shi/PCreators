@@ -5,9 +5,11 @@
     <td><%= part.name%></td>
     <td>
       <% part.part_tags.each do |part_tag| %>
-      <span>
-        #<%= part_tag.name %>
-      </span>
+        <%= link_to part_tag_parts_path(part_tag_id: part_tag.id) do %>
+        <span>
+          #<%= part_tag.name %>
+        </span>
+        <% end %>
       <% end %>
     </td>
     <td>¥<%= part.price.to_s(:delimited) %></td>
