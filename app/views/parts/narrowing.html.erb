@@ -1,0 +1,33 @@
+<h2>タグ一覧</h2>
+<% @part_tag_lists.each do |part_tag_list| %>
+  <% if part_tag_list.parts.count.zero? %>
+  <% else %>
+    <ul>
+      <li>
+        <%= link_to part_tag_parts_path(part_tag_id: part_tag_list.id) do %>
+          <%= part_tag_list.name %><%= part_tag_list.parts.count %>
+        <% end %>
+      </li>
+    </ul>
+  <% end %>
+<% end %>
+
+<h2><%= @part_tag.name %>タグのパーツ一覧</h2>
+<table>
+  <% @parts.each do |part| %>
+    <tr>
+      <td><%= part.name%></td>
+      <td>
+        <% part.part_tags.each do |part_tag| %>
+          <%= link_to part_tag_parts_path(part_tag_id: part_tag.id) do %>
+          <span>
+            #<%= part_tag.name %>
+          </span>
+          <% end %>
+        <% end %>
+      </td>
+      <td>¥<%= part.price.to_s(:delimited) %></td>
+      <td><%= image_tag part.image, size: "100x100", :alt => "パーツ画像" %></td>
+    </tr>
+  <% end %>
+</table>
