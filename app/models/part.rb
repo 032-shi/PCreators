@@ -210,6 +210,193 @@ class Part < ApplicationRecord
     end
   end
 
+  def self.power_supply_scrape
+    agent = Mechanize.new
+    page = agent.get("https://kakaku.com/pc/power-supply/itemlist.aspx")
+    name_elements = page.search('a.ckitanker')
+    price_elements = page.search('li.pryen a')
+    image_elements = page.search('a.withIcnLimited img')
+    manufacturer_elements = page.search('a.ckitanker span')
+    spec_elements = page.search('//tr[@class="tr-border"]/td[position() = 9]')
+
+    name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
+      if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
+        part = Part.find_by(name: name_element.inner_text)
+        price_ele = price_element.inner_text
+        part_price = price_ele.delete("^0-9").to_i
+        genre_tag = "PC電源"
+        spec_tag = spec_element.inner_text
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        tag_lists = genre_tag, spec_tag, manufacturer_tag
+        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      else
+        part = Part.new
+        part.name = name_element.inner_text
+        price = price_element.inner_text
+        part.price = price.delete("^0-9").to_i
+        part.image = image_element.get_attribute(:src)
+        genre_tag = "PC電源"
+        spec_tag = spec_element.inner_text
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        tag_lists = genre_tag, spec_tag, manufacturer_tag
+        part.save
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      end
+    end
+  end
+
+  def self.cpu_cooler_scrape
+    agent = Mechanize.new
+    page = agent.get("https://kakaku.com/pc/cpu-cooler/itemlist.aspx")
+    name_elements = page.search('a.ckitanker')
+    price_elements = page.search('li.pryen a')
+    image_elements = page.search('a.withIcnLimited img')
+    manufacturer_elements = page.search('a.ckitanker span')
+    spec_elements = page.search('//tr[@class="tr-border"]/td[position() = 11]')
+
+    name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
+      if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
+        part = Part.find_by(name: name_element.inner_text)
+        price_ele = price_element.inner_text
+        part_price = price_ele.delete("^0-9").to_i
+        genre_tag = "CPUクーラー"
+        spec_tag = spec_element.inner_text
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        tag_lists = genre_tag, spec_tag, manufacturer_tag
+        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      else
+        part = Part.new
+        part.name = name_element.inner_text
+        price = price_element.inner_text
+        part.price = price.delete("^0-9").to_i
+        part.image = image_element.get_attribute(:src)
+        genre_tag = "CPUクーラー"
+        spec_tag = spec_element.inner_text
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        tag_lists = genre_tag, spec_tag, manufacturer_tag
+        part.save
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      end
+    end
+  end
+
+  def self.ssd_scrape
+    agent = Mechanize.new
+    page = agent.get("https://kakaku.com/pc/ssd/itemlist.aspx?pdf_Spec104=1")
+    name_elements = page.search('a.ckitanker')
+    price_elements = page.search('li.pryen a')
+    image_elements = page.search('a.withIcnLimited img')
+    manufacturer_elements = page.search('a.ckitanker span')
+    spec_elements = page.search('//tr[@class="tr-border"]/td[position() = 12]')
+    capa_spec_elements = page.search('//tr[@class="tr-border"]/td[position() = 9]')
+
+    name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements, capa_spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element , capa_spec_element|
+      if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
+        part = Part.find_by(name: name_element.inner_text)
+        price_ele = price_element.inner_text
+        part_price = price_ele.delete("^0-9").to_i
+        genre_tag = "SSD"
+        spec_tag = spec_element.inner_text
+        capa_spec_tag = capa_spec_element.inner_text
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        tag_lists = genre_tag, spec_tag, capa_spec_tag, manufacturer_tag
+        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      else
+        part = Part.new
+        part.name = name_element.inner_text
+        price = price_element.inner_text
+        part.price = price.delete("^0-9").to_i
+        part.image = image_element.get_attribute(:src)
+        genre_tag = "SSD"
+        spec_tag = spec_element.inner_text
+        capa_spec_tag = capa_spec_element.inner_text
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        tag_lists = genre_tag, spec_tag, capa_spec_tag, manufacturer_tag
+        part.save
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      end
+    end
+  end
+
+  def self.hdd35_scrape
+    agent = Mechanize.new
+    page = agent.get("https://kakaku.com/pc/hdd-35inch/itemlist.aspx")
+    name_elements = page.search('a.ckitanker')
+    price_elements = page.search('li.pryen a')
+    image_elements = page.search('a.withIcnLimited img')
+    manufacturer_elements = page.search('a.ckitanker span')
+    spec_elements = page.search('//tr[@class="tr-border"]/td[position() = 9]')
+
+    name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
+      if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
+        part = Part.find_by(name: name_element.inner_text)
+        price_ele = price_element.inner_text
+        part_price = price_ele.delete("^0-9").to_i
+        genre_tag = "HDD"
+        genre_sub_tag = "HDD(3.5インチ)"
+        spec_tag = spec_element.inner_text
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        tag_lists = genre_tag, genre_sub_tag, spec_tag, manufacturer_tag
+        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      else
+        part = Part.new
+        part.name = name_element.inner_text
+        price = price_element.inner_text
+        part.price = price.delete("^0-9").to_i
+        part.image = image_element.get_attribute(:src)
+        genre_tag = "HDD"
+        genre_sub_tag = "HDD(3.5インチ)"
+        spec_tag = spec_element.inner_text
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        tag_lists = genre_tag, genre_sub_tag, spec_tag, manufacturer_tag
+        part.save
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      end
+    end
+  end
+
+  def self.hdd25_scrape
+    agent = Mechanize.new
+    page = agent.get("https://kakaku.com/pc/hdd-25inch/itemlist.aspx")
+    name_elements = page.search('a.ckitanker')
+    price_elements = page.search('li.pryen a')
+    image_elements = page.search('a.withIcnLimited img')
+    manufacturer_elements = page.search('a.ckitanker span')
+    spec_elements = page.search('//tr[@class="tr-border"]/td[position() = 9]')
+
+    name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
+      if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
+        part = Part.find_by(name: name_element.inner_text)
+        price_ele = price_element.inner_text
+        part_price = price_ele.delete("^0-9").to_i
+        genre_tag = "HDD"
+        genre_sub_tag = "HDD(2.5インチ)"
+        spec_tag = spec_element.inner_text
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        tag_lists = genre_tag, genre_sub_tag, spec_tag, manufacturer_tag
+        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      else
+        part = Part.new
+        part.name = name_element.inner_text
+        price = price_element.inner_text
+        part.price = price.delete("^0-9").to_i
+        part.image = image_element.get_attribute(:src)
+        genre_tag = "HDD"
+        genre_sub_tag = "HDD(2.5インチ)"
+        spec_tag = spec_element.inner_text
+        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
+        tag_lists = genre_tag, genre_sub_tag, spec_tag, manufacturer_tag
+        part.save
+        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+      end
+    end
+  end
+
   def save_part_tag(tag_lists)
     current_tags = self.part_tags.pluck(:name) unless self.part_tags.nil?
     old_tags = current_tags - tag_lists #既存のタグから登録するタグを除き、残ったタグを抽出
