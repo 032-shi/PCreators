@@ -3,6 +3,11 @@ class Part < ApplicationRecord
   has_many :part_tags, through: :part_tag_maps
   require 'mechanize'
 
+  def self.part_scrape
+    self.cpu_scrape
+    self.hdd25_scrape
+  end
+
   def self.cpu_scrape
     agent = Mechanize.new
     page = agent.get("https://kakaku.com/pc/cpu/itemlist.aspx?pdf_vi=c")
@@ -13,36 +18,19 @@ class Part < ApplicationRecord
 
     name_elements.zip(price_elements, image_elements, manufacturer_elements).each do |name_element , price_element , image_element , manufacturer_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
+        part = Part.find_by(name: name_element.inner_text)
         price_ele = price_element.inner_text
         part_price = price_ele.delete("^0-9").to_i
-        Part.find_by(name: name_element.inner_text).update(price: part_price, image: image_element.get_attribute(:src))
+        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.cpu_tagsave(name_element.inner_text, manufacturer_element.inner_text, part)
       else
         part = Part.new
         part.name = name_element.inner_text
         price = price_element.inner_text
         part.price = price.delete("^0-9").to_i
         part.image = image_element.get_attribute(:src)
-        genre_tag = "CPU"
-        spec = name_element.inner_text
-        if spec.include?("Core i")
-          spec_tag = spec.slice(0..6)
-        elsif spec.include?("Ryzen") && spec.exclude?("Threadripper")
-          spec_tag = spec.slice(0..6)
-        elsif spec.include?("Celeron")
-          spec_tag = spec.slice(0..6)
-        elsif spec.include?("Pentium")
-          spec_tag = spec.slice(0..6)
-        elsif spec.include?("Xeon")
-          spec_tag = spec.slice(0..3)
-        elsif spec.include?("Ryzen") && spec.include?("Threadripper")
-          spec_tag = spec.slice(0..17)
-        else
-          spec_tag = "その他"
-        end
-        manufacturer_tag = manufacturer_element.inner_text
-        tag_lists = genre_tag, spec_tag, manufacturer_tag
         part.save
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.cpu_tagsave(name_element.inner_text, manufacturer_element.inner_text, part)
       end
     end
   end
@@ -373,28 +361,46 @@ class Part < ApplicationRecord
         part = Part.find_by(name: name_element.inner_text)
         price_ele = price_element.inner_text
         part_price = price_ele.delete("^0-9").to_i
-        genre_tag = "HDD"
-        genre_sub_tag = "HDD(2.5インチ)"
-        spec_tag = spec_element.inner_text
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, genre_sub_tag, spec_tag, manufacturer_tag
         part.update(price: part_price, image: image_element.get_attribute(:src))
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.hdd25_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
         part.name = name_element.inner_text
         price = price_element.inner_text
         part.price = price.delete("^0-9").to_i
         part.image = image_element.get_attribute(:src)
-        genre_tag = "HDD"
-        genre_sub_tag = "HDD(2.5インチ)"
-        spec_tag = spec_element.inner_text
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, genre_sub_tag, spec_tag, manufacturer_tag
         part.save
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.hdd25_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
+  end
+
+  def cpu_tagsave(spec, manufacturer_tag, part)
+    genre_tag = "CPU"
+    if spec.include?("Core i")
+      spec_tag = spec.slice(0..6)
+    elsif spec.include?("Ryzen") && spec.exclude?("Threadripper")
+      spec_tag = spec.slice(0..6)
+    elsif spec.include?("Celeron")
+      spec_tag = spec.slice(0..6)
+    elsif spec.include?("Pentium")
+      spec_tag = spec.slice(0..6)
+    elsif spec.include?("Xeon")
+      spec_tag = spec.slice(0..3)
+    elsif spec.include?("Ryzen") && spec.include?("Threadripper")
+      spec_tag = spec.slice(0..17)
+    else
+      spec_tag = "その他"
+    end
+    tag_lists = genre_tag, spec_tag, manufacturer_tag
+    part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+  end
+
+  def hdd25_tagsave(spec_tag, manufacturer_tag, part)
+    genre_tag = "HDD"
+    genre_sub_tag = "HDD(2.5インチ)"
+    tag_lists = genre_tag, genre_sub_tag, spec_tag, manufacturer_tag
+    part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
   end
 
   def save_part_tag(tag_lists)
