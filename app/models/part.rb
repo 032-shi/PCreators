@@ -5,6 +5,14 @@ class Part < ApplicationRecord
 
   def self.part_scrape
     self.cpu_scrape
+    self.memory_scrape
+    self.gpu_scrape
+    self.mb_scrape
+    self.case_scrape
+    self.power_supply_scrape
+    self.cpu_cooler_scrape
+    self.ssd_scrape
+    self.hdd35_scrape
     self.hdd25_scrape
   end
 
@@ -45,28 +53,19 @@ class Part < ApplicationRecord
 
     name_elements.zip(price_elements, image_elements, manufacturer_elements).each do |name_element , price_element , image_element , manufacturer_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
+        part = Part.find_by(name: name_element.inner_text)
         price_ele = price_element.inner_text
         part_price = price_ele.delete("^0-9").to_i
-        Part.find_by(name: name_element.inner_text).update(price: part_price, image: image_element.get_attribute(:src))
+        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.memory_tagsave(name_element.inner_text, manufacturer_element.inner_text, part)
       else
         part = Part.new
         part.name = name_element.inner_text
         price = price_element.inner_text
         part.price = price.delete("^0-9").to_i
         part.image = image_element.get_attribute(:src)
-        genre_tag = "メモリー"
-        spec = name_element.inner_text
-        if spec.include?("DDR4")
-          spec_tag = "DDR4"
-        elsif spec.include?("DDR3")
-          spec_tag = "DDR3"
-        else
-          spec_tag = "その他"
-        end
-        manufacturer_tag = manufacturer_element.inner_text
-        tag_lists = genre_tag, spec_tag, manufacturer_tag
         part.save
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.memory_tagsave(name_element.inner_text, manufacturer_element.inner_text, part)
       end
     end
   end
@@ -82,28 +81,19 @@ class Part < ApplicationRecord
 
     name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
+        part = Part.find_by(name: name_element.inner_text)
         price_ele = price_element.inner_text
         part_price = price_ele.delete("^0-9").to_i
-        Part.find_by(name: name_element.inner_text).update(price: part_price, image: image_element.get_attribute(:src))
+        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.gpu_tagsave(spec_element.inner_text, manufacturer_element.inner_text, part)
       else
         part = Part.new
         part.name = name_element.inner_text
         price = price_element.inner_text
         part.price = price.delete("^0-9").to_i
         part.image = image_element.get_attribute(:src)
-        genre_tag = "グラフィックボード"
-        spec = spec_element.inner_text
-        if spec.include?("NVIDIA")
-          spec_tag = spec.gsub(/NVIDIA/,"")
-        elsif spec.include?("AMD")
-          spec_tag = spec.gsub(/AMD/,"")
-        else
-          spec_tag = "その他"
-        end
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, spec_tag, manufacturer_tag
         part.save
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.gpu_tagsave(spec_element.inner_text, manufacturer_element.inner_text, part)
       end
     end
   end
@@ -122,38 +112,16 @@ class Part < ApplicationRecord
         part = Part.find_by(name: name_element.inner_text)
         price_ele = price_element.inner_text
         part_price = price_ele.delete("^0-9").to_i
-        genre_tag = "マザーボード"
-        spec = spec_element.inner_text
-        if spec.include?("INTEL")
-          spec_tag = spec.gsub(/INTEL/,"")
-        elsif spec.include?("AMD")
-          spec_tag = spec.gsub(/AMD/,"")
-        else
-          spec_tag = "その他"
-        end
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, spec_tag, manufacturer_tag
         part.update(price: part_price, image: image_element.get_attribute(:src))
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.mb_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
         part.name = name_element.inner_text
         price = price_element.inner_text
         part.price = price.delete("^0-9").to_i
         part.image = image_element.get_attribute(:src)
-        genre_tag = "マザーボード"
-        spec = spec_element.inner_text
-        if spec.include?("INTEL")
-          spec_tag = spec.gsub(/INTEL/,"")
-        elsif spec.include?("AMD")
-          spec_tag = spec.gsub(/AMD/,"")
-        else
-          spec_tag = "その他"
-        end
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, spec_tag, manufacturer_tag
         part.save
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.mb_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
   end
@@ -172,28 +140,16 @@ class Part < ApplicationRecord
         part = Part.find_by(name: name_element.inner_text)
         price_ele = price_element.inner_text
         part_price = price_ele.delete("^0-9").to_i
-        genre_tag = "PCケース"
-        spec = spec_element.inner_text.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}
-        spec_tag = spec.gsub(/Et|TX|EB|d A/, "Et"=>"Ext","TX"=>"TX　", "EB"=>"EB　","d A"=>"dA").split(/[[:blank:]]+/).select(&:present?)
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        case_tag_lists = genre_tag, spec_tag, manufacturer_tag
-        tag_lists = case_tag_lists.flatten
         part.update(price: part_price, image: image_element.get_attribute(:src))
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.case_tagsave(spec_element.inner_text.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}, manufacturer_element.inner_text, part)
       else
         part = Part.new
         part.name = name_element.inner_text
         price = price_element.inner_text
         part.price = price.delete("^0-9").to_i
         part.image = image_element.get_attribute(:src)
-        genre_tag = "PCケース"
-        spec = spec_element.inner_text.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}
-        spec_tag = spec.gsub(/Et|TX|EB|d A/, "Et"=>"Ext","TX"=>"TX　", "EB"=>"EB　","d A"=>"dA").split(/[[:blank:]]+/).select(&:present?)
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        case_tag_lists = genre_tag, spec_tag, manufacturer_tag
-        tag_lists = case_tag_lists.flatten
         part.save
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.case_tagsave(spec_element.inner_text.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}, manufacturer_element.inner_text, part)
       end
     end
   end
@@ -212,24 +168,16 @@ class Part < ApplicationRecord
         part = Part.find_by(name: name_element.inner_text)
         price_ele = price_element.inner_text
         part_price = price_ele.delete("^0-9").to_i
-        genre_tag = "PC電源"
-        spec_tag = spec_element.inner_text
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, spec_tag, manufacturer_tag
         part.update(price: part_price, image: image_element.get_attribute(:src))
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.power_supply_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
         part.name = name_element.inner_text
         price = price_element.inner_text
         part.price = price.delete("^0-9").to_i
         part.image = image_element.get_attribute(:src)
-        genre_tag = "PC電源"
-        spec_tag = spec_element.inner_text
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, spec_tag, manufacturer_tag
         part.save
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.power_supply_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
   end
@@ -248,24 +196,16 @@ class Part < ApplicationRecord
         part = Part.find_by(name: name_element.inner_text)
         price_ele = price_element.inner_text
         part_price = price_ele.delete("^0-9").to_i
-        genre_tag = "CPUクーラー"
-        spec_tag = spec_element.inner_text
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, spec_tag, manufacturer_tag
         part.update(price: part_price, image: image_element.get_attribute(:src))
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.cpu_cooler_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
         part.name = name_element.inner_text
         price = price_element.inner_text
         part.price = price.delete("^0-9").to_i
         part.image = image_element.get_attribute(:src)
-        genre_tag = "CPUクーラー"
-        spec_tag = spec_element.inner_text
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, spec_tag, manufacturer_tag
         part.save
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.cpu_cooler_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
   end
@@ -285,26 +225,16 @@ class Part < ApplicationRecord
         part = Part.find_by(name: name_element.inner_text)
         price_ele = price_element.inner_text
         part_price = price_ele.delete("^0-9").to_i
-        genre_tag = "SSD"
-        spec_tag = spec_element.inner_text
-        capa_spec_tag = capa_spec_element.inner_text
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, spec_tag, capa_spec_tag, manufacturer_tag
         part.update(price: part_price, image: image_element.get_attribute(:src))
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.ssd_tagsave(spec_element.inner_text, capa_spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
         part.name = name_element.inner_text
         price = price_element.inner_text
         part.price = price.delete("^0-9").to_i
         part.image = image_element.get_attribute(:src)
-        genre_tag = "SSD"
-        spec_tag = spec_element.inner_text
-        capa_spec_tag = capa_spec_element.inner_text
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, spec_tag, capa_spec_tag, manufacturer_tag
         part.save
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.ssd_tagsave(spec_element.inner_text, capa_spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
   end
@@ -323,26 +253,16 @@ class Part < ApplicationRecord
         part = Part.find_by(name: name_element.inner_text)
         price_ele = price_element.inner_text
         part_price = price_ele.delete("^0-9").to_i
-        genre_tag = "HDD"
-        genre_sub_tag = "HDD(3.5インチ)"
-        spec_tag = spec_element.inner_text
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, genre_sub_tag, spec_tag, manufacturer_tag
         part.update(price: part_price, image: image_element.get_attribute(:src))
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.hdd35_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
         part.name = name_element.inner_text
         price = price_element.inner_text
         part.price = price.delete("^0-9").to_i
         part.image = image_element.get_attribute(:src)
-        genre_tag = "HDD"
-        genre_sub_tag = "HDD(3.5インチ)"
-        spec_tag = spec_element.inner_text
-        manufacturer_tag = manufacturer_element.inner_text.gsub(/　| /){""}
-        tag_lists = genre_tag, genre_sub_tag, spec_tag, manufacturer_tag
         part.save
-        part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+        part.hdd35_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
   end
@@ -394,6 +314,78 @@ class Part < ApplicationRecord
     end
     tag_lists = genre_tag, spec_tag, manufacturer_tag
     part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+  end
+
+  def memory_tagsave(spec, manufacturer_tag, part)
+    genre_tag = "メモリー"
+    if spec.include?("DDR4")
+      spec_tag = "DDR4"
+    elsif spec.include?("DDR3")
+      spec_tag = "DDR3"
+    else
+      spec_tag = "その他"
+    end
+    tag_lists = genre_tag, spec_tag, manufacturer_tag
+    part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+  end
+
+  def gpu_tagsave(spec, manufacturer_tag, part)
+    genre_tag = "グラフィックボード"
+    if spec.include?("NVIDIA")
+      spec_tag = spec.gsub(/NVIDIA/,"")
+    elsif spec.include?("AMD")
+      spec_tag = spec.gsub(/AMD/,"")
+    else
+      spec_tag = "その他"
+    end
+    tag_lists = genre_tag, spec_tag, manufacturer_tag
+    part.save_part_tag(tag_lists) #以下でsave_part_tagメソッドを定義している
+  end
+
+  def mb_tagsave(spec, manufacturer_tag, part)
+    genre_tag = "マザーボード"
+    if spec.include?("INTEL")
+      spec_tag = spec.gsub(/INTEL/,"")
+    elsif spec.include?("AMD")
+      spec_tag = spec.gsub(/AMD/,"")
+    else
+      spec_tag = "その他"
+    end
+    tag_lists = genre_tag, spec_tag, manufacturer_tag
+    part.save_part_tag(tag_lists)
+  end
+
+  def case_tagsave(spec, manufacturer_tag, part)
+    genre_tag = "PCケース"
+    spec_tag = spec.gsub(/Et|TX|EB|d A/, "Et"=>"Ext","TX"=>"TX　", "EB"=>"EB　","d A"=>"dA").split(/[[:blank:]]+/).select(&:present?)
+    case_tag_lists = genre_tag, spec_tag, manufacturer_tag
+    tag_lists = case_tag_lists.flatten
+    part.save_part_tag(tag_lists)
+  end
+
+  def power_supply_tagsave(spec_tag, manufacturer_tag, part)
+    genre_tag = "PC電源"
+    tag_lists = genre_tag, spec_tag, manufacturer_tag
+    part.save_part_tag(tag_lists)
+  end
+
+  def cpu_cooler_tagsave(spec_tag, manufacturer_tag, part)
+    genre_tag = "CPUクーラー"
+    tag_lists = genre_tag, spec_tag, manufacturer_tag
+    part.save_part_tag(tag_lists)
+  end
+
+  def ssd_tagsave(spec_tag, capa_spec_tag, manufacturer_tag, part)
+    genre_tag = "SSD"
+    tag_lists = genre_tag, spec_tag, capa_spec_tag, manufacturer_tag
+    part.save_part_tag(tag_lists)
+  end
+
+  def hdd35_tagsave(spec_tag, manufacturer_tag, part)
+    genre_tag = "HDD"
+    genre_sub_tag = "HDD(3.5インチ)"
+    tag_lists = genre_tag, genre_sub_tag, spec_tag, manufacturer_tag
+    part.save_part_tag(tag_lists)
   end
 
   def hdd25_tagsave(spec_tag, manufacturer_tag, part)
