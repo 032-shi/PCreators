@@ -27,17 +27,11 @@ class Part < ApplicationRecord
     name_elements.zip(price_elements, image_elements, manufacturer_elements).each do |name_element , price_element , image_element , manufacturer_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
-        price_ele = price_element.inner_text
-        part_price = price_ele.delete("^0-9").to_i
-        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
         part.cpu_tagsave(name_element.inner_text, manufacturer_element.inner_text, part)
       else
         part = Part.new
-        part.name = name_element.inner_text
-        price = price_element.inner_text
-        part.price = price.delete("^0-9").to_i
-        part.image = image_element.get_attribute(:src)
-        part.save
+        part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
         part.cpu_tagsave(name_element.inner_text, manufacturer_element.inner_text, part)
       end
     end
@@ -54,17 +48,11 @@ class Part < ApplicationRecord
     name_elements.zip(price_elements, image_elements, manufacturer_elements).each do |name_element , price_element , image_element , manufacturer_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
-        price_ele = price_element.inner_text
-        part_price = price_ele.delete("^0-9").to_i
-        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
         part.memory_tagsave(name_element.inner_text, manufacturer_element.inner_text, part)
       else
         part = Part.new
-        part.name = name_element.inner_text
-        price = price_element.inner_text
-        part.price = price.delete("^0-9").to_i
-        part.image = image_element.get_attribute(:src)
-        part.save
+        part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
         part.memory_tagsave(name_element.inner_text, manufacturer_element.inner_text, part)
       end
     end
@@ -82,17 +70,11 @@ class Part < ApplicationRecord
     name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
-        price_ele = price_element.inner_text
-        part_price = price_ele.delete("^0-9").to_i
-        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
         part.gpu_tagsave(spec_element.inner_text, manufacturer_element.inner_text, part)
       else
         part = Part.new
-        part.name = name_element.inner_text
-        price = price_element.inner_text
-        part.price = price.delete("^0-9").to_i
-        part.image = image_element.get_attribute(:src)
-        part.save
+        part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
         part.gpu_tagsave(spec_element.inner_text, manufacturer_element.inner_text, part)
       end
     end
@@ -110,17 +92,11 @@ class Part < ApplicationRecord
     name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
-        price_ele = price_element.inner_text
-        part_price = price_ele.delete("^0-9").to_i
-        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
         part.mb_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
-        part.name = name_element.inner_text
-        price = price_element.inner_text
-        part.price = price.delete("^0-9").to_i
-        part.image = image_element.get_attribute(:src)
-        part.save
+        part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
         part.mb_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
@@ -138,17 +114,11 @@ class Part < ApplicationRecord
     name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
-        price_ele = price_element.inner_text
-        part_price = price_ele.delete("^0-9").to_i
-        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
         part.case_tagsave(spec_element.inner_text.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}, manufacturer_element.inner_text, part)
       else
         part = Part.new
-        part.name = name_element.inner_text
-        price = price_element.inner_text
-        part.price = price.delete("^0-9").to_i
-        part.image = image_element.get_attribute(:src)
-        part.save
+        part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
         part.case_tagsave(spec_element.inner_text.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}, manufacturer_element.inner_text, part)
       end
     end
@@ -166,17 +136,11 @@ class Part < ApplicationRecord
     name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
-        price_ele = price_element.inner_text
-        part_price = price_ele.delete("^0-9").to_i
-        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
         part.power_supply_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
-        part.name = name_element.inner_text
-        price = price_element.inner_text
-        part.price = price.delete("^0-9").to_i
-        part.image = image_element.get_attribute(:src)
-        part.save
+        part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
         part.power_supply_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
@@ -194,17 +158,11 @@ class Part < ApplicationRecord
     name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
-        price_ele = price_element.inner_text
-        part_price = price_ele.delete("^0-9").to_i
-        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
         part.cpu_cooler_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
-        part.name = name_element.inner_text
-        price = price_element.inner_text
-        part.price = price.delete("^0-9").to_i
-        part.image = image_element.get_attribute(:src)
-        part.save
+        part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
         part.cpu_cooler_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
@@ -223,17 +181,11 @@ class Part < ApplicationRecord
     name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements, capa_spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element , capa_spec_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
-        price_ele = price_element.inner_text
-        part_price = price_ele.delete("^0-9").to_i
-        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
         part.ssd_tagsave(spec_element.inner_text, capa_spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
-        part.name = name_element.inner_text
-        price = price_element.inner_text
-        part.price = price.delete("^0-9").to_i
-        part.image = image_element.get_attribute(:src)
-        part.save
+        part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
         part.ssd_tagsave(spec_element.inner_text, capa_spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
@@ -251,17 +203,11 @@ class Part < ApplicationRecord
     name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
-        price_ele = price_element.inner_text
-        part_price = price_ele.delete("^0-9").to_i
-        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
         part.hdd35_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
-        part.name = name_element.inner_text
-        price = price_element.inner_text
-        part.price = price.delete("^0-9").to_i
-        part.image = image_element.get_attribute(:src)
-        part.save
+        part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
         part.hdd35_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
@@ -279,20 +225,26 @@ class Part < ApplicationRecord
     name_elements.zip(price_elements, image_elements, manufacturer_elements, spec_elements).each do |name_element , price_element , image_element , manufacturer_element , spec_element|
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
-        price_ele = price_element.inner_text
-        part_price = price_ele.delete("^0-9").to_i
-        part.update(price: part_price, image: image_element.get_attribute(:src))
+        part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
         part.hdd25_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
-        part.name = name_element.inner_text
-        price = price_element.inner_text
-        part.price = price.delete("^0-9").to_i
-        part.image = image_element.get_attribute(:src)
-        part.save
+        part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
         part.hdd25_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
+  end
+
+  def new_partsave(name, price, image_element, part)
+    part.name = name
+    part.price = price.delete("^0-9").to_i
+    part.image = image_element.get_attribute(:src)
+    part.save
+  end
+
+  def part_update(price_ele, image_element, part)
+    part_price = price_ele.delete("^0-9").to_i
+    part.update(price: part_price, image: image_element)
   end
 
   def cpu_tagsave(spec, manufacturer_tag, part)
