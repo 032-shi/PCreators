@@ -22,5 +22,7 @@ module PCreators
 
     # 以下1行、表示時間を日本時間に変更する為、追記
     config.time_zone = 'Tokyo'
+    #以下１行、deviseエラーメッセージを日本語に変更する為、追記
+    config.i18n.default_locale = :ja
   end
 end
