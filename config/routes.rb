@@ -11,4 +11,6 @@ Rails.application.routes.draw do
     get 'parts', to: 'parts#narrowing'
   end
 
+  get '/search' => 'searchs#search'
+
 end
