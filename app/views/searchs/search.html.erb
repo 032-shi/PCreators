@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <% if @model == "post" %>
+        <h2>"<%= @value %>"の投稿一覧</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>タイトル</th>
+              <th>内容</th>
+            </tr>
+          </thead>
+        <% @posts.each do |post| %>
+          <tbody>
+            <tr>
+              <td><%= attachment_image_tag post, :image, :fill, 40, 40, fallback: "no_image.jpg", size:'40x40' %></td>
+              <td><%= post.title %></td>
+              <td><%= post.body %></td>
+            </tr>
+          </tbody>
+        <% end %>
+        </table>
+      <% elsif @model == "part" %>
+        <h2>"<%= @value %>"のパーツ一覧</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>パーツ名</th>
+              <th>参考価格</th>
+            </tr>
+          </thead>
+        <% @part_tags.each do |part_tag| %>
+          <% part_tag.parts.each do |part| %>
+            <tbody>
+              <tr>
+                <td><%= image_tag part.image, size: "80x80", :alt => "パーツ画像" %></td>
+                <td><%= part.name %></td>
+                <td>¥<%= part.price.to_s(:delimited) %></td>
+              </tr>
+            </tbody>
+          <% end %>
+        <% end %>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</div>
