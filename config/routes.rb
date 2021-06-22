@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   devise_for :users
   resources :posts
   resources :users, only: [:show, :edit, :update]
-  resources :parts, only: [:index]
+  resources :parts, only: [:index, :show] do
+   resources :draft_configurations, only: [:create]
+  end
+  resources :draft_configurations, only: [:index, :update, :destroy]
+
   resources :post_tags, only: [:index] do #投稿のタグ絞り込み画面へのルーティング
     get 'posts', to: 'posts#narrowing'
   end
@@ -11,6 +15,6 @@ Rails.application.routes.draw do
     get 'parts', to: 'parts#narrowing'
   end
 
-  get '/search' => 'searchs#search'
+  get 'searchs' => 'searchs#search'
 
 end

@@ -5,10 +5,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :posts, dependent: :destroy
+  has_many :draft_configurations, dependent: :destroy
   attachment :profile_image
 
-  VALID_PASSWORD_REGEX = /\A[\w\-]+\z/ #半角英数字をセット
-  validates :encrypted_password, presence: true,length: {minimum: 6},format: {with: VALID_PASSWORD_REGEX}
+  #VALID_PASSWORD_REGEX = /\A[a-zA-Z0-9]+\z/ #半角英数字をセット
+  validates :encrypted_password, presence: true,length: {minimum: 6}#,format: {with: VALID_PASSWORD_REGEX}
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
 
