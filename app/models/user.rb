@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy
   has_many :draft_configurations, dependent: :destroy
+  has_many :pc_configurations, dependent: :destroy
   attachment :profile_image
 
   #VALID_PASSWORD_REGEX = /\A[a-zA-Z0-9]+\z/ #半角英数字をセット
