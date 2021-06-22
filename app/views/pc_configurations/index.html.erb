@@ -1,0 +1,11 @@
+<h2>PC構成リスト投稿一覧</h2>
+<% @pc_configurations.each do |pc_configuration| %>
+  <div>
+    <%= link_to pc_configuration_path(pc_configuration.id) do %>
+      <%= attachment_image_tag pc_configuration, :image, fallback: "no_image.jpg", size: "180x130" %>
+    <% end %>
+    <p>タイトル：<%= pc_configuration.title %></p>
+    <p>説明：<%= pc_configuration.body %></p>
+    <p>ユーザーネーム：<%= pc_configuration.user.name %></p>
+  </div>
+<% end %>

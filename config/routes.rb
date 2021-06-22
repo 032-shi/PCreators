@@ -7,12 +7,13 @@ Rails.application.routes.draw do
    resources :draft_configurations, only: [:create]
   end
   resources :draft_configurations, only: [:index, :update, :destroy]
+  resources :pc_configurations
 
-  resources :post_tags, only: [:index] do #投稿のタグ絞り込み画面へのルーティング
-    get 'posts', to: 'posts#narrowing'
+  resources :post_tags, only: [:index] do
+    get 'posts', to: 'posts#narrowing' #投稿のタグ絞り込み画面へのルーティング
   end
-  resources :part_tags, only: [:index] do #パーツのタグ絞り込み画面へのルーティング
-    get 'parts', to: 'parts#narrowing'
+  resources :part_tags, only: [:index] do
+    get 'parts', to: 'parts#narrowing' #パーツのタグ絞り込み画面へのルーティング
   end
 
   get 'searchs' => 'searchs#search'

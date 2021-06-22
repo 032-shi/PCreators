@@ -1,15 +1,9 @@
 class DraftConfigurationsController < ApplicationController
 
   def index
-    @draft_configuration = current_user.draft_configurations.new
     existing_configurations = current_user.draft_configurations.all
     existing_configurations.each do |existing_configuration|
-      part_id = existing_configuration.part_id
-      part = Part.find_by(id: part_id)
-      existing_part_tags = []
-      part.part_tags.each do |part_tag|
-        existing_part_tags << part_tag.name
-      end
+      existing_part_tags = set_existing_part_tag(existing_configuration)
       if existing_part_tags.any? { |w| w == "CPU" }
         @cpu_existing_configuration = existing_configuration
       elsif existing_part_tags.any? { |w| w == "メモリー" }
@@ -101,7 +95,6 @@ class DraftConfigurationsController < ApplicationController
   end
 
   def set_existing_draft_tag(existing_configurations)
-    existing_configurations = current_user.draft_configurations.all
     parts_id = []
     existing_configurations.each do |existing_configuration|
       parts_id << existing_configuration.part_id
@@ -110,8 +103,18 @@ class DraftConfigurationsController < ApplicationController
     parts = Part.where(id: parts_id)
     parts.each do |part|
       part.part_tags.each do |part_tag|
-        return existing_part_tags << part_tag.name
+        existing_part_tags << part_tag.name
       end
+    end
+    return existing_part_tags
+  end
+
+  def set_existing_part_tag(existing_configuration)
+    part_id = existing_configuration.part_id
+    part = Part.find_by(id: part_id)
+    existing_part_tags = []
+    part.part_tags.each do |part_tag|
+      return existing_part_tags << part_tag.name
     end
   end
 
