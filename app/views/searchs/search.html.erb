@@ -35,7 +35,11 @@
           <% part_tag.parts.each do |part| %>
             <tbody>
               <tr>
-                <td><%= image_tag part.image, size: "80x80", :alt => "パーツ画像" %></td>
+                <td>
+                  <%= link_to part_path(part.id) do %>
+                    <%= image_tag part.image, size: "80x80", :alt => "パーツ画像" %>
+                  <% end %>
+                </td>
                 <td><%= part.name %></td>
                 <td>¥<%= part.price.to_s(:delimited) %></td>
               </tr>

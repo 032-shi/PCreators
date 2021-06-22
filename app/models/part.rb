@@ -1,6 +1,7 @@
 class Part < ApplicationRecord
   has_many :part_tag_maps, dependent: :destroy
   has_many :part_tags, through: :part_tag_maps
+  has_many :draft_configurations, dependent: :destroy
   require 'mechanize'
 
   def self.part_scrape
@@ -361,5 +362,6 @@ class Part < ApplicationRecord
       self.part_tags << add_tag
     end
   end
+
 
 end
