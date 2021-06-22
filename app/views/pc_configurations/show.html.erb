@@ -5,8 +5,8 @@
 <p>ユーザーネーム：<%= @pc_configuration.user.name %></p>
 <p>投稿日時：<%= @pc_configuration.created_at.to_s(:datetime_jp) %></p>
 <% if @pc_configuration.user == current_user %>
-  <!--%= link_to "投稿を編集する", edit_post_path(@post) %-->
-  <%= link_to "投稿したPC構成リストを削除する", post_path(@pc_configuration), method: :delete, "data-confirm" => "本当に削除しますか？" %>
+  <%= link_to "PC構成リストを編集する", edit_pc_configuration_path(@pc_configuration) %>
+  <%= link_to "PC構成リストを削除する", pc_configuration_path(@pc_configuration), method: :delete, "data-confirm" => "本当に削除しますか？" %>
 <% end %>
 <table class="table table-bordered">
   <thead>

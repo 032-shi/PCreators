@@ -6,6 +6,29 @@ class PcConfigurationsController < ApplicationController
 
   def show
     @pc_configuration = PcConfiguration.find(params[:id])
+    existing_configurations = @pc_configuration.part_configurations.all
+    existing_configurations.each do |existing_configuration|
+      existing_part_tags = set_existing_part_tag(existing_configuration)
+      if existing_part_tags.any? { |w| w == "CPU" }
+        @cpu_existing_configuration = existing_configuration
+      elsif existing_part_tags.any? { |w| w == "メモリー" }
+        @memory_existing_configuration = existing_configuration
+      elsif existing_part_tags.any? { |w| w == "グラフィックボード" }
+        @gpu_existing_configuration = existing_configuration
+      elsif existing_part_tags.any? { |w| w == "マザーボード" }
+        @mb_existing_configuration = existing_configuration
+      elsif existing_part_tags.any? { |w| w == "PCケース" }
+        @case_existing_configuration = existing_configuration
+      elsif existing_part_tags.any? { |w| w == "PC電源" }
+        @power_existing_configuration = existing_configuration
+      elsif existing_part_tags.any? { |w| w == "CPUクーラー" }
+        @cooler_existing_configuration = existing_configuration
+      elsif existing_part_tags.any? { |w| w == "SSD" }
+        @ssd_existing_configuration = existing_configuration
+      elsif existing_part_tags.any? { |w| w == "HDD" }
+        @hdd_existing_configuration = existing_configuration
+      end
+    end
   end
 
   def new
@@ -61,7 +84,7 @@ class PcConfigurationsController < ApplicationController
 
   def update
     @pc_configuration = PcConfiguration.find(params[:id])
-    if  @post.update(pc_configuration_params)
+    if  @pc_configuration.update(pc_configuration_params)
       redirect_to pc_configuration_path(@pc_configuration.id)
     else
       redirect_to pc_configuration_path(@pc_configuration.id)
@@ -78,6 +101,15 @@ class PcConfigurationsController < ApplicationController
 
   def pc_configuration_params
     params.require(:pc_configuration).permit(:title, :image, :body)
+  end
+
+  def set_existing_part_tag(existing_configuration)
+    part_id = existing_configuration.part_id
+    part = Part.find_by(id: part_id)
+    existing_part_tags = []
+    part.part_tags.each do |part_tag|
+      return existing_part_tags << part_tag.name
+    end
   end
 
 end
