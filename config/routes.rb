@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   root to: 'posts#index'
   devise_for :users
-  resources :posts
+  resources :posts do
+    resources :post_comments, only: [:create, :destroy]
+    resource :post_favorites, only: [:create, :destroy]
+  end
+
   resources :users, only: [:show, :edit, :update]
   resources :parts, only: [:index, :show] do
    resources :draft_configurations, only: [:create]
