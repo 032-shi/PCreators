@@ -2,6 +2,8 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :post_tag_maps, dependent: :destroy
   has_many :post_tags, through: :post_tag_maps
+  has_many :post_comments, dependent: :destroy
+  has_many :post_favorites, dependent: :destroy
   attachment :image
 
   def save_tag(tag_lists)
@@ -18,4 +20,9 @@ class Post < ApplicationRecord
       self.post_tags << add_tag
     end
   end
+
+  def favorited_by?(user)
+    post_favorites.where(user_id: user.id).exists?
+  end
+
 end

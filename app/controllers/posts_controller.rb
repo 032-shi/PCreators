@@ -23,6 +23,7 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @post_tags = @post.post_tags
+    @post_comment = PostComment.new
   end
 
   def narrowing
