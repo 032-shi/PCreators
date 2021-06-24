@@ -1,13 +1,31 @@
-<h1>画像投稿フォーム</h1>
-<%= form_with model: @post, local:true do |f| %>
-  <h4>タイトル</h4>
-  <%= f.text_field :title %>
-  <h4>画像</h4>
-  <%= f.attachment_field :image %>
-  <h4>説明</h4>
-  <%= f.text_area :body %>
-  <h4>タグ付け</h4>
-  <p>タグの間にスペースを入力することで複数のタグを付けることができます。</p>
-  <%= f.text_field :names %>
-  <%= f.submit '投稿する' %>
-<% end %>
+<div class="container bg-light new-post">
+  <div class="row pt-3 new-post">
+    <div class="col-md-10 offset-md-1 new-post__title">
+      <h3 class="col-md-10 offset-md-1 new-post__title">新規投稿フォーム</h3>
+    </div>
+  </div>
+  <%= form_with model: @post, local:true do |f| %>
+  <div class="row pt-3 post-edit__form">
+    <div class="col-md-3 offset-md-2 post-edit__form__label">タイトル</div>
+    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_field :title, size: 30 %></div>
+  </div>
+  <div class="row pt-3 post-edit__form">
+    <div class="col-md-3 offset-md-2 post-edit__form__label">画像</div>
+    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.attachment_field :image, size: 30 %></div>
+  </div>
+  <div class="row pt-3 post-edit__form">
+    <div class="col-md-3 offset-md-2 post-edit__form__label">内容説明</div>
+    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_area :body, rows:"4", cols:"30" %></div>
+  </div>
+  <div class="row pt-3 post-edit__form">
+    <div class="col-md-3 offset-md-2 post-edit__form__tag">
+      <span class="post-edit__form__tag__label">タグ付け</span>
+      <span class="small post-edit__form__tag__description">(タグの間にスペースを入力することで複数のタグを付けることができます。)</span>
+    </div>
+    <div class="col-md-5 offset-md-1 post-edit__form__label"><%= f.text_field :names, value: @post_tags, size: 30 %></div>
+  </div>
+  <div class="row post-edit__form__actions">
+    <div class="col-md-5 offset-md-2 mt-3 post-edit__form__actions__btn"><%= f.submit '投稿する', class: "btn btn-success" %></div>
+  </div>
+  <% end %>
+</div>

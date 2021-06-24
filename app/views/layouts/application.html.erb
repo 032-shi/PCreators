@@ -19,14 +19,13 @@
           <div class="collapse navbar-collapse justify-content-end" style="margin-right: 10%;">
             <ul class="navbar-nav">
               <% if user_signed_in? %>
-                <li class="nav-item mr-4 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to 'マイページ', user_path(current_user.id), class: "", style: "text-decoration: none; color: black ;" %></li>
-                <li class="nav-item mr-4 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to '新規投稿', new_post_path, class: "", style: "text-decoration: none; color: black ;" %></li>
-                <li class="nav-item mr-4 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to 'PC構成リスト一覧', pc_configurations_path, class: "", style: "text-decoration: none; color: black ;" %></li>
-                <li class="nav-item mr-4 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to 'PC構成リスト作成', draft_configurations_path, class: "", style: "text-decoration: none; color: black ;" %></li>
-                <li class="nav-item mr-4 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "", style: "text-decoration: none; color: black ;" %></li>
+                <li class="nav-item mr-2 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to 'マイページ', user_path(current_user.id), class: "", style: "text-decoration: none; color: black ;" %></li>
+                <li class="nav-item mr-2 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to 'PC構成リスト一覧', pc_configurations_path, class: "", style: "text-decoration: none; color: black ;" %></li>
+                <li class="nav-item mr-2 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to 'PC構成リスト作成', draft_configurations_path, class: "", style: "text-decoration: none; color: black ;" %></li>
+                <li class="nav-item mr-2 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "", style: "text-decoration: none; color: black ;" %></li>
               <% else %>
-                <li class="nav-item mr-4 p-1 " style="width: 90px; text-align:center;"><%= link_to '新規登録', new_user_registration_path, class: "", style: "text-decoration: none; color: black ;" %></li>
-                <li class="nav-item mr-4 p-1 bg-light" style="width: 90px; text-align:center;"><%= link_to 'ログイン', new_user_session_path, class: "", style: "text-decoration: none; color: black ;" %></li>
+                <li class="nav-item mr-2 p-1 " style="width: 90px; text-align:center;"><%= link_to '新規登録', new_user_registration_path, class: "", style: "text-decoration: none; color: black ;" %></li>
+                <li class="nav-item mr-2 p-1 bg-light" style="width: 90px; text-align:center;"><%= link_to 'ログイン', new_user_session_path, class: "", style: "text-decoration: none; color: black ;" %></li>
               <% end %>
             </ul>
           </div>
