@@ -17,7 +17,6 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.all
-    @post_tag_lists = PostTag.all
   end
 
   def show
