@@ -1,53 +1,70 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-10 offset-md-1">
-      <% if @model == "post" %>
-        <h2>"<%= @value %>"の投稿一覧</h2>
-        <table class="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>タイトル</th>
-              <th>内容</th>
-            </tr>
-          </thead>
-        <% @posts.each do |post| %>
-          <tbody>
-            <tr>
-              <td><%= attachment_image_tag post, :image, :fill, 40, 40, fallback: "no_image.jpg", size:'40x40' %></td>
-              <td><%= post.title %></td>
-              <td><%= post.body %></td>
-            </tr>
-          </tbody>
-        <% end %>
-        </table>
-      <% elsif @model == "part" %>
-        <h2>"<%= @value %>"のパーツ一覧</h2>
-        <table class="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>パーツ名</th>
-              <th>参考価格</th>
-            </tr>
-          </thead>
-        <% @part_tags.each do |part_tag| %>
-          <% part_tag.parts.each do |part| %>
-            <tbody>
-              <tr>
-                <td>
-                  <%= link_to part_path(part.id) do %>
-                    <%= image_tag part.image, size: "80x80", :alt => "パーツ画像" %>
-                  <% end %>
-                </td>
-                <td><%= part.name %></td>
-                <td>¥<%= part.price.to_s(:delimited) %></td>
-              </tr>
-            </tbody>
+<% if @model == "post" %>
+<div class="container bg-light search-post-index">
+  <div class="row pt-3 search-post-index">
+    <div class="col-md-12 search-post-index">
+      <h4>"<%= @value %>" の投稿検索一覧</h4>
+    </div>
+  </div>
+  <div class="row pt-2 search-post-index">
+    <div class="search-post-index" style="display: flex; flex-wrap: wrap; justify-content: center;">
+      <% @posts.each do |post| %>
+      <%= link_to post_path(post.id) do %>
+      <div class="search-post-index__content-box p-3">
+        <div class="search-post-index__content-box__image"><%= attachment_image_tag post, :image, fallback: "no_image.jpg", size: "300x200" %></div>
+        <div class="text-dark search-post-index__content-box__title"><%= post.title.truncate(20) %></div>
+        <div class="small text-dark search-post-index__content-box__favorite">♥<%= post.post_favorites.count %>いいね</div>
+        <div class="small text-dark search-post-index__content-box__tag">
+          <% post.post_tags.each do |post_tag| %>
+            <%= link_to post_tag_posts_path(post_tag_id: post_tag.id) do %>
+              <span class="text-secondary pr-2 search-post-index__content-box__tag__name">#<%= post_tag.name %></span>
+            <% end %>
           <% end %>
-        <% end %>
-        </table>
+        </div>
+        <div class="small search-post-index__content-box__user-name">
+          <%= link_to user_path(post.user.id) do %>
+            <div class="text-secondary search-post-index__content-box__user-name__link">ユーザーネーム：<%= post.user.name %></div>
+          <% end %>
+        </div>
+        <div class="small text-dark search-post-index__content-box__created-at">投稿日時：<%= post.created_at.to_s(:datetime_jp) %></div>
+      </div>
+      <% end %>
       <% end %>
     </div>
   </div>
 </div>
+
+<% elsif @model == "part" %>
+<div class="container bg-light search-part-index">
+  <div class="row pt-3 search-part-index">
+    <div class="col-md-12 search-part-index">
+      <h4>"<%= @value %>" のパーツ検索一覧</h4>
+    </div>
+  </div>
+  <% @part_tags.each do |part_tag| %>
+    <% part_tag.parts.each do |part| %>
+      <div class="row pt-3 search-part-index">
+        <div class="col-md-2 search-part-index__image">
+          <%= link_to part_path(part.id) do %>
+            <%= image_tag part.image, size: "80x80", :alt => "パーツ画像" %>
+          <% end %>
+        </div>
+        <div class="col-md-5 d-flex align-items-center search-part-index__name">
+          <%= link_to part_path(part.id) do %>
+            <div class="text-secondary search-part-index__name"><%= part.name %></div>
+          <% end %>
+        </div>
+        <div class="col-md-3 search-part-index__tag" style="display: flex; flex-wrap: wrap;">
+          <% part.part_tags.each do |post_tag| %>
+            <%= link_to part_tag_parts_path(part_tag_id: part_tag.id) do %>
+              <div class="small text-secondary pr-2 search-part-index__tag">#<%= post_tag.name %></div>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="col-md-2 d-flex align-items-center search-part-index__price">¥<%= part.price.to_s(:delimited) %></div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+
+
