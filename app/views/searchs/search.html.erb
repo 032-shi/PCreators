@@ -53,10 +53,10 @@
             <div class="text-secondary search-part-index__name"><%= part.name %></div>
           <% end %>
         </div>
-        <div class="col-md-3 search-part-index__tag" style="display: flex; flex-wrap: wrap;">
-          <% part.part_tags.each do |post_tag| %>
+        <div class="col-md-3 search-part-index__tag" style="display: flex; flex-wrap: wrap; align-items: center;">
+          <% part.part_tags.each do |part_tag| %>
             <%= link_to part_tag_parts_path(part_tag_id: part_tag.id) do %>
-              <div class="small text-secondary pr-2 search-part-index__tag">#<%= post_tag.name %></div>
+              <div class="small text-secondary pr-2 search-part-index__tag">#<%= part_tag.name %></div>
             <% end %>
           <% end %>
         </div>
@@ -64,6 +64,7 @@
       </div>
     <% end %>
   <% end %>
+</div>
 <% end %>
 
 

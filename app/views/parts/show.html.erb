@@ -1,20 +1,25 @@
-<h2>パーツ詳細</h2>
-<%= image_tag @part.image, size: "100x100", :alt => "パーツ画像" %>
-<p>パーツ名：<%= @part.name %></p>
-<p>参考価格：¥<%= @part.price.to_s(:delimited) %></p>
-<p>タグ</p>
-<% @part_tags.each do |part_tag| %>
-  <ul>
-    <li>
-      <%= link_to part_tag_parts_path(part_tag_id: part_tag.id) do %>
-        <%= part_tag.name %>
+<div class="container bg-light part-narrowing">
+  <div class="row pt-3 part-narrowing">
+    <div class="col-md-12 part-narrowing">
+      <h2>パーツ詳細</h2>
+      <%= image_tag @part.image, size: "100x100", :alt => "パーツ画像" %>
+      <p>パーツ名：<%= @part.name %></p>
+      <p>参考価格：¥<%= @part.price.to_s(:delimited) %></p>
+      <p>タグ</p>
+      <% @part_tags.each do |part_tag| %>
+        <ul>
+          <li>
+            <%= link_to part_tag_parts_path(part_tag_id: part_tag.id) do %>
+              <%= part_tag.name %>
+            <% end %>
+          </li>
+        </ul>
       <% end %>
-    </li>
-  </ul>
-<% end %>
-<% if user_signed_in? %>
-  <%= form_with(model:[@part, @draft_configuration], local:true) do |f| %>
-    <%= f.submit "PC構成リストに加える", class: "btn btn-success", style: "width: 140px;" %>
-  <% end %>
-<% end %>
-
+      <% if user_signed_in? %>
+        <%= form_with(model:[@part, @draft_configuration], local:true) do |f| %>
+          <%= f.submit "PC構成リストに加える", class: "btn btn-success", style: "width: 140px;" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
