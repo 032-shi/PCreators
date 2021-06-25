@@ -1,10 +1,27 @@
-<h1>PC構成リスト投稿編集フォーム</h1>
-<%= form_with model: @pc_configuration, local:true do |f| %>
-  <h4>タイトル</h4>
-  <%= f.text_field :title %>
-  <h4>画像</h4>
-  <%= f.attachment_field :image %>
-  <h4>説明</h4>
-  <%= f.text_area :body %>
-  <%= f.submit '変更を保存する' %>
-<% end %>
+<div class="container bg-light post-edit">
+  <div class="row pt-3 post-edit__title">
+    <div class="col-md-10 offset-md-1 post-edit__title">
+      <h4>PC構成リスト投稿編集フォーム</h4>
+    </div>
+  </div>
+  <%= form_with model: @pc_configuration, local:true do |f| %>
+  <div class="row pt-3 post-edit__form">
+    <div class="col-md-3 offset-md-2 post-edit__form__label">タイトル</div>
+    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_field :title, size: 30 %></div>
+  </div>
+  <div class="row mt-2 pt-2 border-top post-edit__form">
+    <div class="col-md-3 offset-md-2 post-edit__form__label">画像</div>
+    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.attachment_field :image %></div>
+  </div>
+  <div class="row pt-3 user-edit__form">
+    <div class="col-md-5 offset-md-6 user-edit__form__image"><%= attachment_image_tag @pc_configuration, :image, fallback: "no_image.jpg", width: '90%', height: '100%'%></div>
+  </div>
+  <div class="row mt-2 pt-2 border-top post-edit__form">
+    <div class="col-md-3 offset-md-2 post-edit__form__label">内容説明</div>
+    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_area :body, rows:"4", cols:"30" %></div>
+  </div>
+  <div class="row mt-2 pt-2 border-top post-edit__form__actions">
+    <div class="col-md-5 offset-md-2 mb-2 post-edit__form__actions__btn"><%= f.submit '変更を保存する', class: "btn btn-success" %></div>
+  </div>
+  <% end %>
+</div>

@@ -1,147 +1,185 @@
-<h2>PC構成リスト投稿詳細</h2>
-<%= attachment_image_tag @pc_configuration, :image, fallback: "no_image.jpg", size: "200x200" %>
-<p>タイトル：<%= @pc_configuration.title %></p>
-<p>説明：<%= @pc_configuration.body %></p>
-<p>ユーザーネーム：<%= @pc_configuration.user.name %></p>
-<p>投稿日時：<%= @pc_configuration.created_at.to_s(:datetime_jp) %></p>
-<% if @pc_configuration.user == current_user %>
-  <%= link_to "PC構成リストを編集する", edit_pc_configuration_path(@pc_configuration) %>
-  <%= link_to "PC構成リストを削除する", pc_configuration_path(@pc_configuration), method: :delete, "data-confirm" => "本当に削除しますか？" %>
-<% end %>
-<table class="table table-bordered">
-  <thead>
-      <tr class="table table-active">
-          <th class="border border-dark", scope="col", style="width: 30%">パーツ名</th>
-          <th class="border border-dark", scope="col", style="width: 15%">数量</th>
-          <th class="border border-dark", scope="col", style="width: 15%">参考価格</th>
-      </tr>
-  </thead>
-  <tbody>
-    <% if @cpu_existing_configuration.nil? %>
-    <% else %>
-    <tr>
-      <td class="border border-dark">
+<div class="container bg-light new-post">
+  <div class="row pt-3 new-post">
+    <div class="col-md-11 offset-md-1 post-index">
+      <h4>PC構成リスト投稿詳細</h4>
+    </div>
+  </div>
+  <div class="row pt-3 new-post">
+    <div class="col-md-12 d-flex justify-content-center post-index">
+      <%= attachment_image_tag @pc_configuration, :image, fallback: "no_image.jpg", width: '70%', height: '90%' %>
+    </div>
+  </div>
+  <div class="row pt-3 new-post">
+    <div class="col-md-12 post-index">
+      タイトル：<%= @pc_configuration.title %>
+    </div>
+  </div>
+  <div class="row pt-3 new-post">
+    <div class="col-md-12 post-index">
+      説明：<%= @pc_configuration.body %>
+    </div>
+  </div>
+  <div class="row pt-3 new-post">
+    <div class="col-md-12 post-index">
+      <%= link_to user_path(@pc_configuration.user.id) do %>
+        <div class="text-secondary">ユーザーネーム：<%= @pc_configuration.user.name %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row pt-3 new-post">
+    <div class="col-md-12 post-index">
+      投稿日時：<%= @pc_configuration.created_at.to_s(:datetime_jp) %>
+    </div>
+  </div>
+  <% if @pc_configuration.user == current_user %>
+  <div class="row pt-3 new-post">
+    <div class="col-md-6 mb-3 d-flex justify-content-center post-index">
+      <%= link_to "PC構成リストを編集する", edit_pc_configuration_path(@pc_configuration), class: "btn btn-primary" %>
+    </div>
+    <div class="col-md-6 mb-3 d-flex justify-content-center post-index">
+      <%= link_to "PC構成リストを削除する", pc_configuration_path(@pc_configuration), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" %>
+    </div>
+  </div>
+  <% end %>
+
+  <% if @cpu_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border post-index">
+      <div class="col-md-9 d-flex align-items-center post-index">
+        <%= image_tag @cpu_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @cpu_existing_configuration.part.name %>
-      </td>
-      <td class="border border-dark">
-        <%= @cpu_existing_configuration.quantity %>
-      </td>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-2 d-flex align-items-center post-index">
         ¥<%= @cpu_existing_configuration.part.price.to_s(:delimited) %>
-      </td>
-    </tr>
-    <% end %>
-    <% if @memory_existing_configuration.nil? %>
-    <% else %>
-    <tr>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-1 d-flex align-items-center post-index">
+        <%= @cpu_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @memory_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border post-index">
+      <div class="col-md-9 d-flex align-items-center post-index">
+        <%= image_tag @memory_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @memory_existing_configuration.part.name %>
-      </td>
-      <td class="border border-dark">
-        <%= @memory_existing_configuration.quantity %>
-      </td>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-2 d-flex align-items-center post-index">
         ¥<%= @memory_existing_configuration.part.price.to_s(:delimited) %>
-      </td>
-    </tr>
-    <% end %>
-    <% if @gpu_existing_configuration.nil? %>
-    <% else %>
-    <tr>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-1 d-flex align-items-center post-index">
+        <%= @memory_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @gpu_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border post-index">
+      <div class="col-md-9 d-flex align-items-center post-index">
+        <%= image_tag @gpu_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @gpu_existing_configuration.part.name %>
-      </td>
-      <td class="border border-dark">
-        <%= @gpu_existing_configuration.quantity %>
-      </td>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-2 d-flex align-items-center post-index">
         ¥<%= @gpu_existing_configuration.part.price.to_s(:delimited) %>
-      </td>
-    </tr>
-    <% end %>
-    <% if @mb_existing_configuration.nil? %>
-    <% else %>
-    <tr>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-1 d-flex align-items-center post-index">
+        <%= @gpu_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @mb_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border post-index">
+      <div class="col-md-9 d-flex align-items-center post-index">
+        <%= image_tag @mb_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @mb_existing_configuration.part.name %>
-      </td>
-      <td class="border border-dark">
-        <%= @mb_existing_configuration.quantity %>
-      </td>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-2 d-flex align-items-center post-index">
         ¥<%= @mb_existing_configuration.part.price.to_s(:delimited) %>
-      </td>
-    </tr>
-    <% end %>
-    <% if @cooler_existing_configuration.nil? %>
-    <% else %>
-    <tr>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-1 d-flex align-items-center post-index">
+        <%= @mb_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @cooler_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border post-index">
+      <div class="col-md-9 d-flex align-items-center post-index">
+        <%= image_tag @cooler_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @cooler_existing_configuration.part.name %>
-      </td>
-      <td class="border border-dark">
-        <%= @cooler_existing_configuration.quantity %>
-      </td>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-2 d-flex align-items-center post-index">
         ¥<%= @cooler_existing_configuration.part.price.to_s(:delimited) %>
-      </td>
-    </tr>
-    <% end %>
-    <% if @case_existing_configuration.nil? %>
-    <% else %>
-    <tr>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-1 d-flex align-items-center post-index">
+        <%= @cooler_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @case_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border post-index">
+      <div class="col-md-9 d-flex align-items-center post-index">
+        <%= image_tag @case_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @case_existing_configuration.part.name %>
-      </td>
-      <td class="border border-dark">
-        <%= @case_existing_configuration.quantity %>
-      </td>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-2 d-flex align-items-center post-index">
         ¥<%= @case_existing_configuration.part.price.to_s(:delimited) %>
-      </td>
-    </tr>
-    <% end %>
-    <% if @power_existing_configuration.nil? %>
-    <% else %>
-    <tr>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-1 d-flex align-items-center post-index">
+        <%= @case_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @power_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border post-index">
+      <div class="col-md-9 d-flex align-items-center post-index">
+        <%= image_tag @power_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @power_existing_configuration.part.name %>
-      </td>
-      <td class="border border-dark">
-        <%= @power_existing_configuration.quantity %>
-      </td>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-2 d-flex align-items-center post-index">
         ¥<%= @power_existing_configuration.part.price.to_s(:delimited) %>
-      </td>
-    </tr>
-    <% end %>
-    <% if @ssd_existing_configuration.nil? %>
-    <% else %>
-    <tr>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-1 d-flex align-items-center post-index">
+        <%= @power_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @ssd_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border post-index">
+      <div class="col-md-9 d-flex align-items-center post-index">
+        <%= image_tag @ssd_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @ssd_existing_configuration.part.name %>
-      </td>
-      <td class="border border-dark">
-        <%= @ssd_existing_configuration.quantity %>
-      </td>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-2 d-flex align-items-center post-index">
         ¥<%= @ssd_existing_configuration.part.price.to_s(:delimited) %>
-      </td>
-    </tr>
-    <% end %>
-    <% if @hdd_existing_configuration.nil? %>
-    <% else %>
-    <tr>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-1 d-flex align-items-center post-index">
+        <%= @ssd_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @hdd_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border post-index">
+      <div class="col-md-9 d-flex align-items-center post-index">
+        <%= image_tag @hdd_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @hdd_existing_configuration.part.name %>
-      </td>
-      <td class="border border-dark">
-        <%= @hdd_existing_configuration.quantity %>
-      </td>
-      <td class="border border-dark">
+      </div>
+      <div class="col-md-2 d-flex align-items-center post-index">
         ¥<%= @hdd_existing_configuration.part.price.to_s(:delimited) %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+      </div>
+      <div class="col-md-1 d-flex align-items-center post-index">
+        <%= @hdd_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <div class="row pt-3 mb-3 post-index">
+    <div class="col-md-12 d-flex justify-content-center post-index">
+      <div class="font-weight-bold">PC構成リスト合計金額　¥<%= @sum_price.to_s(:delimited) %></div>
+    </div>
+  </div>
+</div>

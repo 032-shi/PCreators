@@ -14,14 +14,13 @@
 
   <body>
     <header>
-      <nav class="navbar navbar-expand-sm navbar-dark p-1" style="background-color: #B1F9D0;">
-        <a class="navbar-brand" href="/" style="margin-left: 10%;"><%= image_tag 'logo.png', :size =>'100x50' %></a>
-          <div class="collapse navbar-collapse justify-content-end" style="margin-right: 10%;">
+      <nav class="navbar navbar-expand-sm navbar-dark bg-secondary p-1">
+        <a class="navbar-brand" href="/" style="margin-left: 5%;"><%= image_tag 'logo.png', :size =>'100x50' %></a>
+          <div class="collapse navbar-collapse justify-content-end" style="margin-right: 5%;">
             <ul class="navbar-nav">
               <% if user_signed_in? %>
                 <li class="nav-item mr-2 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to 'マイページ', user_path(current_user.id), class: "", style: "text-decoration: none; color: black ;" %></li>
                 <li class="nav-item mr-2 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to 'PC構成リスト一覧', pc_configurations_path, class: "", style: "text-decoration: none; color: black ;" %></li>
-                <li class="nav-item mr-2 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to 'PC構成リスト作成', draft_configurations_path, class: "", style: "text-decoration: none; color: black ;" %></li>
                 <li class="nav-item mr-2 p-1 bg-light" style="width: 110px; text-align:center;"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "", style: "text-decoration: none; color: black ;" %></li>
               <% else %>
                 <li class="nav-item mr-2 p-1 " style="width: 90px; text-align:center;"><%= link_to '新規登録', new_user_registration_path, class: "", style: "text-decoration: none; color: black ;" %></li>

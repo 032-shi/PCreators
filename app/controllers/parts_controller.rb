@@ -1,6 +1,5 @@
 class PartsController < ApplicationController
   def index
-    @parts = Part.all
   end
 
   def narrowing
@@ -13,4 +12,5 @@ class PartsController < ApplicationController
     @part_tags = @part.part_tags
     @draft_configuration = DraftConfiguration.new
   end
+
 end

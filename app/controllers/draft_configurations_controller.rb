@@ -2,7 +2,9 @@ class DraftConfigurationsController < ApplicationController
 
   def index
     existing_configurations = current_user.draft_configurations.all
+    sum = 0
     existing_configurations.each do |existing_configuration|
+      sum += existing_configuration.part.price * existing_configuration.quantity
       existing_part_tags = set_existing_part_tag(existing_configuration)
       if existing_part_tags.any? { |w| w == "CPU" }
         @cpu_existing_configuration = existing_configuration
@@ -24,6 +26,7 @@ class DraftConfigurationsController < ApplicationController
         @hdd_existing_configuration = existing_configuration
       end
     end
+    @sum_price = sum
   end
 
   def create

@@ -6,8 +6,10 @@ class PcConfigurationsController < ApplicationController
 
   def show
     @pc_configuration = PcConfiguration.find(params[:id])
+    sum = 0
     existing_configurations = @pc_configuration.part_configurations.all
     existing_configurations.each do |existing_configuration|
+      sum += existing_configuration.part.price * existing_configuration.quantity
       existing_part_tags = set_existing_part_tag(existing_configuration)
       if existing_part_tags.any? { |w| w == "CPU" }
         @cpu_existing_configuration = existing_configuration
@@ -29,12 +31,15 @@ class PcConfigurationsController < ApplicationController
         @hdd_existing_configuration = existing_configuration
       end
     end
+    @sum_price = sum
   end
 
   def new
     @pc_configuration = current_user.pc_configurations.new
+    sum = 0
     existing_configurations = current_user.draft_configurations.all
     existing_configurations.each do |existing_configuration|
+      sum += existing_configuration.part.price * existing_configuration.quantity
       part_id = existing_configuration.part_id
       part = Part.find_by(id: part_id)
       existing_part_tags = []
@@ -61,6 +66,7 @@ class PcConfigurationsController < ApplicationController
         @hdd_existing_configuration = existing_configuration
       end
     end
+    @sum_price = sum
   end
 
   def create
