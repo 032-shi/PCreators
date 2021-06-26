@@ -11,8 +11,7 @@ class User < ApplicationRecord
   has_many :pc_configurations, dependent: :destroy
   attachment :profile_image
 
-  #VALID_PASSWORD_REGEX = /\A[a-zA-Z0-9]+\z/ #半角英数字をセット
-  validates :encrypted_password, presence: true,length: {minimum: 6}#,format: {with: VALID_PASSWORD_REGEX}
+  validates :encrypted_password, length: {minimum: 6}
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
 

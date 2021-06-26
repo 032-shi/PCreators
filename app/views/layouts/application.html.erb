@@ -25,12 +25,12 @@
             <div class="navbar-nav text-center ml-auto">
               <% if user_signed_in? %>
                 <div class="nav-item d-flex align-items-center justify-content-center"><%= link_to 'マイページ', user_path(current_user.id), class: "my-1 mr-1 p-1 text-secondary", style: "text-decoration: none; background-color: #DDDDDD;" %></div>
-                <div class="nav-item my-1 mr-1 p-1" style="background-color: #DDDDDD;"><%= link_to 'PCパーツ一覧', parts_path, class: "text-secondary", style: "text-decoration: none;" %></div>
-                <div class="nav-item my-1 mr-1 p-1" style="background-color: #DDDDDD;"><%= link_to 'PC構成リスト一覧', pc_configurations_path, class: "text-secondary", style: "text-decoration: none;" %></div>
-                <div class="nav-item my-1 mr-1 p-1" style="background-color: #DDDDDD;"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "text-secondary", style: "text-decoration: none;" %></div>
+                <div class="nav-item d-flex align-items-center justify-content-center"><%= link_to 'PCパーツ一覧', parts_path, class: "my-1 mr-1 p-1 text-secondary", style: "text-decoration: none; background-color: #DDDDDD;" %></div>
+                <div class="nav-item d-flex align-items-center justify-content-center"><%= link_to 'PC構成リスト一覧', pc_configurations_path, class: "my-1 mr-1 p-1 text-secondary", style: "text-decoration: none; background-color: #DDDDDD;" %></div>
+                <div class="nav-item d-flex align-items-center justify-content-center"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "my-1 mr-1 p-1 text-secondary", style: "text-decoration: none; background-color: #DDDDDD;" %></div>
               <% else %>
-                <li class="nav-item my-1 mr-1 p-1" style="background-color: #DDDDDD;"><%= link_to '新規登録', new_user_registration_path, class: "text-secondary", style: "text-decoration: none;" %></li>
-                <li class="nav-item my-1 mr-1 p-1" style="background-color: #DDDDDD;"><%= link_to 'ログイン', new_user_session_path, class: "text-secondary", style: "text-decoration: none;" %></li>
+                <div class="nav-item d-flex align-items-center justify-content-center"><%= link_to '新規登録', new_user_registration_path, class: "my-1 mr-1 p-1 text-secondary", style: "text-decoration: none; background-color: #DDDDDD;" %></div>
+                <div class="nav-item d-flex align-items-center justify-content-center"><%= link_to 'ログイン', new_user_session_path, class: "my-1 mr-1 p-1 text-secondary", style: "text-decoration: none; background-color: #DDDDDD;" %></div>
               <% end %>
             </div>
           </div>
@@ -46,7 +46,17 @@
         <% end %>
       </div>
     </div>
-
     <main><%= yield %></main>
+    <footer>
+      <div class='bg-secondary p-4 mt-3'>
+        <div class='container'>
+          <div class='row'>
+            <div class="mx-auto">
+              <div class="text-light">CopyRight Infratop.inc</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

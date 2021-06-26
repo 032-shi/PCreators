@@ -10,8 +10,12 @@ class PostCommentsController < ApplicationController
   def destroy
     @post = Post.find(params[:post_id])
     @post_comment = PostComment.find(params[:id])
-    @post_comment.destroy
-    render :index
+    if @post_comment.user_id != current_user.id #コメントを入力したユーザー以外は、投稿一覧へ遷移させる
+      redirect_to posts_path
+    else
+      @post_comment.destroy
+      render :index
+    end
   end
 
   private

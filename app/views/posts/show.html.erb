@@ -6,7 +6,7 @@
   </div>
   <div class="row pt-3 post-show__left">
     <div class="col-md-7 post-show__left">
-      <div class="mb-2 post-show__left__image"><%= attachment_image_tag @post, :image, fallback: "no_image.jpg", width: '90%', height: '90%' %></div>
+      <div class="mb-2 d-flex justify-content-center post-show__left__image"><%= attachment_image_tag @post, :image, fallback: "no_image.jpg", width: '90%', height: '90%' %></div>
       <div class="mb-2 post-show__left__title">タイトル：<%= @post.title %></div>
       <div class="mb-2 post-show__left__body">説明：<%= @post.body %></div>
       <% if @post_tags.present? %> <!--タグ付けの有無を判定して表示を切り替える-->
@@ -14,7 +14,7 @@
       <div class="d-flex flex-row post-show__left__tag__name">
         <% @post_tags.each do |post_tag| %>
           <%= link_to post_tag_posts_path(post_tag_id: post_tag.id) do %>
-            <div class="mb-2 text-secondary pr-2 post-show__left__tag__name__link">#<%= post_tag.name %><%= post_tag.posts.count %></div>
+            <div class="mb-2 text-secondary pr-2 post-show__left__tag__name__link">#<%= post_tag.name %></div>
           <% end %>
         <% end %>
       </div>

@@ -40,6 +40,7 @@ class DraftConfigurationsController < ApplicationController
     if existing_draft_tags.any? { |w| w == send_draft_tag }
       @part = Part.find(params[:part_id])
       @part_tags = @part.part_tags
+      flash[:notice] = "他のパーツをPC構成リストに追加しましょう。"
       redirect_to part_path(params[:part_id])
     else
       @draft_configuration.save

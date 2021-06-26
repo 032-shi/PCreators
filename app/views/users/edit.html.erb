@@ -5,6 +5,11 @@
     </div>
   </div>
   <%= form_with model:@user, local:true do |f| %>
+  <div class="row new-post">
+    <div class="col-md-11 offset-md-1 new-post__title">
+      <%= render 'layouts/error_messages', model: f.object %>
+    </div>
+  </div>
   <div class="row pt-3 user-edit__form">
     <div class="col-md-3 offset-md-2 user-edit__form__label">タイトル</div>
     <div class="col-md-5 offset-md-1 user-edit__form__field"><%= f.text_field :name, autofocus: true, placeholder:"ユーザー名", size: 30%></div>
