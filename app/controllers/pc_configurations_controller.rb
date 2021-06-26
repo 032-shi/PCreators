@@ -1,4 +1,5 @@
 class PcConfigurationsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @pc_configurations = PcConfiguration.all

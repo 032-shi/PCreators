@@ -1,4 +1,5 @@
 class DraftConfigurationsController < ApplicationController
+  before_action :authenticate_user!
 
   def index
     existing_configurations = current_user.draft_configurations.all

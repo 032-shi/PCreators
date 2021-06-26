@@ -11,17 +11,21 @@
       <div>自己紹介</div>
       <div><%= @user.introduction %></div>
     </div>
-    <% if @user.id == current_user.id %>
-    <div class="col-md-3 user-show__actions">
-      <%= link_to "プロフィール編集", edit_user_path(@user), class: "btn btn-sm btn-primary", style: "font-size: small;" %>
-    </div>
+    <% if user_signed_in? %>
+      <% if @user.id == current_user.id %>
+      <div class="col-md-3 user-show__actions">
+        <%= link_to "プロフィール編集", edit_user_path(@user), class: "btn btn-sm btn-primary", style: "font-size: small;" %>
+      </div>
+      <% end %>
     <% end %>
   </div>
-  <% if @user.id == current_user.id %>
-  <div class="row pt-3 user-show__post-action">
-    <div class="col-md-4 offset-md-2 mb-2 user-show__post-action_new-btn--new-post"><%= link_to "新規投稿画面へ", new_post_path, class: "btn btn-info", style: "font-size: small;" %></div>
-    <div class="col-md-4 offset-md-1 mb-2 user-show__post-action_new-btn--new-configuration"><%= link_to "PC構成リスト作成画面へ", draft_configurations_path, class: "btn btn-info", style: "font-size: small;" %></div>
-  </div>
+  <% if user_signed_in? %>
+    <% if @user.id == current_user.id %>
+    <div class="row pt-3 user-show__post-action">
+      <div class="col-md-4 offset-md-2 mb-2 user-show__post-action_new-btn--new-post"><%= link_to "新規投稿画面へ", new_post_path, class: "btn btn-info", style: "font-size: small;" %></div>
+      <div class="col-md-4 offset-md-1 mb-2 user-show__post-action_new-btn--new-configuration"><%= link_to "PC構成リスト作成画面へ", draft_configurations_path, class: "btn btn-info", style: "font-size: small;" %></div>
+    </div>
+    <% end %>
   <% end %>
 
   <div class="row pt-3 user-show__post">

@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show, :narrowing]
 
   def new
     @post = current_user.posts.new
