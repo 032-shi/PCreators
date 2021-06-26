@@ -36,31 +36,31 @@
 <% elsif @model == "part" %>
 <div class="container bg-light search-part-index">
   <div class="row pt-3 search-part-index">
-    <div class="col-md-12 search-part-index">
+    <div class="col-md-11 offset-md-1 search-part-index">
       <h4>"<%= @value %>" のパーツ検索一覧</h4>
     </div>
   </div>
   <% @part_tags.each do |part_tag| %>
     <% part_tag.parts.each do |part| %>
       <div class="row pt-3 search-part-index">
-        <div class="col-md-2 search-part-index__image">
+        <div class="col-md-2 d-flex justify-content-center search-part-index__image">
           <%= link_to part_path(part.id) do %>
             <%= image_tag part.image, size: "80x80", :alt => "パーツ画像" %>
           <% end %>
         </div>
-        <div class="col-md-5 d-flex align-items-center search-part-index__name">
+        <div class="col-md-5 d-flex align-items-center justify-content-center search-part-index__name">
           <%= link_to part_path(part.id) do %>
             <div class="text-secondary search-part-index__name"><%= part.name %></div>
           <% end %>
         </div>
-        <div class="col-md-3 search-part-index__tag" style="display: flex; flex-wrap: wrap; align-items: center;">
+        <div class="col-md-3 search-part-index__tag" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
           <% part.part_tags.each do |part_tag| %>
             <%= link_to part_tag_parts_path(part_tag_id: part_tag.id) do %>
               <div class="small text-secondary pr-2 search-part-index__tag">#<%= part_tag.name %></div>
             <% end %>
           <% end %>
         </div>
-        <div class="col-md-2 d-flex align-items-center search-part-index__price">¥<%= part.price.to_s(:delimited) %></div>
+        <div class="col-md-2 d-flex align-items-center justify-content-center search-part-index__price">¥<%= part.price.to_s(:delimited) %></div>
       </div>
     <% end %>
   <% end %>

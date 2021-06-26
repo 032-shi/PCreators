@@ -1,31 +1,33 @@
 <div class="container bg-light part-show">
   <div class="row pt-3 part-show">
-    <div class="col-md-12 part-show__title">
+    <div class="col-md-11 offset-md-1 part-show__title">
       <h4 class="part-show__title">"<%= @part.name %>" 詳細</h4>
     </div>
   </div>
   <div class="row pt-3 pb-3 part-show">
-    <div class="col-md-5 mr-3 part-show__image">
-      <%= image_tag @part.image, size: "300x200", :alt => "パーツ画像" %>
+    <div class="col-md-5 mr-3 d-flex justify-content-center align-items-center part-show__image">
+      <%= image_tag @part.image, width: '90%', height: '90%', :alt => "パーツ画像" %>
     </div>
-    <div class="col-md-5 part-show__content">
-      <div class="part-show__content__name">パーツ名：<%= @part.name %></div>
-      <div class="part-show__content__price">参考価格：¥<%= @part.price.to_s(:delimited) %></div>
-      <div>関連タグ</div>
-      <div class="d-flex flex-wrap part-show__content__tag">
-        <% @part_tags.each do |part_tag| %>
-          <%= link_to part_tag_parts_path(part_tag_id: part_tag.id) do %>
-            <div class="text-secondary pr-2 part-show__content__tag__link">#<%= part_tag.name %></div>
+    <div class="col-md-5 d-flex justify-content-center align-items-center part-show__content">
+      <div class="part-show__content--box">
+        <div class="part-show__content__name">パーツ名：<%= @part.name %></div>
+        <div class="part-show__content__price">参考価格：¥<%= @part.price.to_s(:delimited) %></div>
+        <div>関連タグ</div>
+        <div class="d-flex flex-wrap part-show__content__tag">
+          <% @part_tags.each do |part_tag| %>
+            <%= link_to part_tag_parts_path(part_tag_id: part_tag.id) do %>
+              <div class="text-secondary pr-2 part-show__content__tag__link">#<%= part_tag.name %></div>
+            <% end %>
           <% end %>
+        </div>
+        <% if user_signed_in? %>
+        <div class="mt-3 part-show__content__actions">
+          <%= form_with(model:[@part, @draft_configuration], local:true) do |f| %>
+            <div class="part-show__content__actions__btn"><%= f.submit "PC構成リストに加える", class: "btn btn-success" %></div>
+          <% end %>
+        </div>
         <% end %>
       </div>
-      <% if user_signed_in? %>
-      <div class="mt-3 part-show__content__actions">
-        <%= form_with(model:[@part, @draft_configuration], local:true) do |f| %>
-          <div class="part-show__content__actions__btn"><%= f.submit "PC構成リストに加える", class: "btn btn-success" %></div>
-        <% end %>
-      </div>
-      <% end %>
     </div>
   </div>
 </div>

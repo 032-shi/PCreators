@@ -1,1 +1,72 @@
-<h3>パーツ一覧</h3>
+<div class="container bg-light post-index">
+  <div class="row pt-2 post-index">
+    <div class="col-md-11 offset-md-1 post-index">
+      <h4>パーツリンク一覧</h4>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center post-index">
+    <div class="col-md-3 py-2 mb-2 mx-2 text-center post-index" style="background-color: #DDDDDD;">
+      <%= link_to part_tag_parts_path(1) do %>
+        <div class="text-secondary">CPU</div>
+      <% end %>
+    </div>
+    <div class="col-md-3 py-2 mb-2 mx-2 text-center post-index" style="background-color: #DDDDDD;">
+      <%= link_to part_tag_parts_path(14) do %>
+        <div class="text-secondary">メモリー</div>
+      <% end %>
+    </div>
+    <div class="col-md-3 py-2 mb-2 mx-2 text-center post-index" style="background-color: #DDDDDD;">
+      <%= link_to part_tag_parts_path(25) do %>
+        <div class="text-secondary">グラフィックボード</div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center post-index">
+    <div class="col-md-3 py-2 mb-2 mx-2 text-center post-index" style="background-color: #DDDDDD;">
+      <%= link_to part_tag_parts_path(48) do %>
+        <div class="text-secondary">マザーボード</div>
+      <% end %>
+    </div>
+    <div class="col-md-3 py-2 mb-2 mx-2 text-center post-index" style="background-color: #DDDDDD;">
+      <%= link_to part_tag_parts_path(109) do %>
+        <div class="text-secondary">CPUクーラー</div>
+      <% end %>
+    </div>
+    <div class="col-md-3 py-2 mb-2 mx-2 text-center post-index" style="background-color: #DDDDDD;">
+      <%= link_to part_tag_parts_path(65) do %>
+        <div class="text-secondary">PCケース</div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center post-index">
+    <div class="col-md-3 py-2 mb-2 mx-2 text-center post-index" style="background-color: #DDDDDD;">
+      <%= link_to part_tag_parts_path(86) do %>
+        <div class="text-secondary">PC電源</div>
+      <% end %>
+    </div>
+    <div class="col-md-3 py-2 mb-2 mx-2 text-center post-index" style="background-color: #DDDDDD;">
+      <%= link_to part_tag_parts_path(121) do %>
+        <div class="text-secondary">SSD</div>
+      <% end %>
+    </div>
+    <div class="col-md-3 py-2 mb-2 mx-2 text-center post-index" style="background-color: #DDDDDD;">
+      <%= link_to part_tag_parts_path(141) do %>
+        <div class="text-secondary">HDD</div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row pt-2 post-index">
+    <div class="col-md-12 d-flex justify-content-center post-index">
+      <div id="image-container">
+        <div id="theTarget">
+          <div class="image1"></div>
+          <div class="image2"></div>
+          <div class="image3"></div>
+          <div class="image4"></div>
+          <div class="image5"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
