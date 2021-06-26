@@ -1,18 +1,18 @@
 <div class="container bg-light user-show">
-  <div class="row pt-3 user-show">
+  <div class="row pt-3 d-flex align-items-center user-show">
     <div class="col-md-1 small user-show__profile-image">
-      <%= attachment_image_tag @user, :profile_image, fallback: "no_image.jpg", size: "40x40",style: "border-radius: 50%;" %>
+      <%= attachment_image_tag @user, :profile_image, fallback: "no_image.jpg", size: "50x50",style: "border-radius: 50%;" %>
     </div>
-    <div class="col-md-3 small user-show__name">
+    <div class="col-md-2 mb-2 small user-show__name">
       <div>ユーザーネーム</div>
       <div><%= @user.name %></div>
     </div>
-    <div class="col-md-6 small user-show__introduction">
+    <div class="col-md-6 mb-2 small user-show__introduction">
       <div>自己紹介</div>
       <div><%= @user.introduction %></div>
     </div>
     <% if @user.id == current_user.id %>
-    <div class="col-md-2 user-show__actions">
+    <div class="col-md-3 user-show__actions">
       <%= link_to "プロフィール編集", edit_user_path(@user), class: "btn btn-sm btn-primary", style: "font-size: small;" %>
     </div>
     <% end %>

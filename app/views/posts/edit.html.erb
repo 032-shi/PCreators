@@ -1,7 +1,7 @@
 <div class="container bg-light post-edit">
   <div class="row pt-3 post-edit__title">
     <div class="col-md-10 offset-md-1 post-edit__title">
-      <h3 class="post-edit__title">投稿編集フォーム</h3>
+      <h4 class="post-edit__title">投稿編集フォーム</h4>
     </div>
   </div>
   <%= form_with model: @post, local:true do |f| %>
@@ -9,23 +9,26 @@
     <div class="col-md-3 offset-md-2 post-edit__form__label">タイトル</div>
     <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_field :title, size: 30 %></div>
   </div>
-  <div class="row pt-3 post-edit__form">
+  <div class="row mt-2 pt-2 border-top post-edit__form">
     <div class="col-md-3 offset-md-2 post-edit__form__label">画像</div>
-    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.attachment_field :image, size: 30 %></div>
+    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.attachment_field :image %></div>
   </div>
-  <div class="row pt-3 post-edit__form">
+  <div class="row pt-3 user-edit__form">
+    <div class="col-md-5 offset-md-6 user-edit__form__image"><%= attachment_image_tag @post, :image, fallback: "no_image.jpg", width: '90%', height: '100%'%></div>
+  </div>
+  <div class="row mt-2 pt-2 border-top post-edit__form">
     <div class="col-md-3 offset-md-2 post-edit__form__label">内容説明</div>
     <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_area :body, rows:"4", cols:"30" %></div>
   </div>
-  <div class="row pt-3 post-edit__form">
+  <div class="row mt-2 pt-2 border-top post-edit__form">
     <div class="col-md-3 offset-md-2 post-edit__form__tag">
       <span class="post-edit__form__tag__label">タグ付け</span>
       <span class="small post-edit__form__tag__description">(タグの間にスペースを入力することで複数のタグを付けることができます。)</span>
     </div>
     <div class="col-md-5 offset-md-1 post-edit__form__label"><%= f.text_field :names, value: @post_tags, size: 30 %></div>
   </div>
-  <div class="row post-edit__form__actions">
-    <div class="col-md-5 offset-md-2 mt-3 post-edit__form__actions__btn"><%= f.submit '変更を保存する', class: "btn btn-success" %></div>
+  <div class="row mt-2 pt-2 border-top post-edit__form__actions">
+    <div class="col-md-5 offset-md-2 mb-2 post-edit__form__actions__btn"><%= f.submit '変更を保存する', class: "btn btn-success" %></div>
   </div>
   <% end %>
 </div>

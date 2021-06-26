@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :parts, only: [:index, :show] do
    resources :draft_configurations, only: [:create]
   end
+
   resources :draft_configurations, only: [:index, :update, :destroy]
   resources :pc_configurations
 
