@@ -14,7 +14,7 @@
       <div class="d-flex flex-row post-show__left__tag__name">
         <% @post_tags.each do |post_tag| %>
           <%= link_to post_tag_posts_path(post_tag_id: post_tag.id) do %>
-            <div class="mb-2 text-secondary pr-2 post-show__left__tag__name__link">#<%= post_tag.name %><%= post_tag.posts.count %></div>
+            <div class="mb-2 text-secondary pr-2 post-show__left__tag__name__link">#<%= post_tag.name %></div>
           <% end %>
         <% end %>
       </div>

@@ -6,6 +6,9 @@ class Post < ApplicationRecord
   has_many :post_favorites, dependent: :destroy
   attachment :image
 
+  validates :title, presence: true
+  validates :body, presence: true
+
   def save_tag(tag_lists)
     current_tags = self.post_tags.pluck(:name) unless self.post_tags.nil?
     old_tags = current_tags - tag_lists #既存のタグから登録するタグを除き、残ったタグを抽出

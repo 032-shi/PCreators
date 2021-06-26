@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   root to: 'posts#index'
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations',
+  }
+  devise_scope :user do
+    get '/users', to: 'devise/registrations#new'
+  end
   resources :posts do
     resources :post_comments, only: [:create, :destroy]
     resource :post_favorites, only: [:create, :destroy]

@@ -4,6 +4,11 @@
       <h3 class="user_login__title__content">ログイン</h3>
     </div>
   </div>
+  <div class="row pt-3 user_login">
+    <div class="col-md-11 offset-md-1 user_login__title">
+      <div class="text-danger"><%= alert %></div>
+    </div>
+  </div>
   <%= form_with model: @user, url: user_session_path, local: true do |f| %>
   <div class="row user_login__email-field">
     <%= render "devise/shared/error_messages", resource: resource %>
