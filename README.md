@@ -21,7 +21,6 @@
 - 自作PCのエラー情報の共有
 
 ## 設計書
-ER図や詳細設計書を掲載予定
 [ER図](https://drive.google.com/file/d/1VPB_UAAJ_H8pfzYRLd6EXvTILOXYD4I5/view?usp=sharing)
 
 ## チャレンジ要素一覧
