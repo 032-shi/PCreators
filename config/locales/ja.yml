@@ -8,6 +8,9 @@ ja:
       post:
         title: タイトル
         body: 説明文
+      pc_configuration:
+        title: タイトル
+        body: 説明文
 
     errors:
       messages:

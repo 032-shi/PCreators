@@ -6,9 +6,14 @@
     </div>
   </div>
   <%= form_with model: @pc_configuration, local:true do |f| %>
+  <div class="row new-post">
+    <div class="col-md-11 offset-md-1 new-post__title">
+      <%= render 'layouts/error_messages', model: f.object %>
+    </div>
+  </div>
   <div class="row pt-3 post-edit__form">
     <div class="col-md-3 offset-md-2 post-edit__form__label">タイトル</div>
-    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_field :title, size: 30 %></div>
+    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_field :title, size: 30, placeholder:"タイトルを入力して下さい。" %></div>
   </div>
   <div class="row pt-3 post-edit__form">
     <div class="col-md-3 offset-md-2 post-edit__form__label">画像</div>
@@ -16,7 +21,7 @@
   </div>
   <div class="row pt-3 post-edit__form">
     <div class="col-md-3 offset-md-2 post-edit__form__label">内容説明</div>
-    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_area :body, rows:"4", cols:"30" %></div>
+    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_area :body, rows:"4", cols:"30", placeholder:"説明文を入力して下さい。" %></div>
   </div>
 
   <% if @cpu_existing_configuration.nil? %>

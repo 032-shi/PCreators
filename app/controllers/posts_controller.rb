@@ -71,7 +71,7 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     if @post.user_id != current_user.id #投稿したユーザー以外は、投稿一覧へ遷移させる
-      redirect_to  posts_path
+      redirect_to posts_path
     else
       @post.destroy
       redirect_to posts_path

@@ -4,6 +4,13 @@
       <h4 class="part-show__title">"<%= @part.name %>" 詳細</h4>
     </div>
   </div>
+  <div class="row part-show">
+    <div class="col-md-11 offset-md-1 part-show__title">
+      <% if flash[:notice] %>
+        <div class="text-danger"><%= flash[:notice] %></div>
+      <% end %>
+    </div>
+  </div>
   <div class="row pt-3 pb-3 part-show">
     <div class="col-md-5 mr-3 d-flex justify-content-center align-items-center part-show__image">
       <%= image_tag @part.image, width: '90%', height: '90%', :alt => "パーツ画像" %>
