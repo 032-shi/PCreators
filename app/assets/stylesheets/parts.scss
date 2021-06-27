@@ -5,8 +5,9 @@
   height: 45vmin;
   width: 85%;
 }
+//以下、デプロイに伴い"url"を"image-url"に変更実施
 .image1 {
-  background-image: image-url(image1.jpg); //以下、デプロイに伴い"url"を"image-url"に変更実施
+  background-image: image-url(image1.jpg);
 }
 .image2 {
   background-image: image-url(image2.jpg);
