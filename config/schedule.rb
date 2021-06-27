@@ -8,6 +8,6 @@ set :environment, rails_env
 # cronのログの吐き出し場所。ここでエラー内容を確認する
 set :output, "#{Rails.root}/log/cron.log"
 
-every 1.day, at: '11:45 am' do #日本時間では+9時間になる
+every 1.day, at: '1:45 pm' do #日本時間では+9時間になる
   runner "Batch::ScrapingBatch.scrapeBatch"
 end
