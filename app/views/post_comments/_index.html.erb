@@ -1,0 +1,14 @@
+<% post.post_comments.each do |post_comment| %>
+<div class="mb-3">
+  <div><%= post_comment.comment %></div>
+  <div class="d-flex d-inline-flex">
+    <%= link_to user_path(post.user_id) do %>
+    <span><%= attachment_image_tag post.user, :profile_image, :fill, 40, 40, format: 'jpeg', fallback: "no_image.jpg", size: "40x40",style: "border-radius: 50%;" %></span>
+    <span class="text-secondary"><%= post.user.name %></span>
+    <% end %>
+  </div>
+  <% if post_comment.user == current_user %>
+    <div><%= link_to "コメント削除", post_post_comment_path(post_comment.post_id, post_comment.id), method: :delete, remote: true, class: "btn btn-sm btn-danger" %></div>
+  <% end %>
+</div>
+<% end %>

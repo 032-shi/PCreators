@@ -1,17 +1,33 @@
-<h2>ログイン</h2>
-
-<%= form_with model: @user, url: user_session_path, local: true do |f| %>
-  <div class="field">
-    <p>メールアドレス<br><%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "○○○○@example.com" %></p>
+<div class="container bg-light user_login">
+  <div class="row pt-3 user_login">
+    <div class="col-md-10 offset-md-1 user_login__title">
+      <h3 class="user_login__title__content">ログイン</h3>
+    </div>
   </div>
-
-  <div class="field">
-    <p>パスワード<br><%= f.password_field :password, autocomplete: "current-password" %></p>
+  <div class="row pt-3 user_login">
+    <div class="col-md-11 offset-md-1 user_login__title">
+      <div class="text-danger"><%= alert %></div>
+    </div>
   </div>
-
-  <div class="actions">
-    <%= f.submit "ログイン" %>
+  <%= form_with model: @user, url: user_session_path, local: true do |f| %>
+  <div class="row user_login__email-field">
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <p class="col-md-3 offset-md-2 user_login__email-field__label">メールアドレス</p>
+    <div class="col-md-5 offset-md-1 mb-4 user_login__email-field__field"><%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "○○○○@example.com", size: 30 %></div>
   </div>
-<% end %>
+  <div class="row user_login__password-field">
+    <p class="col-md-3 offset-md-2 user_login__password-field__label">パスワード</p>
+    <div class="col-md-5 offset-md-1 mb-4 user_login__password-field__field"><%= f.password_field :password, autocomplete: "current-password", size: 30 %></div>
+  </div>
+  <div class="row user_login__actions">
+    <div class="col-md-5 offset-md-2 user_login__actions__btn"><%= f.submit "ログイン", class: "btn btn-success" %></div>
+  </div>
+  <% end %>
+  <div class="row mt-5 user_login__link">
+    <p class="col-md-10 offset-md-2 user_login__link__text">アカウント未登録の方は、以下のボタンからユーザー登録してください。</p>
+  </div>
+  <div class="row pb-3 user_login__link">
+    <div class="col-md-4 offset-md-2 user_login__link__btn"><%= render "devise/shared/links" %></div>
+  </div>
+</div>
 
-<%= render "devise/shared/links" %>

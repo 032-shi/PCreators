@@ -2,7 +2,12 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :post_tag_maps, dependent: :destroy
   has_many :post_tags, through: :post_tag_maps
+  has_many :post_comments, dependent: :destroy
+  has_many :post_favorites, dependent: :destroy
   attachment :image
+
+  validates :title, presence: true
+  validates :body, presence: true
 
   def save_tag(tag_lists)
     current_tags = self.post_tags.pluck(:name) unless self.post_tags.nil?
@@ -18,4 +23,9 @@ class Post < ApplicationRecord
       self.post_tags << add_tag
     end
   end
+
+  def favorited_by?(user)
+    post_favorites.where(user_id: user.id).exists?
+  end
+
 end

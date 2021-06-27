@@ -1,0 +1,2 @@
+module DraftConfigurationsHelper
+end

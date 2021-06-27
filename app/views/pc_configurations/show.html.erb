@@ -1,0 +1,185 @@
+<div class="container bg-light pc-configuration-show">
+  <div class="row pt-3 pc-configuration-show">
+    <div class="col-md-11 offset-md-1 pc-configuration-show__title">
+      <h4>PC構成リスト投稿詳細</h4>
+    </div>
+  </div>
+  <div class="row pt-3 pc-configuration-show">
+    <div class="col-sm-12 col-md-6 offset-md-3 d-flex justify-content-center align-items-center pc-configuration-show__image">
+      <%= attachment_image_tag @pc_configuration, :image, fallback: "no_image.jpg", width: '70%', height: '100%' %>
+    </div>
+  </div>
+  <div class="row pt-3 pc-configuration-show">
+    <div class="col-md-12 pc-configuration-show__title">
+      タイトル：<%= @pc_configuration.title %>
+    </div>
+  </div>
+  <div class="row pt-3 pc-configuration-show">
+    <div class="col-md-12 pc-configuration-show__body">
+      説明：<%= @pc_configuration.body %>
+    </div>
+  </div>
+  <div class="row pt-3 pc-configuration-show">
+    <div class="col-md-12 pc-configuration-show__name">
+      <%= link_to user_path(@pc_configuration.user.id) do %>
+        <div class="text-secondary">ユーザーネーム：<%= @pc_configuration.user.name %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row pt-3 pc-configuration-show">
+    <div class="col-md-12 pc-configuration-show__created-at">
+      投稿日時：<%= @pc_configuration.created_at.to_s(:datetime_jp) %>
+    </div>
+  </div>
+  <% if @pc_configuration.user == current_user %>
+  <div class="row pt-3 pc-configuration-show__actions">
+    <div class="col-md-6 mb-3 d-flex justify-content-center pc-configuration-show__actions__btn--edit">
+      <%= link_to "PC構成リストを編集する", edit_pc_configuration_path(@pc_configuration), class: "btn btn-primary" %>
+    </div>
+    <div class="col-md-6 mb-3 d-flex justify-content-center pc-configuration-show__actions__btn--delete">
+      <%= link_to "PC構成リストを削除する", pc_configuration_path(@pc_configuration), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" %>
+    </div>
+  </div>
+  <% end %>
+
+  <% if @cpu_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border pc-configuration-show__cpu">
+      <div class="col-md-9 d-flex align-items-center pc-configuration-show__cpu__image">
+        <%= image_tag @cpu_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+        <%= @cpu_existing_configuration.part.name %>
+      </div>
+      <div class="col-md-2 d-flex align-items-center pc-configuration-show__cpu__price">
+        ¥<%= @cpu_existing_configuration.part.price.to_s(:delimited) %>
+      </div>
+      <div class="col-md-1 d-flex align-items-center pc-configuration-show__cpu__quantity">
+        <%= @cpu_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @memory_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border pc-configuration-show__mamory">
+      <div class="col-md-9 d-flex align-items-center pc-configuration-show__mamory__image">
+        <%= image_tag @memory_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+        <%= @memory_existing_configuration.part.name %>
+      </div>
+      <div class="col-md-2 d-flex align-items-center pc-configuration-show__mamory__price">
+        ¥<%= @memory_existing_configuration.part.price.to_s(:delimited) %>
+      </div>
+      <div class="col-md-1 d-flex align-items-center pc-configuration-show__mamory__quantity">
+        <%= @memory_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @gpu_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border pc-configuration-show__gpu">
+      <div class="col-md-9 d-flex align-items-center pc-configuration-show__gpu__image">
+        <%= image_tag @gpu_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+        <%= @gpu_existing_configuration.part.name %>
+      </div>
+      <div class="col-md-2 d-flex align-items-center pc-configuration-show__gpu__price">
+        ¥<%= @gpu_existing_configuration.part.price.to_s(:delimited) %>
+      </div>
+      <div class="col-md-1 d-flex align-items-center pc-configuration-show__gpu__quantity">
+        <%= @gpu_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @mb_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border pc-configuration-show__mb">
+      <div class="col-md-9 d-flex align-items-center pc-configuration-show__mb__image">
+        <%= image_tag @mb_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+        <%= @mb_existing_configuration.part.name %>
+      </div>
+      <div class="col-md-2 d-flex align-items-center pc-configuration-show__mb__price">
+        ¥<%= @mb_existing_configuration.part.price.to_s(:delimited) %>
+      </div>
+      <div class="col-md-1 d-flex align-items-center pc-configuration-show__mb__quantity">
+        <%= @mb_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @cooler_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border pc-configuration-show__cooler">
+      <div class="col-md-9 d-flex align-items-center pc-configuration-show__cooler__image">
+        <%= image_tag @cooler_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+        <%= @cooler_existing_configuration.part.name %>
+      </div>
+      <div class="col-md-2 d-flex align-items-center pc-configuration-show__cooler__price">
+        ¥<%= @cooler_existing_configuration.part.price.to_s(:delimited) %>
+      </div>
+      <div class="col-md-1 d-flex align-items-center pc-configuration-show__cooler__quantity">
+        <%= @cooler_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @case_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border pc-configuration-show__case">
+      <div class="col-md-9 d-flex align-items-center pc-configuration-show__case__image">
+        <%= image_tag @case_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+        <%= @case_existing_configuration.part.name %>
+      </div>
+      <div class="col-md-2 d-flex align-items-center pc-configuration-show__case__price">
+        ¥<%= @case_existing_configuration.part.price.to_s(:delimited) %>
+      </div>
+      <div class="col-md-1 d-flex align-items-center pc-configuration-show__case__quantity">
+        <%= @case_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @power_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border pc-configuration-show__power">
+      <div class="col-md-9 d-flex align-items-center pc-configuration-show__power__image">
+        <%= image_tag @power_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+        <%= @power_existing_configuration.part.name %>
+      </div>
+      <div class="col-md-2 d-flex align-items-center pc-configuration-show__power__price">
+        ¥<%= @power_existing_configuration.part.price.to_s(:delimited) %>
+      </div>
+      <div class="col-md-1 d-flex align-items-center pc-configuration-show__power__quantity">
+        <%= @power_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @ssd_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border pc-configuration-show__ssd">
+      <div class="col-md-9 d-flex align-items-center pc-configuration-show__ssd__image">
+        <%= image_tag @ssd_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+        <%= @ssd_existing_configuration.part.name %>
+      </div>
+      <div class="col-md-2 d-flex align-items-center pc-configuration-show__ssd__price">
+        ¥<%= @ssd_existing_configuration.part.price.to_s(:delimited) %>
+      </div>
+      <div class="col-md-1 d-flex align-items-center pc-configuration-show__ssd__quantity">
+        <%= @ssd_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <% if @hdd_existing_configuration.nil? %>
+  <% else %>
+    <div class="row pt-2 pb-2 border pc-configuration-show__hdd">
+      <div class="col-md-9 d-flex align-items-center pc-configuration-show__hdd__image">
+        <%= image_tag @hdd_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+        <%= @hdd_existing_configuration.part.name %>
+      </div>
+      <div class="col-md-2 d-flex align-items-center pc-configuration-show__hdd__price">
+        ¥<%= @hdd_existing_configuration.part.price.to_s(:delimited) %>
+      </div>
+      <div class="col-md-1 d-flex align-items-center pc-configuration-show__hdd__quantity">
+        <%= @hdd_existing_configuration.quantity %>個
+      </div>
+    </div>
+  <% end %>
+  <div class="row pt-3 mb-3 pc-configuration-show__sum">
+    <div class="col-md-12 d-flex justify-content-center pc-configuration-show__sum">
+      <div class="font-weight-bold">PC構成リスト合計金額　¥<%= @sum_price.to_s(:delimited) %></div>
+    </div>
+  </div>
+</div>

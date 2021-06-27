@@ -1,0 +1,25 @@
+<div class="container bg-light pc_configuration-index">
+  <div class="row pt-2 pc_configuration-index">
+    <div class="col-md-11 offset-md-1 pc_configuration-index__title">
+      <h4 class="pc_configuration-index__title">PC構成リスト投稿一覧</h4>
+    </div>
+  </div>
+  <div class="row pt-2 pc_configuration-index">
+    <div class="pc_configuration-index__content-box" style="display: flex; flex-wrap: wrap; justify-content: center;">
+      <% @pc_configurations.each do |pc_configuration| %>
+      <%= link_to pc_configuration_path(pc_configuration.id) do %>
+      <div class="pc_configuration-index__content-box p-3">
+        <div class="pc_configuration-index__content-box__image"><%= attachment_image_tag pc_configuration, :image, fallback: "no_image.jpg", size: "300x200" %></div>
+        <div class="text-dark pc_configuration-index__content-box__title"><%= pc_configuration.title.truncate(20) %></div>
+        <div class="small pc_configuration-index__content-box__user-name">
+          <%= link_to user_path(pc_configuration.user.id) do %>
+            <div class="text-secondary pc_configuration-index__content-box__user-name__link">ユーザーネーム：<%= pc_configuration.user.name %></div>
+          <% end %>
+        </div>
+        <div class="small text-dark pc_configuration-index__content-box__created-at">投稿日時：<%= pc_configuration.created_at.to_s(:datetime_jp) %></div>
+      </div>
+      <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

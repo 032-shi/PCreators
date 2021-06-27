@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_15_013000) do
+ActiveRecord::Schema.define(version: 2021_06_23_015122) do
+
+  create_table "draft_configurations", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "part_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "part_configurations", force: :cascade do |t|
+    t.integer "pc_configuration_id"
+    t.integer "part_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "part_tag_maps", force: :cascade do |t|
     t.integer "part_id"
@@ -35,6 +51,30 @@ ActiveRecord::Schema.define(version: 2021_06_15_013000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "pc_configurations", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "title"
+    t.string "image_id"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "post_comments", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "post_id"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "post_favorites", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "post_tag_maps", force: :cascade do |t|
     t.integer "post_id"
     t.integer "post_tag_id"
@@ -54,7 +94,7 @@ ActiveRecord::Schema.define(version: 2021_06_15_013000) do
     t.integer "user_id"
     t.string "title"
     t.string "image_id"
-    t.string "body"
+    t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

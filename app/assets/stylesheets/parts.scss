@@ -1,3 +1,22 @@
 // Place all the styles related to the parts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#image-container{
+  height: 45vmin;
+  width: 85%;
+}
+.image1 {
+  background-image: image-url(image1.jpg); //以下、デプロイに伴い"url"を"image-url"に変更実施
+}
+.image2 {
+  background-image: image-url(image2.jpg);
+}
+.image3 {
+  background-image: image-url(image3.jpg);
+}
+.image4 {
+  background-image: image-url(image4.jpg);
+}
+.image5 {
+  background-image: image-url(image5.jpg);
+}

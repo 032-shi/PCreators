@@ -1,6 +1,7 @@
 class Part < ApplicationRecord
   has_many :part_tag_maps, dependent: :destroy
   has_many :part_tags, through: :part_tag_maps
+  has_many :draft_configurations, dependent: :destroy
   require 'mechanize'
 
   def self.part_scrape
@@ -28,11 +29,11 @@ class Part < ApplicationRecord
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
         part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
-        part.cpu_tagsave(name_element.inner_text, manufacturer_element.inner_text, part)
+        part.cpu_tagsave(name_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
         part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
-        part.cpu_tagsave(name_element.inner_text, manufacturer_element.inner_text, part)
+        part.cpu_tagsave(name_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
   end
@@ -49,11 +50,11 @@ class Part < ApplicationRecord
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
         part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
-        part.memory_tagsave(name_element.inner_text, manufacturer_element.inner_text, part)
+        part.memory_tagsave(name_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
         part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
-        part.memory_tagsave(name_element.inner_text, manufacturer_element.inner_text, part)
+        part.memory_tagsave(name_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
   end
@@ -71,11 +72,11 @@ class Part < ApplicationRecord
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
         part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
-        part.gpu_tagsave(spec_element.inner_text, manufacturer_element.inner_text, part)
+        part.gpu_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
         part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
-        part.gpu_tagsave(spec_element.inner_text, manufacturer_element.inner_text, part)
+        part.gpu_tagsave(spec_element.inner_text, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
   end
@@ -115,11 +116,11 @@ class Part < ApplicationRecord
       if Part.exists?(name: name_element.inner_text) #パーツ名でDBとマッチングを行い、保存済みか確認
         part = Part.find_by(name: name_element.inner_text)
         part.part_update(price_element.inner_text, image_element.get_attribute(:src), part)
-        part.case_tagsave(spec_element.inner_text.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}, manufacturer_element.inner_text, part)
+        part.case_tagsave(spec_element.inner_text.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       else
         part = Part.new
         part.new_partsave(name_element.inner_text, price_element.inner_text, image_element, part)
-        part.case_tagsave(spec_element.inner_text.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}, manufacturer_element.inner_text, part)
+        part.case_tagsave(spec_element.inner_text.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}, manufacturer_element.inner_text.gsub(/　| /){""}, part)
       end
     end
   end
@@ -361,5 +362,6 @@ class Part < ApplicationRecord
       self.part_tags << add_tag
     end
   end
+
 
 end
