@@ -5,8 +5,8 @@
     </div>
   </div>
   <%= form_with model: @post, local:true do |f| %>
-  <div class="row new-post">
-    <div class="col-md-11 offset-md-1 new-post__title">
+  <div class="row post-edit">
+    <div class="col-md-11 offset-md-1 post-edit__messages">
       <%= render 'layouts/error_messages', model: f.object %>
     </div>
   </div>

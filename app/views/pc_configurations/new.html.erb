@@ -1,185 +1,184 @@
 <% if DraftConfiguration.exists?(user_id: current_user.id) %>
-<div class="container bg-light post-index">
-  <div class="row pt-3 new-post">
-    <div class="col-md-10 offset-md-1 new-post__title">
+<div class="container bg-light new-pc_configuration">
+  <div class="row pt-3 new-pc_configuration">
+    <div class="col-md-10 offset-md-1 new-pc_configuration__title">
       <h4>PC構成リスト投稿フォーム</h4>
     </div>
   </div>
   <%= form_with model: @pc_configuration, local:true do |f| %>
-  <div class="row new-post">
-    <div class="col-md-11 offset-md-1 new-post__title">
+  <div class="row new-pc_configuration">
+    <div class="col-md-11 offset-md-1 new-pc_configuration__messages">
       <%= render 'layouts/error_messages', model: f.object %>
     </div>
   </div>
-  <div class="row pt-3 post-edit__form">
-    <div class="col-md-3 offset-md-2 post-edit__form__label">タイトル</div>
-    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_field :title, size: 30, placeholder:"タイトルを入力して下さい。" %></div>
+  <div class="row pt-3 new-pc_configuration__form">
+    <div class="col-md-3 offset-md-2 new-pc_configuration__form__label">タイトル</div>
+    <div class="col-md-5 offset-md-1 new-pc_configuration__form__field"><%= f.text_field :title, size: 30, placeholder:"タイトルを入力して下さい。" %></div>
   </div>
   <div class="row pt-3 post-edit__form">
-    <div class="col-md-3 offset-md-2 post-edit__form__label">画像</div>
-    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.attachment_field :image %></div>
+    <div class="col-md-3 offset-md-2 new-pc_configuration__form__label">画像</div>
+    <div class="col-md-5 offset-md-1 new-pc_configuration__form__field"><%= f.attachment_field :image %></div>
   </div>
   <div class="row pt-3 post-edit__form">
-    <div class="col-md-3 offset-md-2 post-edit__form__label">内容説明</div>
-    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_area :body, rows:"4", cols:"30", placeholder:"説明文を入力して下さい。" %></div>
+    <div class="col-md-3 offset-md-2 new-pc_configuration__form__label">内容説明</div>
+    <div class="col-md-5 offset-md-1 new-pc_configuration__form__field"><%= f.text_area :body, rows:"4", cols:"30", placeholder:"説明文を入力して下さい。" %></div>
   </div>
 
   <% if @cpu_existing_configuration.nil? %>
   <% else %>
-    <div class="row pt-2 pb-2 border post-index">
-      <div class="col-md-9 d-flex align-items-center post-index">
+    <div class="row pt-2 pb-2 border new-pc_configuration__cpu">
+      <div class="col-md-9 d-flex align-items-center new-pc_configuration__cpu__image">
         <%= image_tag @cpu_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @cpu_existing_configuration.part.name %>
       </div>
-      <div class="col-md-2 d-flex align-items-center post-index">
+      <div class="col-md-2 d-flex align-items-center new-pc_configuration__cpu__price">
         ¥<%= @cpu_existing_configuration.part.price.to_s(:delimited) %>
       </div>
-      <div class="col-md-1 d-flex align-items-center post-index">
+      <div class="col-md-1 d-flex align-items-center new-pc_configuration__cpu__quantity">
         <%= @cpu_existing_configuration.quantity %>個
       </div>
     </div>
   <% end %>
   <% if @memory_existing_configuration.nil? %>
   <% else %>
-    <div class="row pt-2 pb-2 border post-index">
-      <div class="col-md-9 d-flex align-items-center post-index">
+    <div class="row pt-2 pb-2 border new-pc_configuration__memory">
+      <div class="col-md-9 d-flex align-items-center new-pc_configuration__memory__image">
         <%= image_tag @memory_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @memory_existing_configuration.part.name %>
       </div>
-      <div class="col-md-2 d-flex align-items-center post-index">
+      <div class="col-md-2 d-flex align-items-center new-pc_configuration__memory__price">
         ¥<%= @memory_existing_configuration.part.price.to_s(:delimited) %>
       </div>
-      <div class="col-md-1 d-flex align-items-center post-index">
+      <div class="col-md-1 d-flex align-items-center new-pc_configuration__memory__quantity">
         <%= @memory_existing_configuration.quantity %>個
       </div>
     </div>
   <% end %>
   <% if @gpu_existing_configuration.nil? %>
   <% else %>
-    <div class="row pt-2 pb-2 border post-index">
-      <div class="col-md-9 d-flex align-items-center post-index">
+    <div class="row pt-2 pb-2 border new-pc_configuration__gpu">
+      <div class="col-md-9 d-flex align-items-center new-pc_configuration__gpu__image">
         <%= image_tag @gpu_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @gpu_existing_configuration.part.name %>
       </div>
-      <div class="col-md-2 d-flex align-items-center post-index">
+      <div class="col-md-2 d-flex align-items-center new-pc_configuration__gpu__price">
         ¥<%= @gpu_existing_configuration.part.price.to_s(:delimited) %>
       </div>
-      <div class="col-md-1 d-flex align-items-center post-index">
+      <div class="col-md-1 d-flex align-items-center new-pc_configuration__gpu__quantity">
         <%= @gpu_existing_configuration.quantity %>個
       </div>
     </div>
   <% end %>
   <% if @mb_existing_configuration.nil? %>
   <% else %>
-    <div class="row pt-2 pb-2 border post-index">
-      <div class="col-md-9 d-flex align-items-center post-index">
+    <div class="row pt-2 pb-2 border new-pc_configuration__mb">
+      <div class="col-md-9 d-flex align-items-center new-pc_configuration__mb__image">
         <%= image_tag @mb_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @mb_existing_configuration.part.name %>
       </div>
-      <div class="col-md-2 d-flex align-items-center post-index">
+      <div class="col-md-2 d-flex align-items-center new-pc_configuration__mb__price">
         ¥<%= @mb_existing_configuration.part.price.to_s(:delimited) %>
       </div>
-      <div class="col-md-1 d-flex align-items-center post-index">
+      <div class="col-md-1 d-flex align-items-center new-pc_configuration__mb__quantity">
         <%= @mb_existing_configuration.quantity %>個
       </div>
     </div>
   <% end %>
   <% if @cooler_existing_configuration.nil? %>
   <% else %>
-    <div class="row pt-2 pb-2 border post-index">
-      <div class="col-md-9 d-flex align-items-center post-index">
+    <div class="row pt-2 pb-2 border new-pc_configuration__cooler">
+      <div class="col-md-9 d-flex align-items-center new-pc_configuration__cooler__image">
         <%= image_tag @cooler_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @cooler_existing_configuration.part.name %>
       </div>
-      <div class="col-md-2 d-flex align-items-center post-index">
+      <div class="col-md-2 d-flex align-items-center new-pc_configuration__cooler__price">
         ¥<%= @cooler_existing_configuration.part.price.to_s(:delimited) %>
       </div>
-      <div class="col-md-1 d-flex align-items-center post-index">
+      <div class="col-md-1 d-flex align-items-center new-pc_configuration__cooler__quantity">
         <%= @cooler_existing_configuration.quantity %>個
       </div>
     </div>
   <% end %>
   <% if @case_existing_configuration.nil? %>
   <% else %>
-    <div class="row pt-2 pb-2 border post-index">
-      <div class="col-md-9 d-flex align-items-center post-index">
+    <div class="row pt-2 pb-2 border new-pc_configuration__case">
+      <div class="col-md-9 d-flex align-items-center new-pc_configuration__case__image">
         <%= image_tag @case_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @case_existing_configuration.part.name %>
       </div>
-      <div class="col-md-2 d-flex align-items-center post-index">
+      <div class="col-md-2 d-flex align-items-center new-pc_configuration__case__price">
         ¥<%= @case_existing_configuration.part.price.to_s(:delimited) %>
       </div>
-      <div class="col-md-1 d-flex align-items-center post-index">
+      <div class="col-md-1 d-flex align-items-center new-pc_configuration__case__quantity">
         <%= @case_existing_configuration.quantity %>個
       </div>
     </div>
   <% end %>
   <% if @power_existing_configuration.nil? %>
   <% else %>
-    <div class="row pt-2 pb-2 border post-index">
-      <div class="col-md-9 d-flex align-items-center post-index">
+    <div class="row pt-2 pb-2 border new-pc_configuration__power">
+      <div class="col-md-9 d-flex align-items-center new-pc_configuration__power__image">
         <%= image_tag @power_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @power_existing_configuration.part.name %>
       </div>
-      <div class="col-md-2 d-flex align-items-center post-index">
+      <div class="col-md-2 d-flex align-items-center new-pc_configuration__power__price">
         ¥<%= @power_existing_configuration.part.price.to_s(:delimited) %>
       </div>
-      <div class="col-md-1 d-flex align-items-center post-index">
+      <div class="col-md-1 d-flex align-items-center new-pc_configuration__power__quantity">
         <%= @power_existing_configuration.quantity %>個
       </div>
     </div>
   <% end %>
   <% if @ssd_existing_configuration.nil? %>
   <% else %>
-    <div class="row pt-2 pb-2 border post-index">
-      <div class="col-md-9 d-flex align-items-center post-index">
+    <div class="row pt-2 pb-2 border new-pc_configuration__ssd">
+      <div class="col-md-9 d-flex align-items-center new-pc_configuration__ssd__image">
         <%= image_tag @ssd_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @ssd_existing_configuration.part.name %>
       </div>
-      <div class="col-md-2 d-flex align-items-center post-index">
+      <div class="col-md-2 d-flex align-items-center new-pc_configuration__ssd__price">
         ¥<%= @ssd_existing_configuration.part.price.to_s(:delimited) %>
       </div>
-      <div class="col-md-1 d-flex align-items-center post-index">
+      <div class="col-md-1 d-flex align-items-center new-pc_configuration__ssd__quantity">
         <%= @ssd_existing_configuration.quantity %>個
       </div>
     </div>
   <% end %>
   <% if @hdd_existing_configuration.nil? %>
   <% else %>
-    <div class="row pt-2 pb-2 border post-index">
-      <div class="col-md-9 d-flex align-items-center post-index">
+    <div class="row pt-2 pb-2 border new-pc_configuration__hdd">
+      <div class="col-md-9 d-flex align-items-center new-pc_configuration__hdd__image">
         <%= image_tag @hdd_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
         <%= @hdd_existing_configuration.part.name %>
       </div>
-      <div class="col-md-2 d-flex align-items-center post-index">
+      <div class="col-md-2 d-flex align-items-center new-pc_configuration__hdd__price">
         ¥<%= @hdd_existing_configuration.part.price.to_s(:delimited) %>
       </div>
-      <div class="col-md-1 d-flex align-items-center post-index">
+      <div class="col-md-1 d-flex align-items-center new-pc_configuration__hdd__quantity">
         <%= @hdd_existing_configuration.quantity %>個
       </div>
     </div>
   <% end %>
-  <div class="row pt-3 post-index">
-    <div class="col-md-12 d-flex justify-content-center post-index">
+  <div class="row pt-3 new-pc_configuration__sum">
+    <div class="col-md-12 d-flex justify-content-center new-pc_configuration__sum">
       <div>PC構成リスト合計金額　¥<%= @sum_price.to_s(:delimited) %></div>
     </div>
   </div>
 
-
-  <div class="row pt-3 post-index">
-    <div class="col-md-6 mb-2 d-flex justify-content-center post-index">
+  <div class="row pt-3 new-pc_configuration__actions">
+    <div class="col-md-6 mb-2 d-flex justify-content-center new-pc_configuration__actions__btn--draft_configuration">
       <div><%= link_to "PC構成リストの編集画面へ戻る", draft_configurations_path, class: "btn btn-primary" %></div>
     </div>
-    <div class="col-md-6 mb-2 d-flex justify-content-center post-index">
+    <div class="col-md-6 mb-2 d-flex justify-content-center new-pc_configuration__actions__btn--post-pc_configuration">
       <div><%= f.submit "PC構成リストを投稿する", class: "btn btn-success" %></div>
     </div>
   </div>
   <% end %> <!--form_withのエンド-->
 </div>
 <% else %>
-<div class="container bg-light post-index">
-  <div class="row pt-3 new-post">
-    <div class="col-md-10 offset-md-1 new-post__title">
+<div class="container bg-light new-pc_configuration">
+  <div class="row pt-3 new-pc_configuration">
+    <div class="col-md-10 offset-md-1 new-pc_configuration__none">
       <h4>PC構成リストを作りましょう</h4>
     </div>
   </div>

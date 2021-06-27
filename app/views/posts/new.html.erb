@@ -6,31 +6,31 @@
   </div>
   <%= form_with model: @post, local:true do |f| %>
   <div class="row new-post">
-    <div class="col-md-11 offset-md-1 new-post__title">
+    <div class="col-md-11 offset-md-1 new-post__messages">
       <%= render 'layouts/error_messages', model: f.object %>
     </div>
   </div>
-  <div class="row pt-3 post-edit__form">
-    <div class="col-md-3 offset-md-2 post-edit__form__label">タイトル</div>
-    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_field :title, placeholder:"タイトルを入力して下さい。", size: 30 %></div>
+  <div class="row pt-3 new-post__form">
+    <div class="col-md-3 offset-md-2 new-post__form__label">タイトル</div>
+    <div class="col-md-5 offset-md-1 new-post__form__field"><%= f.text_field :title, placeholder:"タイトルを入力して下さい。", size: 30 %></div>
   </div>
-  <div class="row mt-2 pt-2 border-top post-edit__form">
-    <div class="col-md-3 offset-md-2 post-edit__form__label">画像</div>
-    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.attachment_field :image %></div>
+  <div class="row mt-2 pt-2 border-top new-post__form">
+    <div class="col-md-3 offset-md-2 new-post__form__label">画像</div>
+    <div class="col-md-5 offset-md-1 new-post__form__field"><%= f.attachment_field :image %></div>
   </div>
-  <div class="row mt-2 pt-2 border-top post-edit__form">
-    <div class="col-md-3 offset-md-2 post-edit__form__label">内容説明</div>
-    <div class="col-md-5 offset-md-1 post-edit__form__field"><%= f.text_area :body, placeholder:"説明文を入力して下さい。", rows:"4", cols:"30" %></div>
+  <div class="row mt-2 pt-2 border-top new-post__form">
+    <div class="col-md-3 offset-md-2 new-post__form__label">内容説明</div>
+    <div class="col-md-5 offset-md-1 new-post__form__field"><%= f.text_area :body, placeholder:"説明文を入力して下さい。", rows:"4", cols:"30" %></div>
   </div>
-  <div class="row mt-2 pt-2 border-top post-edit__form">
-    <div class="col-md-3 offset-md-2 post-edit__form__tag">
-      <span class="post-edit__form__tag__label">タグ付け</span>
-      <span class="small post-edit__form__tag__description">(タグの間にスペースを入力することで複数のタグを付けることができます。)</span>
+  <div class="row mt-2 pt-2 border-top new-post__form">
+    <div class="col-md-3 offset-md-2 new-post__form__tag">
+      <span class="new-post__form__tag__label">タグ付け</span>
+      <span class="small new-post__form__tag__description">(タグの間にスペースを入力することで複数のタグを付けることができます。)</span>
     </div>
-    <div class="col-md-5 offset-md-1 post-edit__form__label"><%= f.text_field :names, placeholder:"例：CPU　ゲーミング", size: 30 %></div>
+    <div class="col-md-5 offset-md-1 new-post__form__label"><%= f.text_field :names, placeholder:"例：CPU　ゲーミング", size: 30 %></div>
   </div>
-  <div class="row mt-2 pt-2 border-top post-edit__form__actions">
-    <div class="col-md-5 offset-md-2 mb-2 post-edit__form__actions__btn"><%= f.submit '投稿する', class: "btn btn-success" %></div>
+  <div class="row mt-2 pt-2 border-top new-post__form__actions">
+    <div class="col-md-5 offset-md-2 mb-2 new-post__form__actions__btn"><%= f.submit '投稿する', class: "btn btn-success" %></div>
   </div>
   <% end %>
 </div>
