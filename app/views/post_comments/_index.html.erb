@@ -2,9 +2,9 @@
 <div class="mb-3">
   <div><%= post_comment.comment %></div>
   <div class="d-flex d-inline-flex">
-    <%= link_to user_path(post.user_id) do %>
-    <span><%= attachment_image_tag post.user, :profile_image, :fill, 40, 40, format: 'jpeg', fallback: "no_image.jpg", size: "40x40",style: "border-radius: 50%;" %></span>
-    <span class="text-secondary"><%= post.user.name %></span>
+    <%= link_to user_path(post_comment.user_id) do %>
+    <span><%= attachment_image_tag post_comment.user, :profile_image, :fill, 40, 40, format: 'jpeg', fallback: "no_image.jpg", size: "40x40",style: "border-radius: 50%;" %></span>
+    <span class="text-secondary"><%= post_comment.user.name %></span>
     <% end %>
   </div>
   <% if post_comment.user == current_user %>

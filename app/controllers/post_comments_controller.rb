@@ -3,8 +3,15 @@ class PostCommentsController < ApplicationController
     @post = Post.find(params[:post_id])
     @post_comment = current_user.post_comments.new(post_comment_params)
     @post_comment.post_id = @post.id
-    @post_comment.save
-    render :index
+    if @post_comment.user_id != current_user.id #コメントを入力したユーザー以外は、投稿一覧へ遷移させる
+      redirect_to posts_path
+    else
+      if @post_comment.save
+        render :index
+      else
+        redirect_to post_path(@post.id)
+      end
+    end
   end
 
   def destroy
