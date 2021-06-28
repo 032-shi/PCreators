@@ -23,7 +23,12 @@
           <% end %>
         <% end %>
       </div>
-      <div class="col-md-2 d-flex align-items-center d-flex justify-content-center part-narrowing__price">¥<%= part.price.to_s(:delimited) %></div>
+      <div class="col-md-2 d-flex align-items-center justify-content-center part-narrowing__price">¥<%= part.price.to_s(:delimited) %></div>
     </div>
   <% end %>
+  <div class="row pt-3 part-narrowing">
+    <div class="col-md-12 d-flex justify-content-center part-narrowing__paginate">
+      <%= paginate @parts %>
+    </div>
+  </div>
 </div>
