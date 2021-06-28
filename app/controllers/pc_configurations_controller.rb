@@ -2,7 +2,7 @@ class PcConfigurationsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @pc_configurations = PcConfiguration.all
+    @pc_configurations = PcConfiguration.order("created_at DESC").page(params[:page]).per(9)
   end
 
   def show
