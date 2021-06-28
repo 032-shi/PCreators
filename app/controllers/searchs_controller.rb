@@ -15,7 +15,7 @@ class SearchsController < ApplicationController
         @posts += Post.where("title LIKE ?", "%#{keyword}%").or(Post.where("body LIKE ?", "%#{keyword}%"))
       end
       @posts.uniq!
-      @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(3)
+      @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(9)
     elsif model == 'part'
       keywords = value.split(/[[:blank:]]+/).select(&:present?)
       part_tags = []

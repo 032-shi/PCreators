@@ -27,9 +27,8 @@ class PostsController < ApplicationController
   end
 
   def narrowing
-    @post_tag_lists = PostTag.all
     @post_tag = PostTag.find(params[:post_tag_id])
-    @posts = @post_tag.posts.all
+    @posts = @post_tag.posts.order("created_at DESC").page(params[:page]).per(9)
   end
 
   def edit

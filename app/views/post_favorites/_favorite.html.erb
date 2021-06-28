@@ -8,4 +8,6 @@
       <span class="text-primary">♡ </span><span class="text-secondary"><%= post.post_favorites.count %>いいね</span>
     <% end %>
   <% end %>
+<% else %>
+  ♥<%= post.post_favorites.count %>いいね
 <% end %>
