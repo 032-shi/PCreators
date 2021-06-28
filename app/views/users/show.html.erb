@@ -52,7 +52,10 @@
         </div>
         <% end %>
       </div>
-    <% end %>
+      <% end %>
+      <div class="d-flex justify-content-center user-show__post__paginate">
+        <%= paginate @posts, param_name: 'posts_page' %>
+      </div>
     </div>
     <div class="col-md-6 user-show__pc-configuration">
       <div class="mt-3 d-flex justify-content-center user-show__pc-configuration__title">
@@ -70,6 +73,9 @@
         <% end %>
       </div>
       <% end %>
+      <div class="d-flex justify-content-center user-show__pc-configuration__paginate">
+        <%= paginate @pc_configurations, param_name: 'pc_configurations_page' %>
+      </div>
     </div>
   </div>
 </div>

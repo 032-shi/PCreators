@@ -31,6 +31,11 @@
       <% end %>
     </div>
   </div>
+  <div class="row pt-3 search-post-index">
+    <div class="col-md-12 d-flex justify-content-center search-post-index__paginate">
+      <%= paginate @posts %>
+    </div>
+  </div>
 </div>
 
 <% elsif @model == "part" %>
@@ -40,8 +45,8 @@
       <h4>"<%= @value %>" のパーツ検索一覧</h4>
     </div>
   </div>
-  <% @part_tags.each do |part_tag| %>
-    <% part_tag.parts.each do |part| %>
+
+    <% @parts.each do |part| %>
       <div class="row pt-3 search-part-index">
         <div class="col-md-2 d-flex justify-content-center search-part-index__image">
           <%= link_to part_path(part.id) do %>
@@ -63,7 +68,12 @@
         <div class="col-md-2 d-flex align-items-center justify-content-center search-part-index__price">¥<%= part.price.to_s(:delimited) %></div>
       </div>
     <% end %>
-  <% end %>
+
+  <div class="row pt-3 search-part-index">
+    <div class="col-md-12 d-flex justify-content-center search-part-index__paginate">
+      <%= paginate @parts %>
+    </div>
+  </div>
 </div>
 <% end %>
 
