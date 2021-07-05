@@ -29,7 +29,11 @@
       <% end %>
     </div>
     <div class="col-md-5 post-show__right">
-      <div class="post-show__right__user-name">ユーザーネーム：<%= @post.user.name %></div>
+      <div class="post-show__right__user-name">
+        <%= link_to user_path(@post.user.id) do %>
+          <div class="text-secondary post-show__right__user-name--link">ユーザーネーム：<%= @post.user.name %></div>
+        <% end %>
+      </div>
       <div class="post-show__right__created-at">投稿日時：<%= @post.created_at.to_s(:datetime_jp) %></div>
       <div class="d-flex flex-row mb-4 post-show__right__comment-favorite">
         <div id="post_<%= @post.id %>">
