@@ -1,5 +1,5 @@
-<% post.post_comments.each do |post_comment| %>
-<div class="mb-3">
+<% post.post_comments.each_with_index do |post_comment, i| %>
+<div class="py-2 border-top">
   <div><%= post_comment.comment %></div>
   <div class="d-flex d-inline-flex">
     <%= link_to user_path(post_comment.user_id) do %>
@@ -7,6 +7,15 @@
     <span class="text-secondary"><%= post_comment.user.name %></span>
     <% end %>
   </div>
+  <% if i == post.post_comments.size - 1 %>
+    <% if post_comment.user == current_user and post_comment.score > 0 %>
+      <div class="d-flex inline-block">
+      <%= link_to user_path(post.user_id) do %>
+        <div class="text-info">"<%= post.user.name %>"さんの他の投稿を見てみる</div>
+      <% end %>
+      </div>
+    <% end %>
+  <% end %>
   <% if post_comment.user == current_user %>
     <div><%= link_to "コメント削除", post_post_comment_path(post_comment.post_id, post_comment.id), method: :delete, remote: true, class: "btn btn-sm btn-danger" %></div>
   <% end %>
