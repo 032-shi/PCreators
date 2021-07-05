@@ -1,5 +1,5 @@
 <% post.post_comments.each_with_index do |post_comment, i| %>
-<div class="mb-3">
+<div class="py-2 border-top">
   <div><%= post_comment.comment %></div>
   <div class="d-flex d-inline-flex">
     <%= link_to user_path(post_comment.user_id) do %>
