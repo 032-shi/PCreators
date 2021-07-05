@@ -8,6 +8,9 @@
     <% end %>
   </div>
   <% if post_comment.user == current_user %>
+    <div><%= post_comment.score %></div>
+  <% end %>
+  <% if post_comment.user == current_user %>
     <div><%= link_to "コメント削除", post_post_comment_path(post_comment.post_id, post_comment.id), method: :delete, remote: true, class: "btn btn-sm btn-danger" %></div>
   <% end %>
 </div>
