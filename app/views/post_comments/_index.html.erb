@@ -8,7 +8,7 @@
     <% end %>
   </div>
   <% if i == post.post_comments.size - 1 %>
-    <% if post_comment.user == current_user and post_comment.score > 0 %>
+    <% if post_comment.user == current_user && post_comment.score > 0 %>
       <div class="d-flex inline-block">
       <%= link_to user_path(post.user_id) do %>
         <div class="text-info">"<%= post.user.name %>"さんの他の投稿を見てみる</div>
