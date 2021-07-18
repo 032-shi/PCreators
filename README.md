@@ -32,7 +32,8 @@
 - 投稿、PCパーツ検索機能
 - ページネーション機能(kaminari)
 - PCパーツスクレイピング機能(mechanize)
-- PCパーツデータベース保存のバッチ処理機能(whenever)
+- バッチ処理によるPCパーツのデータベース自動保存機能(whenever)
+- 自然言語処理を利用したユーザーのおすすめ機能(Google Natural Language API)
 
 ## 設計書
 [ER図](https://drive.google.com/file/d/1VPB_UAAJ_H8pfzYRLd6EXvTILOXYD4I5/view?usp=sharing)
