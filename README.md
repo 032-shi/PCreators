@@ -2,7 +2,7 @@
 
 ## サイト概要
 自作PCパーツの使用感やPCの構成などを投稿し、ユーザー同士でコミュニケーションを取ることができるサイトです。自作PCの構成について悩んでいるユーザーが、投稿されたPC構成を参考にしてスペックや価格の比較を行い、パーツの選定に役立てることができます。また、本サイト内でPCパーツ価格の簡易的な相場検索ができます。
-<img src="https://user-images.githubusercontent.com/80741205/126058485-11b9b4cc-9410-407e-93a3-390e34a1c238.png" width="30%">
+<img src="https://user-images.githubusercontent.com/80741205/126058554-ec7c3171-7dd0-4c8b-bcd7-87db23ec32b4.png" width="100%">
 
 
 ### サイトテーマ
