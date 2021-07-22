@@ -1,0 +1,23 @@
+<% posts.each do |post| %>
+<div class="d-flex justify-content-center user-show__post">
+  <%= link_to post_path(post.id) do %>
+  <div class="user-show__post__content-box p-3">
+    <div class="user-show__post__content-box__image"><%= attachment_image_tag post, :image, fallback: "no_image.jpg", size: "300x200" %></div>
+    <div class="text-dark user-show__post__content-box__title"><%= post.title.truncate(20) %></div>
+    <div class="small text-dark user-show__post__content-box__favorite">♥<%= post.post_favorites.count %>いいね</div>
+    <div class="small text-dark user-show__post__content-box__tag">
+      <% post.post_tags.each do |post_tag| %>
+        <%= link_to post_tag_posts_path(post_tag_id: post_tag.id) do %>
+          <span class="text-secondary pr-2 user-show__post__content-box__tag__name">#<%= post_tag.name %></span>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="small text-dark user-show__post__content-box__user-name">ユーザーネーム：<%= post.user.name %></div>
+    <div class="small text-dark user-show__post__content-box__created-at">投稿日時：<%= post.created_at.to_s(:datetime_jp) %></div>
+  </div>
+  <% end %>
+</div>
+<% end %>
+<div class="d-flex justify-content-center user-show__post__paginate">
+  <%= paginate posts, remote: true, param_name: 'posts_page' %>
+</div>
