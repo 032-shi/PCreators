@@ -19,5 +19,5 @@
 </div>
 <% end %>
 <div class="d-flex justify-content-center user-show__post__paginate">
-  <%= paginate posts, remote: true, param_name: 'posts_page' %>
+  <%= paginate posts, remote: true, param_name: 'posts_page', params: { type: :post_index } %>
 </div>

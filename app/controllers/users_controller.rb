@@ -5,6 +5,12 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @posts = @user.posts.order("created_at DESC").page(params[:posts_page]).per(5)
     @pc_configurations = @user.pc_configurations.order("created_at DESC").page(params[:pc_configurations_page]).per(5)
+    # これ以下はAjax通信の場合のみ通過
+    return unless request.xhr?
+    case params[:type]
+    when 'post_index', 'pc-configuration'
+      render "users/#{params[:type]}"
+    end
   end
 
   def edit
