@@ -1,0 +1,5 @@
+var pc_configuration_title = document.getElementById("user-show__pc-configuration__title");
+$('#user-show__pc-configuration').html("<%= j(render 'users/pc_configuration', pc_configurations: @pc_configurations) %>");
+pc_configuration_title.scrollIntoView({
+  behavior: "smooth"
+});
