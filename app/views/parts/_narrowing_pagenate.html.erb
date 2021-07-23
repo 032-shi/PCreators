@@ -1,0 +1,25 @@
+<% parts.each do |part| %>
+  <div class="row pt-3 part-narrowing">
+    <div class="col-md-2 d-flex justify-content-center part-narrowing__image">
+      <%= link_to part_path(part.id) do %>
+        <%= image_tag part.image, size: "80x80", :alt => "パーツ画像" %>
+      <% end %>
+    </div>
+    <div class="col-md-5 d-flex align-items-center d-flex justify-content-center part-narrowing__name">
+      <%= link_to part_path(part.id) do %>
+        <div class="text-secondary part-narrowing__name"><%= part.name %></div>
+      <% end %>
+    </div>
+    <div class="col-md-3 part-narrowing__tag" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
+      <% part.part_tags.each do |part_tag| %>
+        <%= link_to part_tag_parts_path(part_tag_id: part_tag.id) do %>
+          <div class="small text-secondary pr-2 part-narrowing__tag">#<%= part_tag.name %></div>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="col-md-2 d-flex align-items-center justify-content-center part-narrowing__price">¥<%= part.price.to_s(:delimited) %></div>
+  </div>
+<% end %>
+<div class="d-flex justify-content-center part-narrowing__paginate">
+  <%= paginate parts, remote: true %>
+</div>
