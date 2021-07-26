@@ -4,7 +4,8 @@
       <h4>PC構成リスト</h4>
     </div>
   </div>
-  <% if DraftConfiguration.exists?(user_id: current_user.id) %>
+
+  <% if DraftConfiguration.exists?(user_id: current_user.id) %> <!--PC構成作成画面でのPCパーツの有無を判定。ない場合は300行以降を表示する。-->
     <% if @cpu_existing_configuration.nil? %>
       <div class="row py-2 border draft-configuration-index__cpu">
         <div class="col-md-12 draft-configuration-index__cpu">
@@ -17,24 +18,25 @@
       </div>
     <% else %>
       <div class="row py-2 border draft-configuration-index__cpu">
-        <div class="col-md-6 my-1 d-flex align-items-center justify-content-center justify-content-center draft-configuration-index__cpu__image">
-          <%= image_tag @cpu_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-          <%= @cpu_existing_configuration.part.name %>
+        <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__cpu__image">
+          <span>
+            <%= image_tag @cpu_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @cpu_existing_configuration.part.name %>
+          </span>
+          <span>¥<%= @cpu_existing_configuration.part.price.to_s(:delimited) %></span>
         </div>
-        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center justify-content-center draft-configuration-index__cpu__price">
-          ¥<%= @cpu_existing_configuration.part.price.to_s(:delimited) %>
-        </div>
-        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center justify-content-center draft-configuration-index__cpu__quantity">
+        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__cpu__quantity">
           <%= form_with model: @cpu_existing_configuration do |f| %>
           <%= f.select :quantity, [["1", 1], ["2", 2], ["3", 3]] %>
           <%= f.submit "変更", class: "btn btn-sm btn-primary"%>
           <% end %>
         </div>
-        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center justify-content-center draft-configuration-index__cpu__btn">
+        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__cpu__btn">
           <%= link_to "削除する", draft_configuration_path(@cpu_existing_configuration.id), class: "btn btn-sm btn-danger", method: :delete %>
         </div>
       </div>
     <% end %>
+
     <% if @memory_existing_configuration.nil? %>
       <div class="row py-2 border draft-configuration-index__memory">
         <div class="col-md-12 draft-configuration-index__memory">
@@ -47,12 +49,12 @@
       </div>
     <% else %>
       <div class="row py-2 border draft-configuration-index__memory">
-        <div class="col-md-6 my-1 d-flex align-items-center justify-content-center draft-configuration-index__memory__image">
-          <%= image_tag @memory_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-          <%= @memory_existing_configuration.part.name %>
-        </div>
-        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__memory__price">
-          ¥<%= @memory_existing_configuration.part.price.to_s(:delimited) %>
+        <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__memory__image">
+          <span>
+            <%= image_tag @memory_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @memory_existing_configuration.part.name %>
+          </span>
+          <span>¥<%= @memory_existing_configuration.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__memory__quantity">
           <%= form_with model: @memory_existing_configuration do |f| %>
@@ -65,6 +67,7 @@
         </div>
       </div>
     <% end %>
+
     <% if @gpu_existing_configuration.nil? %>
       <div class="row py-2 border draft-configuration-index__gpu">
         <div class="col-md-12 draft-configuration-index__gpu">
@@ -77,12 +80,12 @@
       </div>
     <% else %>
       <div class="row py-2 border draft-configuration-index__gpu">
-        <div class="col-md-6 my-1 d-flex align-items-center justify-content-center draft-configuration-index__gpu__image">
-          <%= image_tag @gpu_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-          <%= @gpu_existing_configuration.part.name %>
-        </div>
-        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__gpu__price">
-          ¥<%= @gpu_existing_configuration.part.price.to_s(:delimited) %>
+        <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__gpu__image">
+          <span>
+            <%= image_tag @gpu_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @gpu_existing_configuration.part.name %>
+          </span>
+          <span>¥<%= @gpu_existing_configuration.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__gpu__quantity">
           <%= form_with model: @gpu_existing_configuration do |f| %>
@@ -95,6 +98,7 @@
         </div>
       </div>
     <% end %>
+
     <% if @mb_existing_configuration.nil? %>
       <div class="row py-2 border draft-configuration-index__mb">
         <div class="col-md-12 draft-configuration-index__mb">
@@ -107,12 +111,12 @@
       </div>
     <% else %>
       <div class="row py-2 border draft-configuration-index__mb">
-        <div class="col-md-6 my-1 d-flex align-items-center justify-content-center draft-configuration-index__mb__image">
-          <%= image_tag @mb_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-          <%= @mb_existing_configuration.part.name %>
-        </div>
-        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__mb__price">
-          ¥<%= @mb_existing_configuration.part.price.to_s(:delimited) %>
+        <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__mb__image">
+          <span>
+            <%= image_tag @mb_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @mb_existing_configuration.part.name %>
+          </span>
+          <span>¥<%= @mb_existing_configuration.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__mb__quantity">
           <%= form_with model: @mb_existing_configuration do |f| %>
@@ -125,6 +129,7 @@
         </div>
       </div>
     <% end %>
+
     <% if @cooler_existing_configuration.nil? %>
       <div class="row py-2 border draft-configuration-index__cooler">
         <div class="col-md-12 draft-configuration-index__cooler">
@@ -137,12 +142,12 @@
       </div>
     <% else %>
       <div class="row py-2 border draft-configuration-index__cooler">
-        <div class="col-md-6 my-1 d-flex align-items-center justify-content-center draft-configuration-index__cooler__image">
-          <%= image_tag @cooler_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-          <%= @cooler_existing_configuration.part.name %>
-        </div>
-        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__cooler__quantity">
-          ¥<%= @cooler_existing_configuration.part.price.to_s(:delimited) %>
+        <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__cooler__image">
+          <span>
+            <%= image_tag @cooler_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @cooler_existing_configuration.part.name %>
+          </span>
+          <span>¥<%= @cooler_existing_configuration.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__cooler__quantity">
           <%= form_with model: @cooler_existing_configuration do |f| %>
@@ -155,6 +160,7 @@
         </div>
       </div>
     <% end %>
+
     <% if @case_existing_configuration.nil? %>
       <div class="row py-2 border draft-configuration-index__case">
         <div class="col-md-12 draft-configuration-index__case">
@@ -167,12 +173,12 @@
       </div>
     <% else %>
       <div class="row py-2 border draft-configuration-index__case">
-        <div class="col-md-6 my-1 d-flex align-items-center justify-content-center draft-configuration-index__case__image">
-          <%= image_tag @case_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-          <%= @case_existing_configuration.part.name %>
-        </div>
-        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__case__price">
-          ¥<%= @case_existing_configuration.part.price.to_s(:delimited) %>
+        <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__case__image">
+          <span>
+            <%= image_tag @case_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @case_existing_configuration.part.name %>
+          </span>
+          <span>¥<%= @case_existing_configuration.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__case__quantity">
           <%= form_with model: @case_existing_configuration do |f| %>
@@ -185,6 +191,7 @@
         </div>
       </div>
     <% end %>
+
     <% if @power_existing_configuration.nil? %>
       <div class="row py-2 border draft-configuration-index__power">
         <div class="col-md-12 draft-configuration-index__power">
@@ -197,12 +204,12 @@
       </div>
     <% else %>
       <div class="row py-2 border draft-configuration-index__power">
-        <div class="col-md-6 my-1 d-flex align-items-center justify-content-center draft-configuration-index__power__image">
-          <%= image_tag @power_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-          <%= @power_existing_configuration.part.name %>
-        </div>
-        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__power__price">
-          ¥<%= @power_existing_configuration.part.price.to_s(:delimited) %>
+        <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__power__image">
+          <span>
+            <%= image_tag @power_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @power_existing_configuration.part.name %>
+          </span>
+          <span>¥<%= @power_existing_configuration.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__power__quantity">
           <%= form_with model: @power_existing_configuration do |f| %>
@@ -215,6 +222,7 @@
         </div>
       </div>
     <% end %>
+
     <% if @ssd_existing_configuration.nil? %>
       <div class="row py-2 border draft-configuration-index__ssd">
         <div class="col-md-12 draft-configuration-index__ssd">
@@ -227,12 +235,12 @@
       </div>
     <% else %>
       <div class="row py-2 border draft-configuration-index__ssd">
-        <div class="col-md-6 my-1 d-flex align-items-center justify-content-center draft-configuration-index__ssd__image">
-          <%= image_tag @ssd_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-          <%= @ssd_existing_configuration.part.name %>
-        </div>
-        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__ssd__price">
-          ¥<%= @ssd_existing_configuration.part.price.to_s(:delimited) %>
+        <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__ssd__image">
+          <span>
+            <%= image_tag @ssd_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @ssd_existing_configuration.part.name %>
+          </span>
+          <span>¥<%= @ssd_existing_configuration.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__ssd__quantity">
           <%= form_with model: @ssd_existing_configuration do |f| %>
@@ -245,6 +253,7 @@
         </div>
       </div>
     <% end %>
+
     <% if @hdd_existing_configuration.nil? %>
       <div class="row py-2 border draft-configuration-index__hdd">
         <div class="col-md-12 draft-configuration-index__hdd">
@@ -257,12 +266,12 @@
       </div>
     <% else %>
       <div class="row py-2 border draft-configuration-index__hdd">
-        <div class="col-md-6 my-1 d-flex align-items-center justify-content-center draft-configuration-index__hdd__image">
-          <%= image_tag @hdd_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-          <%= @hdd_existing_configuration.part.name %>
-        </div>
-        <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__hdd__price">
-          ¥<%= @hdd_existing_configuration.part.price.to_s(:delimited) %>
+        <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__hdd__image">
+          <span>
+            <%= image_tag @hdd_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @hdd_existing_configuration.part.name %>
+          </span>
+          <span>¥<%= @hdd_existing_configuration.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__hdd__quantity">
           <%= form_with model: @hdd_existing_configuration do |f| %>
@@ -275,6 +284,7 @@
         </div>
       </div>
     <% end %>
+
       <div class="row pt-3 draft-configuration-index__sum">
         <div class="col-md-12 d-flex justify-content-center draft-configuration-index__sum">
           <div>PC構成リスト合計金額　¥<%= @sum_price.to_s(:delimited) %></div>
@@ -285,7 +295,8 @@
           <div><%= link_to "PC構成リスト投稿画面へ進む", new_pc_configuration_path, class: "btn btn-success" %></div>
         </div>
       </div>
-  <% else %>
+
+  <% else %> <!--8行目にて条件判定を行い、PCパーツがない場合は以下を表示する。-->
     <div class="row pt-3 draft-configuration-index__none">
       <div class="col-md-12 d-flex justify-content-center draft-configuration-index__none">
         <h5>PC構成リストにパーツがありません。</h5>
