@@ -1,0 +1,5 @@
+var part_narrowing_title = document.getElementById("part-narrowing__title");
+$('#part-narrowing__pagenate').html("<%= j(render 'parts/narrowing_pagenate', parts: @parts) %>");
+part_narrowing_title.scrollIntoView({
+  behavior: "smooth"
+});

@@ -7,7 +7,7 @@
     <span class="text-secondary"><%= post_comment.user.name %></span>
     <% end %>
   </div>
-  <% if i == post.post_comments.size - 1 %>
+  <% if i == post.post_comments.size - 1 %> <!-- 全コメントの数から−1したコメントのみ、以下の処理が適用される。つまり、最新のコメントのみ処理対象となる -->
     <% if post_comment.user == current_user && post_comment.score > 0 %>
       <div class="d-flex inline-block">
       <%= link_to user_path(post.user_id) do %>

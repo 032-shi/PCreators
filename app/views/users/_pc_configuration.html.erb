@@ -1,0 +1,15 @@
+<% pc_configurations.each do |pc_configuration| %>
+<div class="d-flex justify-content-center user-show__pc-configuration">
+  <%= link_to pc_configuration_path(pc_configuration.id) do %>
+  <div class="user-show__pc-configuration__content-box p-3">
+    <div class="user-show__pc-configuration__content-box__image"><%= attachment_image_tag pc_configuration, :image, fallback: "no_image.jpg", size: "300x200" %></div>
+    <div class="text-dark user-show__pc-configuration__content-box__title"><%= pc_configuration.title.truncate(20) %></div>
+    <div class="small text-dark user-show__pc-configuration__content-box__user-name">ユーザーネーム：<%= pc_configuration.user.name %></div>
+    <div class="small text-dark user-show__pc-configuration__content-box__created-at">投稿日時：<%= pc_configuration.created_at.to_s(:datetime_jp) %></div>
+  </div>
+  <% end %>
+</div>
+<% end %>
+<div class="d-flex justify-content-center user-show__pc-configuration__paginate">
+  <%= paginate pc_configurations, remote: true, param_name: 'pc_configurations_page', params: { type: :pc_configuration } %>
+</div>

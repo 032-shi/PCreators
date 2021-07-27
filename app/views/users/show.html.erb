@@ -31,50 +31,18 @@
   <div class="row pt-3 user-show__post">
     <div class="col-md-6 user-show__post">
       <div class="mt-3 d-flex justify-content-center user-show__post__title">
-        <h4 class="user-show__post__title">投稿一覧</h4>
+        <h4 id="user-show__post-index__title">投稿一覧</h4>
       </div>
-      <% @posts.each do |post| %>
-      <div class="d-flex justify-content-center user-show__post">
-        <%= link_to post_path(post.id) do %>
-        <div class="user-show__post__content-box p-3">
-          <div class="user-show__post__content-box__image"><%= attachment_image_tag post, :image, fallback: "no_image.jpg", size: "300x200" %></div>
-          <div class="text-dark user-show__post__content-box__title"><%= post.title.truncate(20) %></div>
-          <div class="small text-dark user-show__post__content-box__favorite">♥<%= post.post_favorites.count %>いいね</div>
-          <div class="small text-dark user-show__post__content-box__tag">
-            <% post.post_tags.each do |post_tag| %>
-              <%= link_to post_tag_posts_path(post_tag_id: post_tag.id) do %>
-                <span class="text-secondary pr-2 user-show__post__content-box__tag__name">#<%= post_tag.name %></span>
-              <% end %>
-            <% end %>
-          </div>
-          <div class="small text-dark user-show__post__content-box__user-name">ユーザーネーム：<%= post.user.name %></div>
-          <div class="small text-dark user-show__post__content-box__created-at">投稿日時：<%= post.created_at.to_s(:datetime_jp) %></div>
-        </div>
-        <% end %>
-      </div>
-      <% end %>
-      <div class="d-flex justify-content-center user-show__post__paginate">
-        <%= paginate @posts, param_name: 'posts_page' %>
+      <div id="user-show__post-index">
+        <%= render 'users/post_index', posts: @posts %>
       </div>
     </div>
     <div class="col-md-6 user-show__pc-configuration">
       <div class="mt-3 d-flex justify-content-center user-show__pc-configuration__title">
-        <h4>PC構成リスト一覧</h4>
+        <h4 id="user-show__pc-configuration__title">PC構成リスト一覧</h4>
       </div>
-      <% @pc_configurations.each do |pc_configuration| %>
-      <div class="d-flex justify-content-center user-show__pc-configuration">
-        <%= link_to pc_configuration_path(pc_configuration.id) do %>
-        <div class="user-show__pc-configuration__content-box p-3">
-          <div class="user-show__pc-configuration__content-box__image"><%= attachment_image_tag pc_configuration, :image, fallback: "no_image.jpg", size: "300x200" %></div>
-          <div class="text-dark user-show__pc-configuration__content-box__title"><%= pc_configuration.title.truncate(20) %></div>
-          <div class="small text-dark user-show__pc-configuration__content-box__user-name">ユーザーネーム：<%= pc_configuration.user.name %></div>
-          <div class="small text-dark user-show__pc-configuration__content-box__created-at">投稿日時：<%= pc_configuration.created_at.to_s(:datetime_jp) %></div>
-        </div>
-        <% end %>
-      </div>
-      <% end %>
-      <div class="d-flex justify-content-center user-show__pc-configuration__paginate">
-        <%= paginate @pc_configurations, param_name: 'pc_configurations_page' %>
+      <div id="user-show__pc-configuration">
+        <%= render 'users/pc_configuration', pc_configurations: @pc_configurations %>
       </div>
     </div>
   </div>
