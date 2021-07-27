@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   end
   resources :part_tags, only: [:index] do
     get 'parts', to: 'parts#narrowing' #パーツのタグ絞り込み画面へのルーティング
+    get 'parts/:sort', to: 'parts#narrowing'
   end
 
   get 'searchs' => 'searchs#search'

@@ -3,8 +3,9 @@ class PartsController < ApplicationController
   end
 
   def narrowing
+    sort = params[:sort] || "created_at DESC"
     @part_tag = PartTag.find(params[:part_tag_id])
-    @parts = @part_tag.parts.page(params[:page]).per(20)
+    @parts = @part_tag.parts.page(params[:page]).per(20).order(sort)
     #以下、Ajax通信の場合のみ通過
     return unless request.xhr?
     render "parts/narrowing_pagenate"
