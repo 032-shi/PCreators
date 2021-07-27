@@ -4,6 +4,17 @@
       <h4 id="part-narrowing__title">"<%= @part_tag.name %>" タグのパーツ一覧</h4>
     </div>
   </div>
+  <div class="row pt-3 part-narrowing">
+    <div class="col-md-12 text-right part-narrowing">
+      <div>
+        <select name="sort_order">
+          <option value="location.pathname", name="location.pathname">並び替え</option>
+          <option value="price_asc">価格の安い順</option>
+          <option value="price_desc">価格の高い順</option>
+        </select>
+      </div>
+    </div>
+  </div>
   <div id="part-narrowing__pagenate">
     <%= render 'parts/narrowing_pagenate', parts: @parts %>
   </div>

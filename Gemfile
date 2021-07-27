@@ -71,6 +71,7 @@ gem 'jquery-rails'
 gem 'font-awesome-sass', '~> 5.13'
 gem 'whenever'
 gem 'kaminari','~> 1.2.1'
+gem 'pry-rails'
 # 以下、デプロイにて追加
 gem 'dotenv-rails'
 group :production do
