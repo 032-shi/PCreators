@@ -1,0 +1,5 @@
+var post_narrowing_title = document.getElementById("post-narrowing__title");
+$('#post-narrowing__pagenate').html("<%= j(render 'posts/narrowing_pagenate', posts: @posts) %>");
+post_narrowing_title.scrollIntoView({
+  behavior: "smooth"
+});
