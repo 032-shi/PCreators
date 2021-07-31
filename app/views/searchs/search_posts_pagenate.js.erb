@@ -1,0 +1,5 @@
+var search_post_title = document.getElementById("search-post__title");
+$('#search-post__pagenate').html("<%= j(render 'searchs/search_posts_pagenate', posts: @posts) %>");
+search_post_title.scrollIntoView({
+  behavior: "smooth"
+});

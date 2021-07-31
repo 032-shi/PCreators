@@ -1,0 +1,5 @@
+var search_part_title = document.getElementById("search-part__title");
+$('#search-part__pagenate').html("<%= j(render 'searchs/search_parts_pagenate', parts: @parts) %>");
+search_part_title.scrollIntoView({
+  behavior: "smooth"
+});

@@ -12,10 +12,13 @@ class SearchsController < ApplicationController
       keywords = value.split(/[[:blank:]]+/).select(&:present?)
       @posts = []
       keywords.each do |keyword|
-        @posts += Post.where("title LIKE ?", "%#{keyword}%").or(Post.where("body LIKE ?", "%#{keyword}%"))
+        @posts += Post.where("title LIKE ?", "%#{keyword}%").or(Post.where("body LIKE ?", "%#{keyword}%")).order("created_at DESC")
       end
       @posts.uniq!
       @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(9)
+      #以下、Ajax通信の場合のみ通過
+      return unless request.xhr?
+      render "searchs/search_posts_pagenate"
     elsif model == 'part'
       keywords = value.split(/[[:blank:]]+/).select(&:present?)
       part_tags = []
@@ -31,6 +34,9 @@ class SearchsController < ApplicationController
       end
       @parts.uniq!
       @parts = Kaminari.paginate_array(@parts).page(params[:page]).per(20)
+      #以下、Ajax通信の場合のみ通過
+      return unless request.xhr?
+      render "searchs/search_parts_pagenate"
     end
   end
 end
