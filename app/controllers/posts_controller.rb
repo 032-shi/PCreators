@@ -18,6 +18,9 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.order("created_at DESC").page(params[:page]).per(9)
+    #以下、Ajax通信の場合のみ通過
+    return unless request.xhr?
+    render "posts/index_pagenate"
   end
 
   def show
@@ -29,6 +32,9 @@ class PostsController < ApplicationController
   def narrowing
     @post_tag = PostTag.find(params[:post_tag_id])
     @posts = @post_tag.posts.order("created_at DESC").page(params[:page]).per(9)
+    #以下、Ajax通信の場合のみ通過
+    return unless request.xhr?
+    render "posts/narrowing_pagenate"
   end
 
   def edit
