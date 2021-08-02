@@ -1,0 +1,5 @@
+var post_index_title = document.getElementById("post-index__title");
+$('#post-index__pagenate').html("<%= j(render 'posts/index_pagenate', posts: @posts) %>");
+post_index_title.scrollIntoView({
+  behavior: "smooth"
+});
