@@ -2,13 +2,15 @@ class SearchsController < ApplicationController
   def search
     @model = params["search"]["model"]
     @value = params["search"]["value"]
-    partical(@model, @value)
+    sort = params[:sort]
+    
+    partical(@model, @value, sort)
   end
 
   private
 
-  def partical(model, value)
-    if model == 'post'
+  def partical(model, value, sort)
+    if model == 'post' #"投稿"を検索した場合の処理
       keywords = value.split(/[[:blank:]]+/).select(&:present?)
       @posts = []
       keywords.each do |keyword|
@@ -19,21 +21,25 @@ class SearchsController < ApplicationController
       #以下、Ajax通信の場合のみ通過
       return unless request.xhr?
       render "searchs/search_posts_pagenate"
-    elsif model == 'part'
+    elsif model == 'part' #"パーツ"を検索した場合の処理
       keywords = value.split(/[[:blank:]]+/).select(&:present?)
       part_tags = []
       keywords.each do |keyword|
         part_tags += PartTag.where("name LIKE ?", "%#{keyword}%")
       end
       part_tags.uniq!
-      @parts = []
+      parts = []
       part_tags.each do |part_tag|
         part_tag.parts.each do |part|
-          @parts << part
+          parts << part
         end
       end
-      @parts.uniq!
-      @parts = Kaminari.paginate_array(@parts).page(params[:page]).per(20)
+      if sort == "price ASC"
+        parts_array = parts.sort_by(&:price)
+      else
+        parts_array = parts.sort_by(&:created_at)
+      end
+      @parts = Kaminari.paginate_array(parts_array).page(params[:page]).per(20)
       #以下、Ajax通信の場合のみ通過
       return unless request.xhr?
       render "searchs/search_parts_pagenate"
