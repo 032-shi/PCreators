@@ -3,7 +3,6 @@ class SearchsController < ApplicationController
     @model = params["search"]["model"]
     @value = params["search"]["value"]
     sort = params[:sort]
-    
     partical(@model, @value, sort)
   end
 

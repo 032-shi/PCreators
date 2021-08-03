@@ -9,7 +9,7 @@ document.addEventListener("turbolinks:load", function () { //1行目、ページ
       if (this_value == "price_asc") {
         html = "&sort=price+asc"
       } else if (this_value == "price_desc") {
-        html = "/price DESC"
+        html = "&sort=price+desc"
       } else {
         html = ""
       };
@@ -36,7 +36,7 @@ document.addEventListener("turbolinks:load", function () { //1行目、ページ
         // 上記で取得した値により条件分岐する。
         if(selected_option == "price+asc") {
           var sort = 1
-        } else if (selected_option == "%20DESC") {
+        } else if (selected_option == "price+desc") {
           var sort = 2
         }
         // selectタグ内のoptionタグをchildreメソッドで取得すると配列で返されるため、
