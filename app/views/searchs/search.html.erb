@@ -16,6 +16,17 @@
       <h4 id="search-part__title">"<%= @value %>" のパーツ検索一覧</h4>
     </div>
   </div>
+  <div class="row pt-3 part-narrowing">
+    <div class="col-md-12 text-right part-narrowing">
+      <div>
+        <select name="search_sort">
+          <option value="location.pathname", name="location.pathname">並び替え</option>
+          <option value="price_asc">価格の安い順</option>
+          <option value="price_desc">価格の高い順</option>
+        </select>
+      </div>
+    </div>
+  </div>
   <div id="search-part__pagenate">
     <%= render 'searchs/search_parts_pagenate', parts: @parts %>
   </div>
