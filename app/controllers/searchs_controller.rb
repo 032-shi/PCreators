@@ -33,8 +33,11 @@ class SearchsController < ApplicationController
           parts << part
         end
       end
-      if sort == "price ASC"
+      parts.uniq!
+      if sort == "price asc"
         parts_array = parts.sort_by(&:price)
+      elsif sort == "price desc"
+        parts_array = parts.sort_by(&:price).reverse
       else
         parts_array = parts.sort_by(&:created_at)
       end
