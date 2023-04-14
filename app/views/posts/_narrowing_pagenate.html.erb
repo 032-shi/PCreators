@@ -2,7 +2,7 @@
   <% posts.each do |post| %>
   <%= link_to post_path(post.id) do %>
   <div class="post-narrowing__content-box p-3">
-    <div class="post-narrowing__content-box__image"><%= attachment_image_tag post, :image, fallback: "no_image.jpg", size: "300x200" %></div>
+    <div class="post-narrowing__content-box__image"><%= attachment_image_tag post, :image, :fill, 300,300, fallback: "no_image.jpg", size: "300x200" %></div>
     <div class="text-dark post-narrowing__content-box__title"><%= post.title.truncate(20) %></div>
     <div class="small text-dark post-narrowing__content-box__favorite">♥<%= post.post_favorites.count %>いいね</div>
     <div class="small text-dark post-narrowing__content-box__tag">
