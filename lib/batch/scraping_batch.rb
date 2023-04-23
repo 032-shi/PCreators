@@ -1,7 +1,12 @@
 class Batch::ScrapingBatch
   def self.scrapeBatch
-    Part.part_scrape
-    time = Time.current
-    puts "スクレイピング実行　" + time.strftime("%a %b %d %H:%M:%S")
+    @logger = Logger.new('log/batch.log')
+    begin
+      time = Time.current
+      Part.part_scrape
+      @logger.info('scrapeBatch実行完了 ' + time.strftime("%Y-%m-%d %H:%M:%S"))
+    rescue => e
+      @logger.error(e)
+    end
   end
 end
