@@ -12,4 +12,6 @@ class PartTag < ApplicationRecord
   POWER_SUPPLY = 'PC電源'
   SSD = 'SSD'
   HDD = 'HDD'
+  HDD_35 = 'HDD(3.5インチ)'
+  HDD_25 = 'HDD(2.5インチ)'
 end
