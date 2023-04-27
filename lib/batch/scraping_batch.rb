@@ -1,8 +1,9 @@
 class Batch::ScrapingBatch
   def self.scrapeBatch
     @logger = Logger.new('log/batch.log')
+    time = Time.current
+    @logger.info('scrapeBatch実行開始 ' + time.strftime("%Y-%m-%d %H:%M:%S"))
     begin
-      time = Time.current
       Part.part_scrape
       @logger.info('scrapeBatch実行完了 ' + time.strftime("%Y-%m-%d %H:%M:%S"))
     rescue => e

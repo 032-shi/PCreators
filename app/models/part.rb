@@ -178,95 +178,105 @@ class Part < ApplicationRecord
   def self.scrape(agent, valueForScraping)
     # パーツ一覧ページの情報を取得する
     page = agent.get(valueForScraping['url'])
-    # パーツの各種情報を取得する
-    name_elements = page.search(valueForScraping['nameSelector'])
-    price_elements = page.search(valueForScraping['priceSelector'])
-    image_elements = page.search(valueForScraping['imageSelector'])
-    manufacturer_elements = page.search(valueForScraping['manufacturerSelector'])
-    spec_elements = []
-    capa_elements = []
-    # スペック要素を取得する場合、下記ブロックの処理を行う
-    if ARRAY_OF_SPEC_PATTERN.include?(valueForScraping['genre'])
-      spec_elements = page.search(valueForScraping['specSelector'])
-      # SSDの容量情報を取得する場合、下記ブロックの処理を行う
-      if valueForScraping['genre'] === PartTag::SSD
-        capa_elements = page.search(valueForScraping['capaSelector'])
+    # パーツ情報を10ページ分取得する
+    part_data = {}
+    10.times do
+      # パーツの各種情報を取得する
+      name_elements = page.search(valueForScraping['nameSelector'])
+      price_elements = page.search(valueForScraping['priceSelector'])
+      image_elements = page.search(valueForScraping['imageSelector'])
+      manufacturer_elements = page.search(valueForScraping['manufacturerSelector'])
+      # パーツジャンルにより、スペック要素を取得する
+      spec_elements = page.search(valueForScraping['specSelector']) if ARRAY_OF_SPEC_PATTERN.include?(valueForScraping['genre'])
+      # SSDの場合、容量情報の要素を取得する
+      capa_elements = page.search(valueForScraping['capaSelector']) if valueForScraping['genre'] == PartTag::SSD
+      # いずれかのパーツ情報が取得できなかった場合、処理を終了する
+      if [
+        name_elements,
+        price_elements,
+        image_elements,
+        manufacturer_elements
+      ]
+      .any?(&:blank?)
+        return true
+      end
+      # 取得したパーツの各種情報をハッシュにまとめる
+      name_elements.each_with_index do |name_element, index|
+        name = name_element.inner_text
+        part_data[name] = {
+          'price' => price_elements[index].inner_text,
+          'img' => image_elements[index].get_attribute(:src),
+          'manufacturer' => manufacturer_elements[index].inner_text.gsub(/　| /){""}
+        }
+        # パーツのスペック情報を取得している場合、下記ブロックの処理を行う
+        if spec_elements.present?
+          spec = spec_elements[index].inner_text
+          # PCケースの場合、さらに置換処理を行う
+          if valueForScraping['genre'] === PartTag::PC_CASE
+            spec = spec.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}
+          end
+          part_data[name]['spec'] = spec
+        end
+        # パーツの容量情報を取得している場合、下記ブロックの処理を行う
+        part_data[name]['capa'] = capa_elements[index].inner_text if capa_elements.present?
+      end
+      # 次ページボタンの有無を判定する
+      next_btn = page.at('.pageNextOn')
+      if next_btn
+        # 次ページの情報取得を3秒間遅延させる
+        sleep 3
+        # 次ページボタンがある場合、親要素のaタグをクリックして次ページ情報を取得し、ループする
+        page = agent.click(next_btn.parent)
+      else
+        # 次ページへのリンクがない場合、本ループ処理を抜ける
+        break
       end
     end
-    # いずれかのパーツ情報が取得できなかった場合、処理を終了する
-    if [
-      name_elements,
-      price_elements,
-      image_elements,
-      manufacturer_elements
-    ]
-    .any?(&:blank?)
-      return true
-    end
-    # パーツの各種情報を一つの配列にまとめ、DBへの保存処理を行う
-    name_elements.zip(
-      price_elements,
-      image_elements,
-      manufacturer_elements,
-      spec_elements,
-      capa_elements
-    )
-    .each do |
-      name_element,
-      price_element,
-      image_element,
-      manufacturer_element,
-      spec_element,
-      capa_element
-    |
-      name = name_element.inner_text
-      price = price_element.inner_text
-      img = image_element.get_attribute(:src)
-      manufacturer = manufacturer_element.inner_text.gsub(/　| /){""}
-      # spec_elementが空またはnilでない場合、下記ブロックの処理を行う
-      if spec_element.present?
-        spec = spec_element.inner_text
-        # PCケースの場合、さらに置換処理を行う
-        if valueForScraping['genre'] === PartTag::PC_CASE
-          spec.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}
+    # パーツ情報を一つずつ取り出し、保存処理を行う
+    part_data.each do |item_name, item|
+      item_price = item['price']
+      item_img = item['img']
+      item_manufacturer = item['manufacturer']
+      item_spec = item['spec'] if item['spec'].present?
+      item_capa = item['capa'] if item['capa'].present?
+      # スペック情報を取得するパターンにて、スペック情報が空の場合は、次ループに移る
+      if ARRAY_OF_SPEC_PATTERN.include?(valueForScraping['genre'])
+        if item_spec.blank?
+          next
         end
       end
-      # capa_elementが空またはnilでない場合、下記ブロックの処理を行う
-      if capa_element.present?
-        capa = capa_element.inner_text
-      end
       # パーツ名でDBとマッチングを行い、保存済みか確認する
-      if Part.exists?(name: name)
+      if Part.exists?(name: item_name)
         # 更新処理
-        part = Part.find_by(name: name)
-        part.part_update(price, img, part)
+        part = Part.find_by(name: item_name)
+        part.part_update(item_price, item_img, part)
       else
         # 新規登録処理
         part = Part.new
-        part.new_partsave(name, price, img, part)
+        part.new_partsave(item_name, item_price, item_img, part)
       end
       # パーツジャンルによって、それぞれのtagsaveに分岐させる
       case valueForScraping['genre']
       when PartTag::CPU
-        part.cpu_tagsave(name, manufacturer, part)
+        part.cpu_tagsave(item_name, item_manufacturer, part)
       when PartTag::MEMORY
-        part.memory_tagsave(name, manufacturer, part)
+        part.memory_tagsave(item_name, item_manufacturer, part)
       when PartTag::VIDEO_CARD
-        part.gpu_tagsave(spec, manufacturer, part)
+        part.gpu_tagsave(item_spec, item_manufacturer, part)
       when PartTag::MOTHER_BOARD
-        part.mb_tagsave(spec, manufacturer, part)
+        part.mb_tagsave(item_spec, item_manufacturer, part)
       when PartTag::PC_CASE
-        part.case_tagsave(spec, manufacturer, part)
+        part.case_tagsave(item_spec, item_manufacturer, part)
       when PartTag::POWER_SUPPLY
-        part.power_supply_tagsave(spec, manufacturer, part)
+        part.power_supply_tagsave(item_spec, item_manufacturer, part)
       when PartTag::CPU_COOLER
-        part.cpu_cooler_tagsave(spec, manufacturer, part)
+        part.cpu_cooler_tagsave(item_spec, item_manufacturer, part)
       when PartTag::SSD
-        part.ssd_tagsave(spec, capa, manufacturer, part)
+        part.ssd_tagsave(item_spec, item_capa, item_manufacturer, part)
       when PartTag::HDD_35
-        part.hdd35_tagsave(spec, manufacturer, part)
+        part.hdd35_tagsave(item_spec, item_manufacturer, part)
       when PartTag::HDD_25
-        part.hdd25_tagsave(spec, manufacturer, part)
+        part.hdd25_tagsave(item_spec, item_manufacturer, part)
       end
     end
     return false
@@ -398,6 +408,4 @@ class Part < ApplicationRecord
       self.part_tags << add_tag
     end
   end
-
-
 end
