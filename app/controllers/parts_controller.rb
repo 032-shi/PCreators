@@ -1,23 +1,7 @@
 class PartsController < ApplicationController
   def index
-    # CPUのタグの設定
-    @cpu_tag = PartTag.find_by(name: PartTag::CPU)
-    # メモリータグの設定
-    @memory_tag = PartTag.find_by(name: PartTag::MEMORY)
-    # グラフィックボードタグの設定
-    @video_card_tag = PartTag.find_by(name: PartTag::VIDEO_CARD)
-    # マザーボードタグの設定
-    @mother_board_tag = PartTag.find_by(name: PartTag::MOTHER_BOARD)
-    # CPUクーラータグの設定
-    @cpu_cooler_tag = PartTag.find_by(name: PartTag::CPU_COOLER)
-    # PCケースタグの設定
-    @pc_case_tag = PartTag.find_by(name: PartTag::PC_CASE)
-    # PC電源タグの設定
-    @power_supply_tag = PartTag.find_by(name: PartTag::POWER_SUPPLY)
-    # SSDタグの設定
-    @ssd_tag = PartTag.find_by(name: PartTag::SSD)
-    # HDDタグの設定
-    @hdd_tag = PartTag.find_by(name: PartTag::HDD)
+    # パーツ一覧TOP画面のパーツ情報を取得する
+    @top_screen_parts = Part.get_top_screen_parts
   end
 
   def narrowing

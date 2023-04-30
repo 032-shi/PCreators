@@ -5,12 +5,17 @@
     </div>
   </div>
 
-  <% if DraftConfiguration.exists?(user_id: current_user.id) %> <!--PC構成作成画面でのPCパーツの有無を判定。ない場合は300行以降を表示する。-->
-    <% if @cpu_existing_configuration.nil? %>
+  <!-- PC構成作成画面でのPCパーツの有無を判定。ない場合は300行以降を表示する。 -->
+  <% if DraftConfiguration.exists?(user_id: current_user.id) %>
+    <% if @cpu_draft.nil? %>
       <div class="row py-2 border draft-configuration-index__cpu">
         <div class="col-md-12 draft-configuration-index__cpu">
           <div class="draft-configuration-index__cpu">
-            <%= link_to part_tag_parts_path(1) do %>
+            <% if @part_for_parts_links['cpu'].present? %>
+              <%= link_to part_tag_parts_path(@part_for_parts_links['cpu'].id) do %>
+                <div class="text-secondary ">CPUを追加しましょう</div>
+              <% end %>
+            <% else %>
               <div class="text-secondary ">CPUを追加しましょう</div>
             <% end %>
           </div>
@@ -20,28 +25,32 @@
       <div class="row py-2 border draft-configuration-index__cpu">
         <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__cpu__image">
           <span>
-            <%= image_tag @cpu_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-            <%= @cpu_existing_configuration.part.name %>
+            <%= image_tag @cpu_draft.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @cpu_draft.part.name %>
           </span>
-          <span>¥<%= @cpu_existing_configuration.part.price.to_s(:delimited) %></span>
+          <span>¥<%= @cpu_draft.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__cpu__quantity">
-          <%= form_with model: @cpu_existing_configuration do |f| %>
+          <%= form_with model: @cpu_draft do |f| %>
           <%= f.select :quantity, [["1", 1], ["2", 2], ["3", 3]] %>
           <%= f.submit "変更", class: "btn btn-sm btn-primary"%>
           <% end %>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__cpu__btn">
-          <%= link_to "削除する", draft_configuration_path(@cpu_existing_configuration.id), class: "btn btn-sm btn-danger", method: :delete %>
+          <%= link_to "削除する", draft_configuration_path(@cpu_draft.id), class: "btn btn-sm btn-danger", method: :delete %>
         </div>
       </div>
     <% end %>
 
-    <% if @memory_existing_configuration.nil? %>
+    <% if @memory_draft.nil? %>
       <div class="row py-2 border draft-configuration-index__memory">
         <div class="col-md-12 draft-configuration-index__memory">
           <div class="draft-configuration-index__memory">
-            <%= link_to part_tag_parts_path(14) do %>
+            <% if @part_for_parts_links['memory'].present? %>
+              <%= link_to part_tag_parts_path(@part_for_parts_links['memory'].id) do %>
+                <div class="text-secondary ">メモリーを追加しましょう</div>
+              <% end %>
+            <% else %>
               <div class="text-secondary ">メモリーを追加しましょう</div>
             <% end %>
           </div>
@@ -51,28 +60,32 @@
       <div class="row py-2 border draft-configuration-index__memory">
         <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__memory__image">
           <span>
-            <%= image_tag @memory_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-            <%= @memory_existing_configuration.part.name %>
+            <%= image_tag @memory_draft.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @memory_draft.part.name %>
           </span>
-          <span>¥<%= @memory_existing_configuration.part.price.to_s(:delimited) %></span>
+          <span>¥<%= @memory_draft.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__memory__quantity">
-          <%= form_with model: @memory_existing_configuration do |f| %>
+          <%= form_with model: @memory_draft do |f| %>
           <%= f.select :quantity, [["1", 1], ["2", 2], ["3", 3]] %>
           <%= f.submit "変更", class: "btn btn-sm btn-primary"%>
           <% end %>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__memory__btn">
-          <%= link_to "削除する", draft_configuration_path(@memory_existing_configuration.id), class: "btn btn-sm btn-danger", method: :delete %>
+          <%= link_to "削除する", draft_configuration_path(@memory_draft.id), class: "btn btn-sm btn-danger", method: :delete %>
         </div>
       </div>
     <% end %>
 
-    <% if @gpu_existing_configuration.nil? %>
+    <% if @video_card_draft.nil? %>
       <div class="row py-2 border draft-configuration-index__gpu">
         <div class="col-md-12 draft-configuration-index__gpu">
           <div class="draft-configuration-index__gpu">
-            <%= link_to part_tag_parts_path(26) do %>
+            <% if @part_for_parts_links['videoCard'].present? %>
+              <%= link_to part_tag_parts_path(@part_for_parts_links['videoCard'].id) do %>
+                <div class="text-secondary ">グラフィックボードを追加しましょう</div>
+              <% end %>
+            <% else %>
               <div class="text-secondary ">グラフィックボードを追加しましょう</div>
             <% end %>
           </div>
@@ -82,28 +95,32 @@
       <div class="row py-2 border draft-configuration-index__gpu">
         <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__gpu__image">
           <span>
-            <%= image_tag @gpu_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-            <%= @gpu_existing_configuration.part.name %>
+            <%= image_tag @video_card_draft.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @video_card_draft.part.name %>
           </span>
-          <span>¥<%= @gpu_existing_configuration.part.price.to_s(:delimited) %></span>
+          <span>¥<%= @video_card_draft.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__gpu__quantity">
-          <%= form_with model: @gpu_existing_configuration do |f| %>
+          <%= form_with model: @video_card_draft do |f| %>
           <%= f.select :quantity, [["1", 1], ["2", 2], ["3", 3]] %>
           <%= f.submit "変更", class: "btn btn-sm btn-primary"%>
           <% end %>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__gpu__btn">
-          <%= link_to "削除する", draft_configuration_path(@gpu_existing_configuration.id), class: "btn btn-sm btn-danger", method: :delete %>
+          <%= link_to "削除する", draft_configuration_path(@video_card_draft.id), class: "btn btn-sm btn-danger", method: :delete %>
         </div>
       </div>
     <% end %>
 
-    <% if @mb_existing_configuration.nil? %>
+    <% if @mother_board_draft.nil? %>
       <div class="row py-2 border draft-configuration-index__mb">
         <div class="col-md-12 draft-configuration-index__mb">
           <div class="draft-configuration-index__mb">
-            <%= link_to part_tag_parts_path(49) do %>
+            <% if @part_for_parts_links['motherBoard'].present? %>
+              <%= link_to part_tag_parts_path(@part_for_parts_links['motherBoard'].id) do %>
+                <div class="text-secondary ">マザーボードを追加しましょう</div>
+              <% end %>
+            <% else %>
               <div class="text-secondary ">マザーボードを追加しましょう</div>
             <% end %>
           </div>
@@ -113,28 +130,32 @@
       <div class="row py-2 border draft-configuration-index__mb">
         <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__mb__image">
           <span>
-            <%= image_tag @mb_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-            <%= @mb_existing_configuration.part.name %>
+            <%= image_tag @mother_board_draft.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @mother_board_draft.part.name %>
           </span>
-          <span>¥<%= @mb_existing_configuration.part.price.to_s(:delimited) %></span>
+          <span>¥<%= @mother_board_draft.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__mb__quantity">
-          <%= form_with model: @mb_existing_configuration do |f| %>
+          <%= form_with model: @mother_board_draft do |f| %>
           <%= f.select :quantity, [["1", 1], ["2", 2], ["3", 3]] %>
           <%= f.submit "変更", class: "btn btn-sm btn-primary"%>
           <% end %>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__mb__btn">
-          <%= link_to "削除する", draft_configuration_path(@mb_existing_configuration.id), class: "btn btn-sm btn-danger", method: :delete %>
+          <%= link_to "削除する", draft_configuration_path(@mother_board_draft.id), class: "btn btn-sm btn-danger", method: :delete %>
         </div>
       </div>
     <% end %>
 
-    <% if @cooler_existing_configuration.nil? %>
+    <% if @cpu_cooler_draft.nil? %>
       <div class="row py-2 border draft-configuration-index__cooler">
         <div class="col-md-12 draft-configuration-index__cooler">
           <div class="draft-configuration-index__cooler">
-            <%= link_to part_tag_parts_path(97) do %>
+            <% if @part_for_parts_links['cpuCooler'].present? %>
+              <%= link_to part_tag_parts_path(@part_for_parts_links['cpuCooler'].id) do %>
+                <div class="text-secondary ">CPUクーラーを追加しましょう</div>
+              <% end %>
+            <% else %>
               <div class="text-secondary ">CPUクーラーを追加しましょう</div>
             <% end %>
           </div>
@@ -144,28 +165,32 @@
       <div class="row py-2 border draft-configuration-index__cooler">
         <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__cooler__image">
           <span>
-            <%= image_tag @cooler_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-            <%= @cooler_existing_configuration.part.name %>
+            <%= image_tag @cpu_cooler_draft.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @cpu_cooler_draft.part.name %>
           </span>
-          <span>¥<%= @cooler_existing_configuration.part.price.to_s(:delimited) %></span>
+          <span>¥<%= @cpu_cooler_draft.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__cooler__quantity">
-          <%= form_with model: @cooler_existing_configuration do |f| %>
+          <%= form_with model: @cpu_cooler_draft do |f| %>
           <%= f.select :quantity, [["1", 1], ["2", 2], ["3", 3]] %>
           <%= f.submit "変更", class: "btn btn-sm btn-primary"%>
           <% end %>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__cooler__btn">
-          <%= link_to "削除する", draft_configuration_path(@cooler_existing_configuration.id), class: "btn btn-sm btn-danger", method: :delete %>
+          <%= link_to "削除する", draft_configuration_path(@cpu_cooler_draft.id), class: "btn btn-sm btn-danger", method: :delete %>
         </div>
       </div>
     <% end %>
 
-    <% if @case_existing_configuration.nil? %>
+    <% if @pc_case_draft.nil? %>
       <div class="row py-2 border draft-configuration-index__case">
         <div class="col-md-12 draft-configuration-index__case">
           <div class="draft-configuration-index__case">
-            <%= link_to part_tag_parts_path(62) do %>
+            <% if @part_for_parts_links['pcCase'].present? %>
+              <%= link_to part_tag_parts_path(@part_for_parts_links['pcCase'].id) do %>
+                <div class="text-secondary ">PCケースを追加しましょう</div>
+              <% end %>
+            <% else %>
               <div class="text-secondary ">PCケースを追加しましょう</div>
             <% end %>
           </div>
@@ -175,28 +200,32 @@
       <div class="row py-2 border draft-configuration-index__case">
         <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__case__image">
           <span>
-            <%= image_tag @case_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-            <%= @case_existing_configuration.part.name %>
+            <%= image_tag @pc_case_draft.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @pc_case_draft.part.name %>
           </span>
-          <span>¥<%= @case_existing_configuration.part.price.to_s(:delimited) %></span>
+          <span>¥<%= @pc_case_draft.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__case__quantity">
-          <%= form_with model: @case_existing_configuration do |f| %>
+          <%= form_with model: @pc_case_draft do |f| %>
           <%= f.select :quantity, [["1", 1], ["2", 2], ["3", 3]] %>
           <%= f.submit "変更", class: "btn btn-sm btn-primary"%>
           <% end %>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__case__btn">
-          <%= link_to "削除する", draft_configuration_path(@case_existing_configuration.id), class: "btn btn-sm btn-danger", method: :delete %>
+          <%= link_to "削除する", draft_configuration_path(@pc_case_draft.id), class: "btn btn-sm btn-danger", method: :delete %>
         </div>
       </div>
     <% end %>
 
-    <% if @power_existing_configuration.nil? %>
+    <% if @power_supply_draft.nil? %>
       <div class="row py-2 border draft-configuration-index__power">
         <div class="col-md-12 draft-configuration-index__power">
           <div class="draft-configuration-index__power">
-            <%= link_to part_tag_parts_path(80) do %>
+            <% if @part_for_parts_links['powerSupply'].present? %>
+              <%= link_to part_tag_parts_path(@part_for_parts_links['powerSupply'].id) do %>
+                <div class="text-secondary ">PC電源を追加しましょう</div>
+              <% end %>
+            <% else %>
               <div class="text-secondary ">PC電源を追加しましょう</div>
             <% end %>
           </div>
@@ -206,28 +235,32 @@
       <div class="row py-2 border draft-configuration-index__power">
         <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__power__image">
           <span>
-            <%= image_tag @power_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-            <%= @power_existing_configuration.part.name %>
+            <%= image_tag @power_supply_draft.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @power_supply_draft.part.name %>
           </span>
-          <span>¥<%= @power_existing_configuration.part.price.to_s(:delimited) %></span>
+          <span>¥<%= @power_supply_draft.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__power__quantity">
-          <%= form_with model: @power_existing_configuration do |f| %>
+          <%= form_with model: @power_supply_draft do |f| %>
           <%= f.select :quantity, [["1", 1], ["2", 2], ["3", 3]] %>
           <%= f.submit "変更", class: "btn btn-sm btn-primary"%>
           <% end %>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__power__btn">
-          <%= link_to "削除する", draft_configuration_path(@power_existing_configuration.id), class: "btn btn-sm btn-danger", method: :delete %>
+          <%= link_to "削除する", draft_configuration_path(@power_supply_draft.id), class: "btn btn-sm btn-danger", method: :delete %>
         </div>
       </div>
     <% end %>
 
-    <% if @ssd_existing_configuration.nil? %>
+    <% if @ssd_draft.nil? %>
       <div class="row py-2 border draft-configuration-index__ssd">
         <div class="col-md-12 draft-configuration-index__ssd">
           <div class="draft-configuration-index__ssd">
-            <%= link_to part_tag_parts_path(107) do %>
+            <% if @part_for_parts_links['ssd'].present? %>
+              <%= link_to part_tag_parts_path(@part_for_parts_links['ssd'].id) do %>
+                <div class="text-secondary ">SSDを追加しましょう</div>
+              <% end %>
+            <% else %>
               <div class="text-secondary ">SSDを追加しましょう</div>
             <% end %>
           </div>
@@ -237,28 +270,32 @@
       <div class="row py-2 border draft-configuration-index__ssd">
         <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__ssd__image">
           <span>
-            <%= image_tag @ssd_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-            <%= @ssd_existing_configuration.part.name %>
+            <%= image_tag @ssd_draft.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @ssd_draft.part.name %>
           </span>
-          <span>¥<%= @ssd_existing_configuration.part.price.to_s(:delimited) %></span>
+          <span>¥<%= @ssd_draft.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__ssd__quantity">
-          <%= form_with model: @ssd_existing_configuration do |f| %>
+          <%= form_with model: @ssd_draft do |f| %>
           <%= f.select :quantity, [["1", 1], ["2", 2], ["3", 3]] %>
           <%= f.submit "変更", class: "btn btn-sm btn-primary"%>
           <% end %>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__ssd__btn">
-          <%= link_to "削除する", draft_configuration_path(@ssd_existing_configuration.id), class: "btn btn-sm btn-danger", method: :delete %>
+          <%= link_to "削除する", draft_configuration_path(@ssd_draft.id), class: "btn btn-sm btn-danger", method: :delete %>
         </div>
       </div>
     <% end %>
 
-    <% if @hdd_existing_configuration.nil? %>
+    <% if @hdd_draft.nil? %>
       <div class="row py-2 border draft-configuration-index__hdd">
         <div class="col-md-12 draft-configuration-index__hdd">
           <div class="draft-configuration-index__hdd">
-            <%= link_to part_tag_parts_path(127) do %>
+            <% if @part_for_parts_links['hdd'].present? %>
+              <%= link_to part_tag_parts_path(@part_for_parts_links['hdd'].id) do %>
+                <div class="text-secondary ">HDDを追加しましょう</div>
+              <% end %>
+            <% else %>
               <div class="text-secondary ">HDDを追加しましょう</div>
             <% end %>
           </div>
@@ -268,19 +305,19 @@
       <div class="row py-2 border draft-configuration-index__hdd">
         <div class="col-md-8 my-1 text-left d-flex align-items-center justify-content-between draft-configuration-index__hdd__image">
           <span>
-            <%= image_tag @hdd_existing_configuration.part.image, size: "40x40", :alt => "パーツ画像" %>
-            <%= @hdd_existing_configuration.part.name %>
+            <%= image_tag @hdd_draft.part.image, size: "40x40", :alt => "パーツ画像" %>
+            <%= @hdd_draft.part.name %>
           </span>
-          <span>¥<%= @hdd_existing_configuration.part.price.to_s(:delimited) %></span>
+          <span>¥<%= @hdd_draft.part.price.to_s(:delimited) %></span>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__hdd__quantity">
-          <%= form_with model: @hdd_existing_configuration do |f| %>
+          <%= form_with model: @hdd_draft do |f| %>
           <%= f.select :quantity, [["1", 1], ["2", 2], ["3", 3]] %>
           <%= f.submit "変更", class: "btn btn-sm btn-primary"%>
           <% end %>
         </div>
         <div class="col-md-2 my-1 d-flex align-items-center justify-content-center draft-configuration-index__hdd__btn">
-          <%= link_to "削除する", draft_configuration_path(@hdd_existing_configuration.id), class: "btn btn-sm btn-danger", method: :delete %>
+          <%= link_to "削除する", draft_configuration_path(@hdd_draft.id), class: "btn btn-sm btn-danger", method: :delete %>
         </div>
       </div>
     <% end %>
@@ -296,7 +333,8 @@
         </div>
       </div>
 
-  <% else %> <!--8行目にて条件判定を行い、PCパーツがない場合は以下を表示する。-->
+  <!-- PCパーツが一つも設定されていない場合は以下を表示する。-->
+  <% else %>
     <div class="row pt-3 draft-configuration-index__none">
       <div class="col-md-12 d-flex justify-content-center draft-configuration-index__none">
         <h5>PC構成リストにパーツがありません。</h5>

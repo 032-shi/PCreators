@@ -2,32 +2,37 @@ class DraftConfigurationsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    existing_configurations = current_user.draft_configurations.all
-    sum = 0
-    existing_configurations.each do |existing_configuration|
-      sum += existing_configuration.part.price * existing_configuration.quantity
-      existing_part_tags = set_existing_part_tag(existing_configuration)
-      if existing_part_tags.any? { |w| w == "CPU" }
-        @cpu_existing_configuration = existing_configuration
-      elsif existing_part_tags.any? { |w| w == "メモリー" }
-        @memory_existing_configuration = existing_configuration
-      elsif existing_part_tags.any? { |w| w == "グラフィックボード" }
-        @gpu_existing_configuration = existing_configuration
-      elsif existing_part_tags.any? { |w| w == "マザーボード" }
-        @mb_existing_configuration = existing_configuration
-      elsif existing_part_tags.any? { |w| w == "PCケース" }
-        @case_existing_configuration = existing_configuration
-      elsif existing_part_tags.any? { |w| w == "PC電源" }
-        @power_existing_configuration = existing_configuration
-      elsif existing_part_tags.any? { |w| w == "CPUクーラー" }
-        @cooler_existing_configuration = existing_configuration
-      elsif existing_part_tags.any? { |w| w == "SSD" }
-        @ssd_existing_configuration = existing_configuration
-      elsif existing_part_tags.any? { |w| w == "HDD" }
-        @hdd_existing_configuration = existing_configuration
+    # ユーザーに対応する、PC構成表(下書き)情報と紐づいたパーツ情報を取得する
+    drafts = current_user.draft_configurations.includes(:part)
+    # 取得したPC構成表情報のパーツ価格要素とパーツ個数要素を使って、構成表の合計金額を算出する
+    @sum_price = drafts.sum { |draft| draft.part.price * draft.quantity }
+    # 取得した、PC構成表(下書き)のレコードを1つずつ処理する
+    drafts.each do |draft|
+      # PC構成表(下書き)に紐づくパーツ情報に関連するパーツタグ名を配列として取得する
+      part_tags = draft.part.part_tags.pluck(:name)
+      # 対応したパーツジャンルのインスタンス変数にPC構成表(下書き)情報を代入する
+      if part_tags.any? { |tag| tag === PartTag::CPU }
+        @cpu_draft = draft
+      elsif part_tags.any? { |tag| tag === PartTag::MEMORY }
+        @memory_draft = draft
+      elsif part_tags.any? { |tag| tag === PartTag::VIDEO_CARD }
+        @video_card_draft = draft
+      elsif part_tags.any? { |tag| tag === PartTag::MOTHER_BOARD }
+        @mother_board_draft = draft
+      elsif part_tags.any? { |tag| tag === PartTag::PC_CASE }
+        @pc_case_draft = draft
+      elsif part_tags.any? { |tag| tag === PartTag::POWER_SUPPLY }
+        @power_supply_draft = draft
+      elsif part_tags.any? { |tag| tag === PartTag::CPU_COOLER }
+        @cpu_cooler_draft = draft
+      elsif part_tags.any? { |tag| tag === PartTag::SSD }
+        @ssd_draft = draft
+      elsif part_tags.any? { |tag| tag === PartTag::HDD }
+        @hdd_draft = draft
       end
     end
-    @sum_price = sum
+    # 構成リストにパーツが無い際の各パーツへのリンク用のパーツ情報を取得する
+    @part_for_parts_links = Part.get_top_screen_parts
   end
 
   def create
@@ -114,13 +119,14 @@ class DraftConfigurationsController < ApplicationController
     return existing_part_tags
   end
 
+  # PC構成表(下書き)に存在するパーツのタグ情報を配列にまとめる
   def set_existing_part_tag(existing_configuration)
-    part_id = existing_configuration.part_id
-    part = Part.find_by(id: part_id)
+    part = Part.find_by(id: existing_configuration.part_id)
     existing_part_tags = []
     part.part_tags.each do |part_tag|
-      return existing_part_tags << part_tag.name
+      existing_part_tags << part_tag.name
     end
+    return existing_part_tags
   end
 
 end

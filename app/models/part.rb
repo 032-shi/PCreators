@@ -408,4 +408,19 @@ class Part < ApplicationRecord
       self.part_tags << add_tag
     end
   end
+
+  def self.get_top_screen_parts
+    # パーツ一覧TOP画面のパーツ情報を取得する
+    return {
+      'cpu' => PartTag.find_by(name: PartTag::CPU),
+      'memory' => PartTag.find_by(name: PartTag::MEMORY),
+      'videoCard' => PartTag.find_by(name: PartTag::VIDEO_CARD),
+      'motherBoard' => PartTag.find_by(name: PartTag::MOTHER_BOARD),
+      'cpuCooler' => PartTag.find_by(name: PartTag::CPU_COOLER),
+      'pcCase' => PartTag.find_by(name: PartTag::PC_CASE),
+      'powerSupply' => PartTag.find_by(name: PartTag::POWER_SUPPLY),
+      'ssd' => PartTag.find_by(name: PartTag::SSD),
+      'hdd' => PartTag.find_by(name: PartTag::HDD)
+    }
+  end
 end

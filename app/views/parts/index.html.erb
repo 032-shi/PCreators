@@ -5,69 +5,69 @@
     </div>
   </div>
   <div class="row d-flex justify-content-center part-index">
-    <% if @cpu_tag.present? %>
+    <% if @top_screen_parts['cpu'].present? %>
       <div class="col-md-3 py-2 mb-2 mx-2 text-center part-index__cpu" style="background-color: #DDDDDD;">
-        <%= link_to part_tag_parts_path(@cpu_tag.id) do %>
+        <%= link_to part_tag_parts_path(@top_screen_parts['cpu'].id) do %>
           <div class="text-secondary">CPU</div>
         <% end %>
       </div>
     <% end %>
-    <% if @memory_tag.present? %>
+    <% if @top_screen_parts['memory'].present? %>
       <div class="col-md-3 py-2 mb-2 mx-2 text-center part-index__memory" style="background-color: #DDDDDD;">
-        <%= link_to part_tag_parts_path(@memory_tag.id) do %>
+        <%= link_to part_tag_parts_path(@top_screen_parts['memory'].id) do %>
           <div class="text-secondary">メモリー</div>
         <% end %>
       </div>
     <% end %>
-    <% if @video_card_tag.present? %>
+    <% if @top_screen_parts['videoCard'].present? %>
       <div class="col-md-3 py-2 mb-2 mx-2 text-center part-index__gpu" style="background-color: #DDDDDD;">
-        <%= link_to part_tag_parts_path(@video_card_tag.id) do %>
+        <%= link_to part_tag_parts_path(@top_screen_parts['videoCard'].id) do %>
           <div class="text-secondary">グラフィックボード</div>
         <% end %>
       </div>
     <% end %>
   </div>
   <div class="row d-flex justify-content-center part-index__mb">
-    <% if @mother_board_tag.present? %>
+    <% if @top_screen_parts['motherBoard'].present? %>
       <div class="col-md-3 py-2 mb-2 mx-2 text-center post-index" style="background-color: #DDDDDD;">
-        <%= link_to part_tag_parts_path(@mother_board_tag.id) do %>
+        <%= link_to part_tag_parts_path(@top_screen_parts['motherBoard'].id) do %>
           <div class="text-secondary">マザーボード</div>
         <% end %>
       </div>
     <% end %>
-    <% if @cpu_cooler_tag.present? %>
+    <% if @top_screen_parts['cpuCooler'].present? %>
       <div class="col-md-3 py-2 mb-2 mx-2 text-center part-index__cooler" style="background-color: #DDDDDD;">
-        <%= link_to part_tag_parts_path(@cpu_cooler_tag.id) do %>
+        <%= link_to part_tag_parts_path(@top_screen_parts['cpuCooler'].id) do %>
           <div class="text-secondary">CPUクーラー</div>
         <% end %>
       </div>
     <% end %>
-    <% if @pc_case_tag.present? %>
+    <% if @top_screen_parts['pcCase'].present? %>
       <div class="col-md-3 py-2 mb-2 mx-2 text-center part-index__case" style="background-color: #DDDDDD;">
-        <%= link_to part_tag_parts_path(@pc_case_tag.id) do %>
+        <%= link_to part_tag_parts_path(@top_screen_parts['pcCase'].id) do %>
           <div class="text-secondary">PCケース</div>
         <% end %>
       </div>
     <% end %>
   </div>
   <div class="row d-flex justify-content-center part-index">
-    <% if @power_supply_tag.present? %>
+    <% if @top_screen_parts['powerSupply'].present? %>
       <div class="col-md-3 py-2 mb-2 mx-2 text-center part-index__power" style="background-color: #DDDDDD;">
-        <%= link_to part_tag_parts_path(@power_supply_tag.id) do %>
+        <%= link_to part_tag_parts_path(@top_screen_parts['powerSupply'].id) do %>
           <div class="text-secondary">PC電源</div>
         <% end %>
       </div>
     <% end %>
-    <% if @ssd_tag.present? %>
+    <% if @top_screen_parts['ssd'].present? %>
       <div class="col-md-3 py-2 mb-2 mx-2 text-center part-index__ssd" style="background-color: #DDDDDD;">
-        <%= link_to part_tag_parts_path(@ssd_tag.id) do %>
+        <%= link_to part_tag_parts_path(@top_screen_parts['ssd'].id) do %>
           <div class="text-secondary">SSD</div>
         <% end %>
       </div>
     <% end %>
-    <% if @hdd_tag.present? %>
+    <% if @top_screen_parts['hdd'].present? %>
       <div class="col-md-3 py-2 mb-2 mx-2 text-center part-index__hdd" style="background-color: #DDDDDD;">
-        <%= link_to part_tag_parts_path(@hdd_tag.id) do %>
+        <%= link_to part_tag_parts_path(@top_screen_parts['hdd'].id) do %>
           <div class="text-secondary">HDD</div>
         <% end %>
       </div>
