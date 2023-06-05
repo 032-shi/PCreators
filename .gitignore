@@ -31,3 +31,6 @@
 /config/master.key
 /.env
 .DS_Store
+
+# アプリ中に導入(保存)したgemを除外する
+/vendor/*

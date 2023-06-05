@@ -9,7 +9,4 @@ class Batch::ScrapingBatch
       @logger.error(e)
     end
   end
-  def self.test
-    puts 'dadena'
-  end
 end
