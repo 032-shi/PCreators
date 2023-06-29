@@ -41,7 +41,7 @@ class Part < ApplicationRecord
   ]
 
   def self.part_scrape
-    @logger = Logger.new('log/batch.log')
+    logger = Logger.new('log/batch.log')
     agent = Mechanize.new
     # CPU情報のスクレイピングを行う
     valueForCpuScraping = {
@@ -52,8 +52,8 @@ class Part < ApplicationRecord
       'imageSelector' => SPAN_ITEMCATIMG,
       'manufacturerSelector' => SPAN_MAKER
     }
-    if self.scrape(agent, valueForCpuScraping)
-      @logger.info('CPU情報を保存できませんでした。')
+    if self.scrape(agent, valueForCpuScraping, logger)
+      logger.warn(valueForCpuScraping['genre'] + 'の情報取得に失敗しました。')
     end
     # メモリ情報のスクレイピングを行う
     valueForMemoryScraping = {
@@ -64,8 +64,8 @@ class Part < ApplicationRecord
       'imageSelector' => SPAN_ITEMCATIMG,
       'manufacturerSelector' => SPAN_MAKER
     }
-    if self.scrape(agent, valueForMemoryScraping)
-      @logger.info('メモリ情報を保存できませんでした。')
+    if self.scrape(agent, valueForMemoryScraping, logger)
+      logger.warn(valueForMemoryScraping['genre'] + 'の情報取得に失敗しました。')
     end
     # グラフィックボード情報のスクレイピングを行う
     valueForVideoCardScraping = {
@@ -77,8 +77,8 @@ class Part < ApplicationRecord
       'manufacturerSelector' => A_CKITANKER_SPAN,
       'specSelector' => TR_BORDER_TD_10
     }
-    if self.scrape(agent, valueForVideoCardScraping)
-      @logger.info('グラフィックボード情報を保存できませんでした。')
+    if self.scrape(agent, valueForVideoCardScraping, logger)
+      logger.warn(valueForVideoCardScraping['genre'] + 'の情報取得に失敗しました。')
     end
     # マザーボード情報のスクレイピングを行う
     valueForMotherBoardScraping = {
@@ -90,8 +90,8 @@ class Part < ApplicationRecord
       'manufacturerSelector' => A_CKITANKER_SPAN,
       'specSelector' => TR_BORDER_TD_11
     }
-    if self.scrape(agent, valueForMotherBoardScraping)
-      @logger.info('マザーボード情報を保存できませんでした。')
+    if self.scrape(agent, valueForMotherBoardScraping, logger)
+      logger.warn(valueForMotherBoardScraping['genre'] + 'の情報取得に失敗しました。')
     end
     # PCケース情報のスクレイピングを行う
     valueForPcCaseScraping = {
@@ -103,8 +103,8 @@ class Part < ApplicationRecord
       'manufacturerSelector' => A_CKITANKER_SPAN,
       'specSelector' => TR_BORDER_TD_9
     }
-    if self.scrape(agent, valueForPcCaseScraping)
-      @logger.info('PCケース情報を保存できませんでした。')
+    if self.scrape(agent, valueForPcCaseScraping, logger)
+      logger.warn(valueForPcCaseScraping['genre'] + 'の情報取得に失敗しました。')
     end
     # PC電源情報のスクレイピングを行う
     valueForPowerSupplyScraping = {
@@ -116,8 +116,8 @@ class Part < ApplicationRecord
       'manufacturerSelector' => A_CKITANKER_SPAN,
       'specSelector' => TR_BORDER_TD_9
     }
-    if self.scrape(agent, valueForPowerSupplyScraping)
-      @logger.info('PC電源情報を保存できませんでした。')
+    if self.scrape(agent, valueForPowerSupplyScraping, logger)
+      logger.warn(valueForPowerSupplyScraping['genre'] + 'の情報取得に失敗しました。')
     end
     # CPUクーラー情報のスクレイピングを行う
     valueForCpuCoolerScraping = {
@@ -129,8 +129,8 @@ class Part < ApplicationRecord
       'manufacturerSelector' => A_CKITANKER_SPAN,
       'specSelector' => TR_BORDER_TD_11
     }
-    if self.scrape(agent, valueForCpuCoolerScraping)
-      @logger.info('CPUクーラー情報を保存できませんでした。')
+    if self.scrape(agent, valueForCpuCoolerScraping, logger)
+      logger.warn(valueForCpuCoolerScraping['genre'] + 'の情報取得に失敗しました。')
     end
     # SSD情報のスクレイピングを行う
     valueForSsdScraping = {
@@ -143,8 +143,8 @@ class Part < ApplicationRecord
       'specSelector' => TR_BORDER_TD_12,
       'capaSelector' => TR_BORDER_TD_9
     }
-    if self.scrape(agent, valueForSsdScraping)
-      @logger.info('SSD情報を保存できませんでした。')
+    if self.scrape(agent, valueForSsdScraping, logger)
+      logger.warn(valueForSsdScraping['genre'] + 'の情報取得に失敗しました。')
     end
     # 3.5インチHDD情報のスクレイピングを行う
     valueForHdd35Scraping = {
@@ -156,8 +156,8 @@ class Part < ApplicationRecord
       'manufacturerSelector' => A_CKITANKER_SPAN,
       'specSelector' => TR_BORDER_TD_9
     }
-    if self.scrape(agent, valueForHdd35Scraping)
-      @logger.info('3.5インチHDD情報を保存できませんでした。')
+    if self.scrape(agent, valueForHdd35Scraping, logger)
+      logger.warn(valueForHdd35Scraping['genre'] + 'の情報取得に失敗しました。')
     end
     # 2.5インチHDD情報のスクレイピングを行う
     valueForHdd25Scraping = {
@@ -169,13 +169,15 @@ class Part < ApplicationRecord
       'manufacturerSelector' => A_CKITANKER_SPAN,
       'specSelector' => TR_BORDER_TD_9
     }
-    if self.scrape(agent, valueForHdd25Scraping)
-      @logger.info('2.5インチHDD情報を保存できませんでした。')
+    if self.scrape(agent, valueForHdd25Scraping, logger)
+      logger.warn(valueForHdd25Scraping['genre'] + 'の情報取得に失敗しました。')
     end
   end
 
   # パーツ情報のスクレイピング処理
-  def self.scrape(agent, valueForScraping)
+  def self.scrape(agent, valueForScraping, logger)
+    # パーツジャンル名を変数に設定する
+    genre = valueForScraping['genre']
     # パーツ一覧ページの情報を取得する
     page = agent.get(valueForScraping['url'])
     # パーツ情報を10ページ分取得する
@@ -187,9 +189,9 @@ class Part < ApplicationRecord
       image_elements = page.search(valueForScraping['imageSelector'])
       manufacturer_elements = page.search(valueForScraping['manufacturerSelector'])
       # パーツジャンルにより、スペック要素を取得する
-      spec_elements = page.search(valueForScraping['specSelector']) if ARRAY_OF_SPEC_PATTERN.include?(valueForScraping['genre'])
+      spec_elements = page.search(valueForScraping['specSelector']) if ARRAY_OF_SPEC_PATTERN.include?(genre)
       # SSDの場合、容量情報の要素を取得する
-      capa_elements = page.search(valueForScraping['capaSelector']) if valueForScraping['genre'] == PartTag::SSD
+      capa_elements = page.search(valueForScraping['capaSelector']) if genre == PartTag::SSD
       # いずれかのパーツ情報が取得できなかった場合、処理を終了する
       if [
         name_elements,
@@ -212,12 +214,12 @@ class Part < ApplicationRecord
         if spec_elements.present?
           spec = spec_elements[index].inner_text
           # PCケースの場合、さらに置換処理を行う
-          if valueForScraping['genre'] === PartTag::PC_CASE
+          if genre === PartTag::PC_CASE
             spec = spec.gsub(/\(|\)|m|x|\d|幅|最大|インチ|まで|\./){""}
           end
           part_data[name]['spec'] = spec
         end
-        # パーツの容量情報を取得している場合、下記ブロックの処理を行う
+        # パーツの容量情報を取得している場合、変数に容量情報をセットする
         part_data[name]['capa'] = capa_elements[index].inner_text if capa_elements.present?
       end
       # 次ページボタンの有無を判定する
@@ -232,6 +234,9 @@ class Part < ApplicationRecord
         break
       end
     end
+    # 新規登録及び更新数の初期宣言
+    save_count = 0
+    update_count = 0
     # パーツ情報を一つずつ取り出し、保存処理を行う
     part_data.each do |item_name, item|
       item_price = item['price']
@@ -240,7 +245,7 @@ class Part < ApplicationRecord
       item_spec = item['spec'] if item['spec'].present?
       item_capa = item['capa'] if item['capa'].present?
       # スペック情報を取得するパターンにて、スペック情報が空の場合は、次ループに移る
-      if ARRAY_OF_SPEC_PATTERN.include?(valueForScraping['genre'])
+      if ARRAY_OF_SPEC_PATTERN.include?(genre)
         if item_spec.blank?
           next
         end
@@ -250,13 +255,15 @@ class Part < ApplicationRecord
         # 更新処理
         part = Part.find_by(name: item_name)
         part.part_update(item_price, item_img, part)
+        update_count += 1
       else
         # 新規登録処理
         part = Part.new
         part.new_partsave(item_name, item_price, item_img, part)
+        save_count += 1
       end
       # パーツジャンルによって、それぞれのtagsaveに分岐させる
-      case valueForScraping['genre']
+      case genre
       when PartTag::CPU
         part.cpu_tagsave(item_name, item_manufacturer, part)
       when PartTag::MEMORY
@@ -279,6 +286,9 @@ class Part < ApplicationRecord
         part.hdd25_tagsave(item_spec, item_manufacturer, part)
       end
     end
+    # 新規登録数及び更新数をログ出力する
+    logger.info("#{genre}について、#{save_count}件、新規登録しました。")
+    logger.info("#{genre}について、#{update_count}件、更新しました。")
     return false
   end
 
